@@ -1,0 +1,29 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://Assets/MikuIdle.png" type="Texture" id=1]
+[ext_resource path="res://Animations/Player/PlaceHolders/Miku/Miku_Idle.tres" type="Animation" id=2]
+[ext_resource path="res://Scripts/Stats.cs" type="Script" id=3]
+
+[sub_resource type="CapsuleShape2D" id=1]
+radius = 33.0083
+height = 70.7271
+
+[node name="Player" type="KinematicBody2D"]
+position = Vector2( 436.65, 518.835 )
+
+[node name="Sprite" type="Sprite" parent="."]
+position = Vector2( 2.88342, -6.44104 )
+texture = ExtResource( 1 )
+offset = Vector2( -6, 0 )
+vframes = 6
+hframes = 5
+frame = 27
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Sprite"]
+anims/Miku_Idle = ExtResource( 2 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource( 1 )
+
+[node name="Stats" type="Node" parent="."]
+script = ExtResource( 3 )

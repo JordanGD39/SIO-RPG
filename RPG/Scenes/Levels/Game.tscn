@@ -1,0 +1,198 @@
+[gd_scene load_steps=16 format=2]
+
+[ext_resource path="res://Assets/BG.jpg" type="Texture" id=1]
+[ext_resource path="res://Scenes/Objects/Player.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Scenes/Objects/Boss.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Animations/Player/PlaceHolders/Sonic/Sonic_Idle.tres" type="Animation" id=4]
+[ext_resource path="res://Assets/Naruto.png" type="Texture" id=5]
+[ext_resource path="res://Assets/SonicDefaultDance.png" type="Texture" id=6]
+[ext_resource path="res://Scripts/Stats.cs" type="Script" id=7]
+[ext_resource path="res://Animations/Player/PlaceHolders/Kris/Kris_Idle.tres" type="Animation" id=9]
+[ext_resource path="res://Animations/Player/PlaceHolders/Naruto/Naruto_Idle.tres" type="Animation" id=10]
+
+[sub_resource type="StreamTexture" id=1]
+load_path = "res://.import/MikuIdle.png-c8c03d690603ee640a79bf3dc91273b8.stex"
+
+[sub_resource type="CapsuleShape2D" id=2]
+radius = 33.0083
+height = 70.7271
+
+[sub_resource type="StreamTexture" id=3]
+flags = 4
+load_path = "res://.import/Kris.png-93b2b0cafa8ac28e49a10b1d81a30df9.stex"
+
+[sub_resource type="Animation" id=4]
+resource_name = "Miku_Idle"
+length = 3.0
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1, 1.1, 1.2, 1.3, 1.4, 1.5, 1.6, 1.7, 1.8, 1.9, 2, 2.1, 2.2, 2.3, 2.4, 2.5, 2.6, 2.7, 2.8, 2.9 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29 ]
+}
+
+[sub_resource type="Animation" id=5]
+resource_name = "Miku_Idle"
+length = 3.0
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1, 1.1, 1.2, 1.3, 1.4, 1.5, 1.6, 1.7, 1.8, 1.9, 2, 2.1, 2.2, 2.3, 2.4, 2.5, 2.6, 2.7, 2.8, 2.9 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29 ]
+}
+
+[sub_resource type="Animation" id=6]
+resource_name = "Miku_Idle"
+length = 3.0
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1, 1.1, 1.2, 1.3, 1.4, 1.5, 1.6, 1.7, 1.8, 1.9, 2, 2.1, 2.2, 2.3, 2.4, 2.5, 2.6, 2.7, 2.8, 2.9 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29 ]
+}
+
+[node name="Game" type="Node2D"]
+
+[node name="BG" type="Sprite" parent="."]
+position = Vector2( 971.246, 201.941 )
+scale = Vector2( 1.02, 1 )
+texture = ExtResource( 1 )
+
+[node name="TurnQueue" type="Node" parent="."]
+
+[node name="Player" parent="TurnQueue" instance=ExtResource( 2 )]
+position = Vector2( 421.618, 455.368 )
+
+[node name="Sprite" parent="TurnQueue/Player" index="0"]
+texture = SubResource( 1 )
+frame = 17
+
+[node name="CollisionShape2D" parent="TurnQueue/Player" index="1"]
+shape = SubResource( 2 )
+
+[node name="Stats" parent="TurnQueue/Player" index="2"]
+health = 400
+atk = 50
+mag = 90
+def = 60
+spd = 50
+luk = 100
+
+[node name="Player2" parent="TurnQueue" instance=ExtResource( 2 )]
+position = Vector2( 424.776, 604.842 )
+
+[node name="Sprite" parent="TurnQueue/Player2" index="0"]
+scale = Vector2( 0.15, 0.15 )
+texture = SubResource( 3 )
+offset = Vector2( 150, 0 )
+vframes = 2
+hframes = 6
+frame = 9
+
+[node name="AnimationPlayer" parent="TurnQueue/Player2/Sprite" index="0"]
+anims/Kris_Idle = ExtResource( 9 )
+anims/Miku_Idle = SubResource( 4 )
+
+[node name="Stats" parent="TurnQueue/Player2" index="2"]
+health = 350
+atk = 100
+mag = 50
+def = 90
+res = 60
+luk = 30
+
+[node name="Player3" parent="TurnQueue" instance=ExtResource( 2 )]
+position = Vector2( 438.46, 750.105 )
+
+[node name="Sprite" parent="TurnQueue/Player3" index="0"]
+scale = Vector2( 1.01189, 1 )
+texture = ExtResource( 5 )
+offset = Vector2( 10, -30 )
+vframes = 1
+hframes = 4
+frame = 1
+
+[node name="AnimationPlayer" parent="TurnQueue/Player3/Sprite" index="0"]
+anims/Miku_Idle = SubResource( 5 )
+anims/Naruto_Idle = ExtResource( 10 )
+
+[node name="Stats" parent="TurnQueue/Player3" index="2"]
+atk = 50
+mag = 100
+def = 50
+res = 100
+spd = 70
+luk = 50
+
+[node name="Player4" parent="TurnQueue" instance=ExtResource( 2 )]
+position = Vector2( 434.25, 922.736 )
+
+[node name="Sprite" parent="TurnQueue/Player4" index="0"]
+scale = Vector2( 0.6, 0.6 )
+texture = ExtResource( 6 )
+offset = Vector2( 10, 0 )
+flip_h = true
+vframes = 8
+hframes = 8
+frame = 59
+
+[node name="AnimationPlayer" parent="TurnQueue/Player4/Sprite" index="0"]
+anims/Miku_Idle = SubResource( 6 )
+anims/Sonic_Idle = ExtResource( 4 )
+
+[node name="Stats" parent="TurnQueue/Player4" index="2"]
+health = 250
+atk = 110
+mag = 60
+def = 70
+res = 65
+spd = 100
+luk = 70
+
+[node name="Boss" parent="TurnQueue" instance=ExtResource( 3 )]
+position = Vector2( 1343.09, 636.175 )
+
+[node name="Sprite" parent="TurnQueue/Boss" index="0"]
+frame = 0
+
+[node name="Stats" parent="TurnQueue/Boss" index="2"]
+script = ExtResource( 7 )
+health = 1000
+atk = 120
+mag = 100
+def = 100
+res = 100
+spd = 50
+luk = 20
+weaknesses = [ 2, 5 ]
+
+[editable path="TurnQueue/Player"]
+
+[editable path="TurnQueue/Player2"]
+
+[editable path="TurnQueue/Player3"]
+
+[editable path="TurnQueue/Player4"]
+
+[editable path="TurnQueue/Boss"]
