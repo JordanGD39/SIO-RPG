@@ -6,6 +6,8 @@ public enum weakness{ SWORD, AXE, LANCE, STAFF, FIRE, ICE}
 
 public class Stats : Node
 {
+     [Export] private string charName = "";
+     public string GetCharName() { return charName;}
      [Export] private int health = 300;
      public void SetHealth(int h) {health = h;} public int GetHealth(){ return health;}
      [Export] private int stamina = 100;
