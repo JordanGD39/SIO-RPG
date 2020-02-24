@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using System.Collections.Generic;
 
 public class CharacterDamage : Node
 {
@@ -11,10 +12,19 @@ public class CharacterDamage : Node
     private bool missed = false;
     private int guardDir = 0;
     private Timer timer;
+    private bool alreadyChosen = false;
+    private AnimatedSprite guard;
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
         stats = GetParent().GetNode("Stats") as Stats;
+
+        if (stats.GetCharName() == "Boss")
+        {
+            guard = GetParent().GetNode("Guard") as AnimatedSprite;
+            guard.Visible = false;
+        } 
+
         Player playerScript = GetParent() as Player;
 
         if (playerScript == null)
@@ -42,7 +52,8 @@ public class CharacterDamage : Node
         GD.Print(missed + " " + luk + " " + num + " is player: " + player);
         timer = GetParent().GetNode<Timer>("GuardTimer");
         timer.Start();
-        choosing = true;
+        choosing = true;    
+        guard.Visible = true;    
         if (player)
         {
             chooseGuardDir = true;
@@ -61,16 +72,28 @@ public class CharacterDamage : Node
             GuardDirection();
         }
 
-        if (choosing && timer.IsStopped())
+        if (choosing)
         {
-            choosing = false;
-            ReceiveDamage();
+            GD.Print("Busy..." + timer.TimeLeft);
+            if (timer.TimeLeft < 0.1f)
+            {
+                if (!alreadyChosen)
+                {
+                    EnemyGuardChoose();
+                    alreadyChosen = true;
+                }                
+            }
+            if (timer.TimeLeft == 0)
+            {
+                timer.Stop();
+                choosing = false;
+                ReceiveDamage();
+            }            
         }
     }
 
     private void GuardDirection()
     {
-
         if (Input.IsActionPressed("ui_up"))
         {
             guardDir = 1;
@@ -83,6 +106,19 @@ public class CharacterDamage : Node
         {
             guardDir = 0;
         } 
+
+        switch (guardDir)
+        {            
+            case -1:
+            guard.Play("Down");
+            break;
+            case 0:
+            guard.Play("Forward");
+            break;
+            case 1:
+            guard.Play("Up");
+            break;
+        }
     }
 
     private void EnemyGuardChoose()
@@ -91,12 +127,23 @@ public class CharacterDamage : Node
         guardDir = rand.Next() % 3 - 1;
 
         GD.Print(guardDir);
+
+        switch (guardDir)
+        {            
+            case -1:
+            guard.Play("Down");
+            break;
+            case 0:
+            guard.Play("Forward");
+            break;
+            case 1:
+            guard.Play("Up");
+            break;
+        }
     }
 
     private void ReceiveDamage()
     {
-        EnemyGuardChoose();
-
         float damage = 0;
 
         if (!missed)
@@ -107,6 +154,9 @@ public class CharacterDamage : Node
         if (attackerStats.GetParent<Player>().GetAttackDirection() == guardDir)
         {
             damage /= 2;
+            GD.Print("You hit their shield!");
         }
+
+        GD.Print(attackerStats.GetCharName() + " did " + damage + " damage to " + stats.GetCharName());
     }
 }
