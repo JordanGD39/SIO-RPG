@@ -1,7 +1,11 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://Assets/Boss.png" type="Texture" id=1]
 [ext_resource path="res://Animations/Boss/PlaceHolders/Boss_Idle.tres" type="Animation" id=2]
+[ext_resource path="res://Assets/Marker.png" type="Texture" id=3]
+[ext_resource path="res://Scripts/Characters/Stats.cs" type="Script" id=4]
+[ext_resource path="res://Scripts/Characters/CharacterDamage.cs" type="Script" id=5]
+[ext_resource path="res://Scenes/Objects/Weapons/Great Sword.tscn" type="PackedScene" id=6]
 
 [sub_resource type="Animation" id=1]
 resource_name = "Miku_Idle"
@@ -61,3 +65,26 @@ anims/Sonic_Idle = SubResource( 2 )
 shape = SubResource( 3 )
 
 [node name="Stats" type="Node" parent="."]
+script = ExtResource( 4 )
+__meta__ = {
+"_editor_description_": ""
+}
+charName = "Boss"
+weapon = ExtResource( 6 )
+health = 4000
+atk = 100
+mag = 90
+def = 70
+res = 70
+spd = 50
+luk = 20
+weaknesses = [ 2, 5 ]
+
+[node name="Marker" type="Sprite" parent="."]
+visible = false
+position = Vector2( 0, -210 )
+scale = Vector2( 4, 4 )
+texture = ExtResource( 3 )
+
+[node name="Damage" type="Node" parent="."]
+script = ExtResource( 5 )

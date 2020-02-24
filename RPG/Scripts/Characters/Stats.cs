@@ -8,6 +8,8 @@ public class Stats : Node
 {
      [Export] private string charName = "";
      public string GetCharName() { return charName;}
+     [Export] private WeaponStats weapon;
+     public WeaponStats GetWeapon() { return weapon;}
      [Export] private int health = 300;
      public void SetHealth(int h) {health = h;} public int GetHealth(){ return health;}
      [Export] private int stamina = 100;

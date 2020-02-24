@@ -34,6 +34,10 @@ public class GUI : Node
         attackButton.GrabFocus();
     }
 
+    public void DissapearAttackMenu()
+    {
+        attackMenuContainer.Visible = false;
+    }
 //  // Called every frame. 'delta' is the elapsed time since the previous frame.
 //  public override void _Process(float delta)
 //  {
