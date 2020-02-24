@@ -16,8 +16,10 @@ public class Player : KinematicBody2D
     private Stats stats;
     private BattleManager battleManager;
     private float speed = 10000;
-
     private float timer = 0;
+    private int attackDir = 0;
+    public int GetAttackDirection() {return attackDir;}
+    private bool chooseAttackDir = false;
 
     public override void _Ready()
     {
@@ -37,7 +39,12 @@ public class Player : KinematicBody2D
         if (targetChoose)
         {
             ChooseTarget(delta);
-        }     
+        }   
+
+        if (chooseAttackDir)
+        {
+            ChooseAttackDirection();
+        }  
     }
 
     private void GoToMiddle(float delta)
@@ -62,7 +69,9 @@ public class Player : KinematicBody2D
 
         if (Input.IsActionJustPressed("ui_accept") && timer > 0.25f)
         {
-            battleManager.GetEnemies()[targetIndex].GetNode<CharacterDamage>("Damage").ReceiveDamage(stats);
+            battleManager.GetEnemies()[targetIndex].GetNode<CharacterDamage>("Damage").StartGuardSequence(stats);
+            targetChoose = false;
+            chooseAttackDir = true;
         }
 
         if (battleManager.GetEnemies().Count == 0) {return;}
@@ -93,5 +102,21 @@ public class Player : KinematicBody2D
     
             battleManager.GetEnemies()[targetIndex].GetNode<Sprite>("Marker").Visible = true;            
         }
+    }
+
+    private void ChooseAttackDirection()
+    {
+        if (Input.IsActionPressed("ui_up"))
+        {
+            attackDir = 1;
+        }
+        else if (Input.IsActionPressed("ui_down"))
+        {
+            attackDir = -1;
+        }
+        else
+        {
+            attackDir = 0;
+        } 
     }
 }

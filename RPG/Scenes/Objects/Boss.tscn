@@ -88,3 +88,6 @@ texture = ExtResource( 3 )
 
 [node name="Damage" type="Node" parent="."]
 script = ExtResource( 5 )
+
+[node name="GuardTimer" type="Timer" parent="."]
+one_shot = true
