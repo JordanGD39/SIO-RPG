@@ -5,7 +5,6 @@ using System.Collections.Generic;
 public class GUI : Node
 {    
     private Node playerHP;
-
     private Node attackMenu;
     private MarginContainer attackMenuContainer;
 
@@ -21,6 +20,9 @@ public class GUI : Node
 
         for (int i = 0; i < playerHP.GetChildCount(); i++)
         {
+            CharacterDamage damageScript = players[i].GetNode<CharacterDamage>("Damage");
+            damageScript.SetHealthBar(playerHP.GetChild(i).GetNode<TextureProgress>("HealthBar"));
+            damageScript.SetStaminaBar(playerHP.GetChild(i).GetNode<TextureProgress>("StaminaBar"));
             Label label = playerHP.GetChild(i).GetChild(0) as Label;
             Stats stats = players[i].GetNode("Stats") as Stats;
             label.Text = stats.GetCharName();

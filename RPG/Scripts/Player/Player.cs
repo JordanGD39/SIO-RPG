@@ -4,19 +4,22 @@ using System;
 public class Player : KinematicBody2D
 {
     private bool goToMid = false;
-
+    private bool goToStartPos = false;
     private bool targetChoose = false;
     private int targetIndex = 0;
 
     public void SetTargetChoose(bool a) {targetChoose = a;}
-
     public void SetGoToMid(bool a) {goToMid = a;}
+    public void SetGoToStartPos(bool a) {goToStartPos = a;}
     private Vector2 target = new Vector2(680, 700);
+    private Vector2 startTarget;
+    public void SetStartTarget(Vector2 a) {startTarget = a;}
     private GUI gui;
     private Stats stats;
     private BattleManager battleManager;
-    private float speed = 10000;
+    private float speed = 39000;
     private float timer = 0;
+    public void SetTimer(float a){timer = a;}
     private int attackDir = 0;
     public int GetAttackDirection() {return attackDir;}
     private bool chooseAttackDir = false;
@@ -27,13 +30,17 @@ public class Player : KinematicBody2D
         battleManager = GetParent() as BattleManager;
         stats = GetNode("Stats") as Stats;
     }
-
  // Called every frame. 'delta' is the elapsed time since the previous frame.
     public override void _Process(float delta)
     {
         if (goToMid)
         {
             GoToMiddle(delta);
+        }
+
+        if (goToStartPos)
+        {
+            GoToStartPos(delta);
         }
 
         if (targetChoose)
@@ -56,7 +63,20 @@ public class Player : KinematicBody2D
         {
             GD.Print("There");
             goToMid = false;
-            gui.ShowAttackMenu(GetNode<Stats>("Stats"));
+            gui.ShowAttackMenu(stats);
+        }
+    }
+
+    private void GoToStartPos(float delta)
+    {
+        Vector2 vector = (startTarget - Position).Normalized();
+        MoveAndSlide(vector * speed * delta);
+
+        if (Position.x < startTarget.x)
+        {
+            GD.Print("At startPos");
+            goToStartPos = false;
+            battleManager.CurrCharacterGoesToMid();
         }
     }
 
@@ -69,6 +89,7 @@ public class Player : KinematicBody2D
 
         if (Input.IsActionJustPressed("ui_accept") && timer > 0.25f)
         {
+            GD.Print(stats.GetCharName());
             battleManager.GetEnemies()[targetIndex].GetNode<CharacterDamage>("Damage").StartGuardSequence(stats);
             targetChoose = false;
             chooseAttackDir = true;

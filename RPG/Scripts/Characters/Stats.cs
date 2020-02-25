@@ -8,12 +8,15 @@ public class Stats : Node
 {
      [Export] private string charName = "";
      public string GetCharName() { return charName;}
-     [Export] private WeaponStats weapon;
-     public WeaponStats GetWeapon() { return weapon;}
      [Export] private int health = 300;
      public void SetHealth(int h) {health = h;} public int GetHealth(){ return health;}
+
+     [Export] private int maxHealth = 300;
+     public void SetMaxHealth(int h) {maxHealth = h;} public int GetMaxHealth(){ return maxHealth;}
      [Export] private int stamina = 100;
      public void SetStamina(int s) {stamina = s;} public int GetStamina(){ return stamina;}
+     [Export] private int maxStamina = 100;
+     public void SetMaxStamina(int s) {maxStamina = s;} public int GetMaxStamina(){ return maxStamina;}
      [Export] private int atk = 80;
      public void SetAtk(int a) {atk = a;} public int GetAtk(){ return atk;}
      [Export] private int mag = 80;
