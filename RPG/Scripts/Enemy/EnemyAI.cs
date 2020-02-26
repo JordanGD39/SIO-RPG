@@ -36,7 +36,7 @@ public class EnemyAI : KinematicBody2D
 
     public void MyTurn()
     {
-        int count = battleManager.GetPlayers().Count - 1;
+        int count = battleManager.GetPlayers().Count;
 
         Random rand = new Random();
         int num = rand.Next() % count;
@@ -44,7 +44,7 @@ public class EnemyAI : KinematicBody2D
         battleManager.GetPlayers()[num].GetNode<CharacterDamage>("Damage").StartGuardSequence(stats);
         damageScript.EnemyGuardChoose();
         timer = new Timer();
-        timer.WaitTime = 0.6f;
+        timer.WaitTime = 0.4f;
         timer.OneShot = true;
         AddChild(timer);
         timer.Start();

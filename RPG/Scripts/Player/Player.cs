@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using System.Collections.Generic;
 
 public class Player : KinematicBody2D
 {
@@ -23,12 +24,18 @@ public class Player : KinematicBody2D
     private int attackDir = 0;
     public int GetAttackDirection() {return attackDir;}
     private bool chooseAttackDir = false;
+    private bool support = false;
+    private AnimatedSprite guard;
+    private int atkCounter = 3;
+    private int spdCounter = 3;
+    private int defCounter = 3;
 
     public override void _Ready()
     {
         gui = GetParent().GetParent().GetNode("UI") as GUI;
         battleManager = GetParent() as BattleManager;
         stats = GetNode("Stats") as Stats;
+        guard = GetNode("Guard") as AnimatedSprite;
     }
  // Called every frame. 'delta' is the elapsed time since the previous frame.
     public override void _Process(float delta)
@@ -45,7 +52,7 @@ public class Player : KinematicBody2D
 
         if (targetChoose)
         {
-            ChooseTarget(delta);
+            ChooseTarget(delta, support);
         }   
 
         if (chooseAttackDir)
@@ -60,7 +67,8 @@ public class Player : KinematicBody2D
         MoveAndSlide(vector * speed * delta);
 
         if (Position.x > target.x)
-        {
+        {         
+            CheckStatBonus();   
             GD.Print("There");
             goToMid = false;
             gui.ShowAttackMenu(stats);
@@ -80,8 +88,54 @@ public class Player : KinematicBody2D
         }
     }
 
-    private void ChooseTarget(float delta)
+    private void CheckStatBonus()
     {
+        if (stats.GetAtk() > stats.GetMaxAtk())
+        {
+            atkCounter--;
+            if (atkCounter <= 0)
+            {
+                stats.SetAtk(stats.GetMaxAtk());
+                stats.SetMag(stats.GetMaxMag());
+                atkCounter = 3;
+            }
+        }
+
+        if (stats.GetSpd() > stats.GetMaxSpd())
+        {
+            spdCounter--;
+            if (spdCounter <= 0)
+            {
+                stats.SetSpd(stats.GetMaxSpd());
+                stats.SetLuk(stats.GetMaxLuk());
+                spdCounter = 3;
+            }
+        }
+
+        if (stats.GetDef() > stats.GetMaxDef())
+        {
+            defCounter--;
+            if (defCounter <= 0)
+            {
+                stats.SetDef(stats.GetMaxDef());
+                stats.SetRes(stats.GetMaxRes());
+                defCounter = 3;
+            }
+        }
+    }
+    private void ChooseTarget(float delta, bool team)
+    {
+        List<Node> targets = new List<Node>();
+
+        if (team)
+        {
+            targets = battleManager.GetPlayers();
+        }
+        else
+        {
+            targets = battleManager.GetEnemies();
+        }
+
         if (timer < 0.3f)
         {
             timer += delta;
@@ -90,7 +144,16 @@ public class Player : KinematicBody2D
         if (Input.IsActionJustPressed("ui_accept") && timer > 0.25f)
         {
             GD.Print(stats.GetCharName());
-            battleManager.GetEnemies()[targetIndex].GetNode<CharacterDamage>("Damage").StartGuardSequence(stats);
+            if (!team)
+            {
+                battleManager.GetEnemies()[targetIndex].GetNode<CharacterDamage>("Damage").StartGuardSequence(stats);  
+            }
+            else
+            {
+                battleManager.GetPlayers()[targetIndex].GetNode<CharacterDamage>("Damage").StartGuardSequence(stats);
+            }
+            
+            guard.Visible = true;
             targetChoose = false;
             chooseAttackDir = true;
         }
@@ -99,29 +162,29 @@ public class Player : KinematicBody2D
 
         if (Input.IsActionJustPressed("ui_up"))
         {
-            battleManager.GetEnemies()[targetIndex].GetNode<Sprite>("Marker").Visible = false;
+            targets[targetIndex].GetNode<Sprite>("Marker").Visible = false;
 
             targetIndex++;
 
-            if (targetIndex > battleManager.GetEnemies().Count - 1)
+            if (targetIndex > targets.Count - 1)
             {
                 targetIndex = 0;
             }
 
-            battleManager.GetEnemies()[targetIndex].GetNode<Sprite>("Marker").Visible = true;            
+            targets[targetIndex].GetNode<Sprite>("Marker").Visible = true;            
         }
         else if (Input.IsActionJustPressed("ui_down"))
         {
-            battleManager.GetEnemies()[targetIndex].GetNode<Sprite>("Marker").Visible = false;
+            targets[targetIndex].GetNode<Sprite>("Marker").Visible = false;
 
             targetIndex--;
 
             if (targetIndex < 0)
             {
-                targetIndex = battleManager.GetEnemies().Count - 1;
+                targetIndex = targets.Count - 1;
             }
     
-            battleManager.GetEnemies()[targetIndex].GetNode<Sprite>("Marker").Visible = true;            
+            targets[targetIndex].GetNode<Sprite>("Marker").Visible = true;            
         }
     }
 
@@ -130,14 +193,17 @@ public class Player : KinematicBody2D
         if (Input.IsActionPressed("ui_up"))
         {
             attackDir = 1;
+            guard.Play("Up");
         }
         else if (Input.IsActionPressed("ui_down"))
         {
             attackDir = -1;
+            guard.Play("Down");
         }
         else
         {
             attackDir = 0;
+            guard.Play("Forward");
         } 
     }
 }

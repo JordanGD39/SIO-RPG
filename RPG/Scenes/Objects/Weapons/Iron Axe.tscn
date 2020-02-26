@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://Scripts/WeaponStats.cs" type="Script" id=1]
+
+[node name="Iron Axe" type="Node"]
+script = ExtResource( 1 )
+weaponName = "Iron axe"
+atk = 20
+mag = 0

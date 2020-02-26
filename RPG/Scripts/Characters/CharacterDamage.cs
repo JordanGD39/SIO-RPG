@@ -78,23 +78,15 @@ public class CharacterDamage : Node
 
         choosing = true;
         guard.Visible = true;    
-        if (playerControl)
-        {
-            chooseGuardDir = true;
-        }        
-        else
+        if (!playerControl)
         {
             EnemyGuardChoose();
-        }
+        }            
     }
 
     // Called every frame. 'delta' is the elapsed time since the previous frame.
     public override void _Process(float delta)
     {
-        if (chooseGuardDir && playerControl)
-        {
-            GuardDirection();
-        }
 
         if (choosing)
         {            
@@ -103,9 +95,10 @@ public class CharacterDamage : Node
                 timer.Stop();
                 timer.QueueFree();
                 choosing = false;
+                alreadyChosen = false;
                 ReceiveDamage();
             } 
-            else if (timer.TimeLeft < 0.25f)
+            else if (timer.TimeLeft < 0.6f && !playerControl)
             {
                 if (!alreadyChosen)
                 {
@@ -113,35 +106,6 @@ public class CharacterDamage : Node
                     alreadyChosen = true;
                 }                
             }           
-        }
-    }
-
-    private void GuardDirection()
-    {
-        if (Input.IsActionPressed("ui_up"))
-        {
-            guardDir = 1;
-        }
-        else if (Input.IsActionPressed("ui_down"))
-        {
-            guardDir = -1;
-        }
-        else
-        {
-            guardDir = 0;
-        } 
-
-        switch (guardDir)
-        {            
-            case -1:
-            guard.Play("Down");
-            break;
-            case 0:
-            guard.Play("Forward");
-            break;
-            case 1:
-            guard.Play("Up");
-            break;
         }
     }
 
@@ -188,22 +152,22 @@ public class CharacterDamage : Node
         {
             if (attackerStats.GetParent<Player>().GetAttackDirection() == guardDir)
             {
-                damage /= 2;
+                damage *= 0.5f;
                 GD.Print("You hit their shield!");
             } 
         }
         else
         {
-            if (attackerStats.GetParent().GetNode<CharacterDamage>("Damage").GetEnemyAttackDirection() == guardDir)
+            if (attackerStats.GetParent().GetNode<CharacterDamage>("Damage").GetEnemyAttackDirection() == GetParent<Player>().GetAttackDirection())
             {
-                damage /= 2;
+                damage *= 0.5f;
                 GD.Print("You hit their shield!");
             } 
         }
         
         GD.Print(attackerStats.GetCharName() + " did " + damage + " damage to " + stats.GetCharName());
         
-        stats.SetHealth(stats.GetHealth() - Mathf.RoundToInt(damage));
+        stats.SetHealth(stats.GetHealth() - Mathf.RoundToInt(damage));        
 
         float maxHealth = stats.GetMaxHealth();
         float health = stats.GetHealth();
@@ -212,6 +176,12 @@ public class CharacterDamage : Node
 
         GD.Print(stats.GetCharName() + " has " + stats.GetHealth() + " HP left");
         guard.Visible = false;
+        attackerStats.GetParent().GetNode<AnimatedSprite>("Guard").Visible = false;
         battleManager.NextTurn(playerControl);
+
+        if (stats.GetHealth() <= 0)
+        {
+            battleManager.TakeMeOutList(GetParent(), playerControl);
+        }
     }
 }

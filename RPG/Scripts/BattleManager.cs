@@ -147,6 +147,30 @@ public class BattleManager : Node
         }
     }
 
+    public void TakeMeOutList(Node charachter, bool playerControl)
+    {
+        turnOrder.Remove(charachter);
+
+        if (playerControl)
+        {
+            players.Remove(charachter);
+
+            if (players.Count == 0)
+            {
+                GetTree().Quit();
+            }
+        }
+        else
+        {
+            enemies.Remove(charachter);
+            
+            if (enemies.Count == 0)
+            {
+                GetTree().Quit();
+            }
+        }
+    }
+
 //  // Called every frame. 'delta' is the elapsed time since the previous frame.
 //  public override void _Process(float delta)
 //  {
