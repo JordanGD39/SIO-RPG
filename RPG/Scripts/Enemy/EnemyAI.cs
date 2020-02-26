@@ -7,8 +7,8 @@ public class EnemyAI : KinematicBody2D
     private Stats stats;
     private CharacterDamage damageScript;
     private Timer timer;
-
     private bool timerStarted = false;
+    private Skill chosenSkill;
 
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
@@ -23,7 +23,6 @@ public class EnemyAI : KinematicBody2D
     {
         if (timer != null && timerStarted)
         {
-            GD.Print("Boss waiting... " + timer.TimeLeft);
             if (timer.TimeLeft == 0)
             {
                 timerStarted = false;
@@ -41,7 +40,7 @@ public class EnemyAI : KinematicBody2D
         Random rand = new Random();
         int num = rand.Next() % count;
 
-        battleManager.GetPlayers()[num].GetNode<CharacterDamage>("Damage").StartGuardSequence(stats);
+        battleManager.GetPlayers()[num].GetNode<CharacterDamage>("Damage").StartGuardSequence(stats, chosenSkill);
         damageScript.EnemyGuardChoose();
         timer = new Timer();
         timer.WaitTime = 0.4f;

@@ -5,6 +5,7 @@ using System.Collections.Generic;
 public class CharacterDamage : Node
 {
     private Stats stats;
+    private Player player;
     private Stats attackerStats;
     private bool playerControl = true;
     private bool chooseGuardDir = false;
@@ -19,11 +20,13 @@ public class CharacterDamage : Node
     private TextureProgress healthBar;
     public void SetHealthBar(TextureProgress a) {healthBar = a;}
     private TextureProgress staminaBar;
-    public void SetStaminaBar(TextureProgress a) {staminaBar = a;}
+    public TextureProgress GetStaminaBar() {return staminaBar;} public void SetStaminaBar(TextureProgress a) {staminaBar = a;}
     private Sprite marker;
+    private Skill skillThatAttackedMe;
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {        
+        player = GetParent() as Player;
         marker = GetParent().GetNode("Marker") as Sprite;
         stats = GetParent().GetNode("Stats") as Stats;
         stats.SetMaxHealth(stats.GetHealth());
@@ -32,23 +35,22 @@ public class CharacterDamage : Node
 
     public void GetMyHealthBar()
     {
-        Node ui = GetParent().GetParent().GetParent().GetNode("UI");
-
-        Player playerScript = GetParent() as Player;
+        Node ui = GetParent().GetParent().GetParent().GetNode("UI");        
 
         GD.Print(stats.GetCharName());
         guard = GetParent().GetNode("Guard") as AnimatedSprite;
         guard.Visible = false;
 
-        if (playerScript == null)
+        if (player == null)
         {
             playerControl = false;            
             healthBar = ui.GetNode("BossHP").GetChild(0).GetChild((GetIndex() - (battleManager.GetPlayers().Count - 1)) - 1).GetNode("HealthBar") as TextureProgress;
             staminaBar = healthBar.GetParent().GetNode("StaminaBar") as TextureProgress;
         }
     }
-    public void StartGuardSequence(Stats attackerStatsTemp)
+    public void StartGuardSequence(Stats attackerStatsTemp, Skill skill)
     {
+        skillThatAttackedMe = skill;
         if (marker != null)
         {
             marker.Visible = false;
@@ -87,7 +89,6 @@ public class CharacterDamage : Node
     // Called every frame. 'delta' is the elapsed time since the previous frame.
     public override void _Process(float delta)
     {
-
         if (choosing)
         {            
             if (timer.TimeLeft == 0)
@@ -133,11 +134,25 @@ public class CharacterDamage : Node
 
     private void ReceiveDamage()
     {
+        int atkOrMag = 0;
+
+        if (skillThatAttackedMe != null)
+        {
+            if (skillThatAttackedMe.GetAtk() > 0)
+            {
+                atkOrMag = skillThatAttackedMe.GetAtk();
+            }
+            else if (skillThatAttackedMe.GetMag() > 0)
+            {
+                atkOrMag = skillThatAttackedMe.GetMag();
+            }
+        }        
+
         float damage = 0;
         if (!missed)
         {
-            GD.Print("Attacker atk: " + attackerStats.GetAtk() + " | Defender def: " + stats.GetDef());            
-            damage = attackerStats.GetAtk() - stats.GetDef();
+            GD.Print("Attacker atk: " + (attackerStats.GetAtk() + atkOrMag) + " | Defender def: " + stats.GetDef());            
+            damage = attackerStats.GetAtk() + atkOrMag - stats.GetDef();
             if (damage < 0)
             {
                 damage = 0;
@@ -147,8 +162,8 @@ public class CharacterDamage : Node
         {
             GD.Print("Missed!");
         }     
-        Player player = attackerStats.GetParent() as Player;
-        if (player != null)
+        Player attacker = attackerStats.GetParent() as Player;
+        if (attacker != null)
         {
             if (attackerStats.GetParent<Player>().GetAttackDirection() == guardDir)
             {
@@ -177,11 +192,81 @@ public class CharacterDamage : Node
         GD.Print(stats.GetCharName() + " has " + stats.GetHealth() + " HP left");
         guard.Visible = false;
         attackerStats.GetParent().GetNode<AnimatedSprite>("Guard").Visible = false;
-        battleManager.NextTurn(playerControl);
+        battleManager.NextTurn();
 
         if (stats.GetHealth() <= 0)
         {
             battleManager.TakeMeOutList(GetParent(), playerControl);
         }
+    }
+
+    public void Support(Skill skill)
+    {
+        if (skill.GetHeal() && stats.GetHealth() < stats.GetMaxHealth())
+        {
+            stats.SetHealth(stats.GetHealth() + skill.GetMag());
+        }        
+        if (stats.GetAtk() <= stats.GetMaxAtk())
+        {
+           stats.SetAtk(stats.GetAtk() + skill.GetStatBonusAtk()); 
+           player.SetAtkCounter(3);
+        }
+        if (stats.GetMag() <= stats.GetMaxMag())
+        {
+            stats.SetMag(stats.GetMag() + skill.GetStatBonusMag());
+        }
+        if (stats.GetDef() <= stats.GetMaxDef())
+        {
+            stats.SetDef(stats.GetDef() + skill.GetStatBonusDef());
+            player.SetDefCounter(3);
+        }
+        if (stats.GetRes() <= stats.GetMaxRes())
+        {
+            stats.SetRes(stats.GetRes() + skill.GetStatBonusRes());
+        }
+        if (stats.GetLuk() <= stats.GetMaxLuk())
+        {
+            stats.SetLuk(stats.GetLuk() + skill.GetStatBonusLuk());
+        }
+        if (stats.GetSpd() <= stats.GetMaxSpd())
+        {
+            stats.SetSpd(stats.GetSpd() + skill.GetStatBonusSpd());
+            player.SetSpdCounter(3);
+        }    
+        marker.Visible = false;
+        battleManager.NextTurn();
+    }
+
+    public void Debuff(Skill skill)
+    {  
+        if (stats.GetAtk() >= stats.GetMaxAtk())
+        {
+           stats.SetAtk(stats.GetAtk() + skill.GetStatBonusAtk()); 
+           player.SetAtkCounter(3);
+        }
+        if (stats.GetMag() >= stats.GetMaxMag())
+        {
+            stats.SetMag(stats.GetMag() + skill.GetStatBonusMag());
+        }
+        if (stats.GetDef() >= stats.GetMaxDef())
+        {
+            stats.SetDef(stats.GetDef() + skill.GetStatBonusDef());
+            player.SetDefCounter(3);
+        }
+        if (stats.GetRes() >= stats.GetMaxRes())
+        {
+            stats.SetRes(stats.GetRes() + skill.GetStatBonusRes());
+        }
+        if (stats.GetLuk() >= stats.GetMaxLuk())
+        {
+            stats.SetLuk(stats.GetLuk() + skill.GetStatBonusLuk());
+        }
+        if (stats.GetSpd() >= stats.GetMaxSpd())
+        {
+            stats.SetSpd(stats.GetSpd() + skill.GetStatBonusSpd());
+            player.SetSpdCounter(3);
+        }        
+        marker.Visible = false;
+        battleManager.NextTurn();
     }
 }

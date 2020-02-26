@@ -1,4 +1,4 @@
-[gd_scene load_steps=40 format=2]
+[gd_scene load_steps=42 format=2]
 
 [ext_resource path="res://Assets/BG.jpg" type="Texture" id=1]
 [ext_resource path="res://Scenes/Objects/Player.tscn" type="PackedScene" id=2]
@@ -14,7 +14,9 @@
 [ext_resource path="res://Scripts/GUI.cs" type="Script" id=12]
 [ext_resource path="res://GameFont.tres" type="DynamicFont" id=13]
 [ext_resource path="res://Scripts/Player/Player.cs" type="Script" id=14]
+[ext_resource path="res://Scripts/Skill.cs" type="Script" id=15]
 [ext_resource path="res://Scripts/Characters/CharacterDamage.cs" type="Script" id=16]
+[ext_resource path="res://Scenes/Objects/Marker.tscn" type="PackedScene" id=17]
 [ext_resource path="res://Scenes/Objects/Guard.tscn" type="PackedScene" id=19]
 
 [sub_resource type="StreamTexture" id=1]
@@ -237,7 +239,7 @@ texture = SubResource( 1 )
 offset = Vector2( 150, 0 )
 vframes = 2
 hframes = 6
-frame = 7
+frame = 5
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="TurnQueue/Palladin/Sprite"]
 anims/Kris_Idle = ExtResource( 9 )
@@ -263,8 +265,7 @@ luk = 30
 maxLuk = 30
 weaknesses = [ 2 ]
 
-[node name="Camera2D" type="Camera2D" parent="TurnQueue/Palladin"]
-visible = false
+[node name="Marker" parent="TurnQueue/Palladin" instance=ExtResource( 17 )]
 
 [node name="AnimationTree" type="AnimationTree" parent="TurnQueue/Palladin"]
 tree_root = SubResource( 5 )
@@ -279,6 +280,34 @@ script = ExtResource( 16 )
 position = Vector2( 10, 1.5 )
 scale = Vector2( 0.3, 0.3 )
 flip_h = true
+
+[node name="Special Moves" type="Node" parent="TurnQueue/Palladin"]
+
+[node name="Saber Combo" type="Node" parent="TurnQueue/Palladin/Special Moves"]
+script = ExtResource( 15 )
+atk = 30
+staminaDepletion = 30
+
+[node name="Shield Bash" type="Node" parent="TurnQueue/Palladin/Special Moves"]
+script = ExtResource( 15 )
+atk = 5
+staminaDepletion = 60
+stun = true
+
+[node name="Guard" type="Node" parent="TurnQueue/Palladin/Special Moves"]
+script = ExtResource( 15 )
+staminaDepletion = 30
+guardTeam = true
+statBonusDef = -20
+statBonusRes = -20
+
+[node name="Def & Res Up!" type="Node" parent="TurnQueue/Palladin/Special Moves"]
+script = ExtResource( 15 )
+staminaDepletion = 40
+team = true
+statChange = true
+statBonusDef = 20
+statBonusRes = 20
 
 [node name="Mage" type="KinematicBody2D" parent="TurnQueue"]
 position = Vector2( 430, 750 )
@@ -317,8 +346,7 @@ luk = 50
 maxLuk = 50
 weaknesses = [ 0 ]
 
-[node name="Camera2D" type="Camera2D" parent="TurnQueue/Mage"]
-visible = false
+[node name="Marker" parent="TurnQueue/Mage" instance=ExtResource( 17 )]
 
 [node name="AnimationTree" type="AnimationTree" parent="TurnQueue/Mage"]
 tree_root = SubResource( 9 )
@@ -334,6 +362,30 @@ position = Vector2( 10, 1.5 )
 scale = Vector2( 0.3, 0.3 )
 flip_h = true
 
+[node name="Special Moves" type="Node" parent="TurnQueue/Mage"]
+
+[node name="Fireball" type="Node" parent="TurnQueue/Mage/Special Moves"]
+script = ExtResource( 15 )
+mag = 20
+staminaDepletion = 30
+
+[node name="Giant Flame" type="Node" parent="TurnQueue/Mage/Special Moves"]
+script = ExtResource( 15 )
+atk = 15
+staminaDepletion = 40
+attackAll = true
+
+[node name="Freeze Ray" type="Node" parent="TurnQueue/Mage/Special Moves"]
+script = ExtResource( 15 )
+mag = 20
+staminaDepletion = 30
+
+[node name="Giant Ice Spear" type="Node" parent="TurnQueue/Mage/Special Moves"]
+script = ExtResource( 15 )
+mag = 15
+staminaDepletion = 40
+attackAll = true
+
 [node name="Dwarf" type="KinematicBody2D" parent="TurnQueue"]
 position = Vector2( 430, 920 )
 script = ExtResource( 14 )
@@ -346,7 +398,7 @@ offset = Vector2( 10, 0 )
 flip_h = true
 vframes = 8
 hframes = 8
-frame = 8
+frame = 3
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="TurnQueue/Dwarf/Sprite"]
 anims/Miku_Idle = SubResource( 11 )
@@ -374,8 +426,7 @@ luk = 70
 maxLuk = 70
 weaknesses = [ 5 ]
 
-[node name="Camera2D" type="Camera2D" parent="TurnQueue/Dwarf"]
-visible = false
+[node name="Marker" parent="TurnQueue/Dwarf" instance=ExtResource( 17 )]
 
 [node name="AnimationTree" type="AnimationTree" parent="TurnQueue/Dwarf"]
 tree_root = SubResource( 13 )
@@ -391,11 +442,44 @@ position = Vector2( 10, 1.5 )
 scale = Vector2( 0.3, 0.3 )
 flip_h = true
 
+[node name="Special Moves" type="Node" parent="TurnQueue/Dwarf"]
+
+[node name="Head Bash" type="Node" parent="TurnQueue/Dwarf/Special Moves"]
+script = ExtResource( 15 )
+atk = 20
+staminaDepletion = 30
+
+[node name="Helicopter Bash" type="Node" parent="TurnQueue/Dwarf/Special Moves"]
+script = ExtResource( 15 )
+atk = 10
+staminaDepletion = 40
+attackAll = true
+
+[node name="Atk & Mag Up!" type="Node" parent="TurnQueue/Dwarf/Special Moves"]
+script = ExtResource( 15 )
+staminaDepletion = 30
+team = true
+statChange = true
+statBonusAtk = 20
+statBonusMag = 20
+
+[node name="Def & Res Down!" type="Node" parent="TurnQueue/Dwarf/Special Moves"]
+script = ExtResource( 15 )
+staminaDepletion = 30
+statChange = true
+statBonusDef = -20
+statBonusRes = -20
+
 [node name="Boss" parent="TurnQueue" instance=ExtResource( 3 )]
 position = Vector2( 1343.09, 636.175 )
 
 [node name="Sprite" parent="TurnQueue/Boss" index="0"]
 frame = 0
+
+[node name="CollisionShape2D" parent="TurnQueue/Boss" index="1"]
+visible = false
+
+[node name="Marker" parent="TurnQueue/Boss" instance=ExtResource( 17 )]
 
 [node name="UI" type="Node" parent="."]
 script = ExtResource( 12 )
@@ -561,10 +645,10 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Button" type="Button" parent="UI/AttackMenu/Panel/VBoxContainer"]
+[node name="AttackButton" type="Button" parent="UI/AttackMenu/Panel/VBoxContainer"]
 margin_right = 416.0
-margin_bottom = 43.0
-rect_min_size = Vector2( 0, 40 )
+margin_bottom = 60.0
+rect_min_size = Vector2( 0, 60 )
 custom_styles/hover = SubResource( 20 )
 custom_styles/pressed = SubResource( 21 )
 custom_styles/focus = SubResource( 22 )
@@ -574,7 +658,178 @@ action_mode = 0
 button_mask = 0
 text = " Attack"
 align = 0
-[connection signal="pressed" from="UI/AttackMenu/Panel/VBoxContainer/Button" to="TurnQueue" method="AttackPressed"]
+
+[node name="SpecialButton" type="Button" parent="UI/AttackMenu/Panel/VBoxContainer"]
+margin_top = 64.0
+margin_right = 416.0
+margin_bottom = 124.0
+rect_min_size = Vector2( 0, 60 )
+custom_styles/hover = SubResource( 20 )
+custom_styles/pressed = SubResource( 21 )
+custom_styles/focus = SubResource( 22 )
+custom_styles/normal = SubResource( 23 )
+custom_fonts/font = ExtResource( 13 )
+action_mode = 0
+button_mask = 0
+text = " Special"
+align = 0
+
+[node name="ItemButton" type="Button" parent="UI/AttackMenu/Panel/VBoxContainer"]
+margin_top = 128.0
+margin_right = 416.0
+margin_bottom = 188.0
+rect_min_size = Vector2( 0, 60 )
+custom_styles/hover = SubResource( 20 )
+custom_styles/pressed = SubResource( 21 )
+custom_styles/focus = SubResource( 22 )
+custom_styles/normal = SubResource( 23 )
+custom_fonts/font = ExtResource( 13 )
+action_mode = 0
+button_mask = 0
+text = " Item"
+align = 0
+
+[node name="DefendButton" type="Button" parent="UI/AttackMenu/Panel/VBoxContainer"]
+margin_top = 192.0
+margin_right = 416.0
+margin_bottom = 252.0
+rect_min_size = Vector2( 0, 60 )
+custom_styles/hover = SubResource( 20 )
+custom_styles/pressed = SubResource( 21 )
+custom_styles/focus = SubResource( 22 )
+custom_styles/normal = SubResource( 23 )
+custom_fonts/font = ExtResource( 13 )
+action_mode = 0
+button_mask = 0
+text = " Defend"
+align = 0
+
+[node name="SpecialVBoxContainer" type="VBoxContainer" parent="UI/AttackMenu/Panel"]
+visible = false
+anchor_right = 15.0
+margin_top = 12.0
+margin_right = -5826.0
+margin_bottom = 270.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Heal" type="Button" parent="UI/AttackMenu/Panel/SpecialVBoxContainer"]
+margin_right = 414.0
+margin_bottom = 60.0
+rect_min_size = Vector2( 0, 60 )
+custom_styles/hover = SubResource( 20 )
+custom_styles/pressed = SubResource( 21 )
+custom_styles/focus = SubResource( 22 )
+custom_styles/normal = SubResource( 23 )
+custom_fonts/font = ExtResource( 13 )
+action_mode = 0
+button_mask = 0
+text = "Heal"
+align = 0
+
+[node name="Label" type="Label" parent="UI/AttackMenu/Panel/SpecialVBoxContainer/Heal"]
+margin_left = 255.0
+margin_right = 412.0
+margin_bottom = 53.0
+custom_fonts/font = ExtResource( 13 )
+custom_colors/font_color = Color( 0, 0.717647, 1, 1 )
+text = "35 ST"
+align = 2
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Heal2" type="Button" parent="UI/AttackMenu/Panel/SpecialVBoxContainer"]
+margin_top = 64.0
+margin_right = 414.0
+margin_bottom = 124.0
+rect_min_size = Vector2( 0, 60 )
+custom_styles/hover = SubResource( 20 )
+custom_styles/pressed = SubResource( 21 )
+custom_styles/focus = SubResource( 22 )
+custom_styles/normal = SubResource( 23 )
+custom_fonts/font = ExtResource( 13 )
+action_mode = 0
+button_mask = 0
+text = "Heal"
+align = 0
+
+[node name="Label" type="Label" parent="UI/AttackMenu/Panel/SpecialVBoxContainer/Heal2"]
+margin_left = 255.0
+margin_right = 412.0
+margin_bottom = 53.0
+custom_fonts/font = ExtResource( 13 )
+custom_colors/font_color = Color( 0, 0.717647, 1, 1 )
+text = "35 ST"
+align = 2
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Heal3" type="Button" parent="UI/AttackMenu/Panel/SpecialVBoxContainer"]
+margin_top = 128.0
+margin_right = 414.0
+margin_bottom = 188.0
+rect_min_size = Vector2( 0, 60 )
+custom_styles/hover = SubResource( 20 )
+custom_styles/pressed = SubResource( 21 )
+custom_styles/focus = SubResource( 22 )
+custom_styles/normal = SubResource( 23 )
+custom_fonts/font = ExtResource( 13 )
+action_mode = 0
+button_mask = 0
+text = "Heal"
+align = 0
+
+[node name="Label" type="Label" parent="UI/AttackMenu/Panel/SpecialVBoxContainer/Heal3"]
+margin_left = 255.0
+margin_right = 412.0
+margin_bottom = 53.0
+custom_fonts/font = ExtResource( 13 )
+custom_colors/font_color = Color( 0, 0.717647, 1, 1 )
+text = "35 ST"
+align = 2
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Heal4" type="Button" parent="UI/AttackMenu/Panel/SpecialVBoxContainer"]
+margin_top = 192.0
+margin_right = 414.0
+margin_bottom = 252.0
+rect_min_size = Vector2( 0, 60 )
+custom_styles/hover = SubResource( 20 )
+custom_styles/pressed = SubResource( 21 )
+custom_styles/focus = SubResource( 22 )
+custom_styles/normal = SubResource( 23 )
+custom_fonts/font = ExtResource( 13 )
+action_mode = 0
+button_mask = 0
+text = "Heal"
+align = 0
+
+[node name="Label" type="Label" parent="UI/AttackMenu/Panel/SpecialVBoxContainer/Heal4"]
+margin_left = 255.0
+margin_right = 412.0
+margin_bottom = 53.0
+custom_fonts/font = ExtResource( 13 )
+custom_colors/font_color = Color( 0, 0.717647, 1, 1 )
+text = "35 ST"
+align = 2
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+[connection signal="pressed" from="UI/AttackMenu/Panel/VBoxContainer/AttackButton" to="TurnQueue" method="AttackPressed" binds= [ -1 ]]
+[connection signal="pressed" from="UI/AttackMenu/Panel/VBoxContainer/SpecialButton" to="UI" method="ShowSpecialMenu"]
+[connection signal="pressed" from="UI/AttackMenu/Panel/SpecialVBoxContainer/Heal" to="TurnQueue" method="AttackPressed" binds= [ 0 ]]
+[connection signal="pressed" from="UI/AttackMenu/Panel/SpecialVBoxContainer/Heal2" to="TurnQueue" method="AttackPressed" binds= [ 1 ]]
+[connection signal="pressed" from="UI/AttackMenu/Panel/SpecialVBoxContainer/Heal3" to="TurnQueue" method="AttackPressed" binds= [ 2 ]]
+[connection signal="pressed" from="UI/AttackMenu/Panel/SpecialVBoxContainer/Heal4" to="TurnQueue" method="AttackPressed" binds= [ 3 ]]
 
 [editable path="TurnQueue/Boss"]
 

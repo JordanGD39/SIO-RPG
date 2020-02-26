@@ -24,12 +24,14 @@ public class Player : KinematicBody2D
     private int attackDir = 0;
     public int GetAttackDirection() {return attackDir;}
     private bool chooseAttackDir = false;
-    private bool support = false;
     private AnimatedSprite guard;
     private int atkCounter = 3;
+    public void SetAtkCounter(int a) {atkCounter = a;}
     private int spdCounter = 3;
+    public void SetSpdCounter(int a) {spdCounter = a;}
     private int defCounter = 3;
-
+    public void SetDefCounter(int a) {defCounter = a;}
+    private Skill chosenSkill;
     public override void _Ready()
     {
         gui = GetParent().GetParent().GetNode("UI") as GUI;
@@ -52,6 +54,12 @@ public class Player : KinematicBody2D
 
         if (targetChoose)
         {
+            bool support = false;
+
+            if (chosenSkill != null)
+            {
+                support = chosenSkill.GetTeam();
+            }
             ChooseTarget(delta, support);
         }   
 
@@ -88,9 +96,28 @@ public class Player : KinematicBody2D
         }
     }
 
+    public void ChooseSkill(int i)
+    {
+        if (i >= 0)
+        {
+            chosenSkill = GetNode("Special Moves").GetChild(i) as Skill;
+            if (chosenSkill.GetTeam())
+            {
+                battleManager.GetPlayers()[0].GetNode<Sprite>("Marker").Visible = true;
+                return;
+            }
+        }
+        else
+        {
+            chosenSkill = null;
+        }
+
+        battleManager.GetEnemies()[0].GetNode<Sprite>("Marker").Visible = true;
+    }
+
     private void CheckStatBonus()
     {
-        if (stats.GetAtk() > stats.GetMaxAtk())
+        if (stats.GetAtk() != stats.GetMaxAtk())
         {
             atkCounter--;
             if (atkCounter <= 0)
@@ -101,7 +128,7 @@ public class Player : KinematicBody2D
             }
         }
 
-        if (stats.GetSpd() > stats.GetMaxSpd())
+        if (stats.GetSpd() != stats.GetMaxSpd())
         {
             spdCounter--;
             if (spdCounter <= 0)
@@ -112,7 +139,7 @@ public class Player : KinematicBody2D
             }
         }
 
-        if (stats.GetDef() > stats.GetMaxDef())
+        if (stats.GetDef() != stats.GetMaxDef())
         {
             defCounter--;
             if (defCounter <= 0)
@@ -144,16 +171,37 @@ public class Player : KinematicBody2D
         if (Input.IsActionJustPressed("ui_accept") && timer > 0.25f)
         {
             GD.Print(stats.GetCharName());
+            bool visible = true;
             if (!team)
-            {
-                battleManager.GetEnemies()[targetIndex].GetNode<CharacterDamage>("Damage").StartGuardSequence(stats);  
+            {                
+                if (chosenSkill != null)
+                {
+                    stats.SetStamina(stats.GetStamina() - chosenSkill.GetStaminaDepletion());
+                    GetNode<CharacterDamage>("Damage").GetStaminaBar().Value = (float)stats.GetStamina() / (float)stats.GetMaxStamina() * 100;
+
+                    if (chosenSkill.GetStatChange() || chosenSkill.GetHeal())
+                    {
+                        battleManager.GetEnemies()[targetIndex].GetNode<CharacterDamage>("Damage").Debuff(chosenSkill);
+                        visible = false;
+                    }
+                    else
+                    {
+                        battleManager.GetEnemies()[targetIndex].GetNode<CharacterDamage>("Damage").StartGuardSequence(stats, chosenSkill);
+                    }
+                }
+                else
+                {
+                    battleManager.GetEnemies()[targetIndex].GetNode<CharacterDamage>("Damage").StartGuardSequence(stats, chosenSkill);
+                }
+                  
             }
             else
             {
-                battleManager.GetPlayers()[targetIndex].GetNode<CharacterDamage>("Damage").StartGuardSequence(stats);
+                battleManager.GetPlayers()[targetIndex].GetNode<CharacterDamage>("Damage").Support(chosenSkill);
+                visible = false;
             }
             
-            guard.Visible = true;
+            guard.Visible = visible;
             targetChoose = false;
             chooseAttackDir = true;
         }

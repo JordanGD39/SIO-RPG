@@ -24,11 +24,12 @@ public class BattleManager : Node
     private List<Node> turnOrder = new List<Node>();
     private List<Node> players = new List<Node>();
     private List<Node> enemies = new List<Node>();
-
+    public List<Node> GetTurnOrder() {return turnOrder;}
     public List<Node> GetEnemies() {return enemies;}
     public List<Node> GetPlayers() {return players;}
 
     private int currTurn = 0;
+    public int GetCurrTurn() {return currTurn;}
 
     public override void _Ready()
     {
@@ -89,17 +90,17 @@ public class BattleManager : Node
         player.SetGoToMid(true);
     }
 
-    public void AttackPressed()
+    public void AttackPressed(int i)
     {
-        GD.Print(turnOrder[currTurn].GetNode<Stats>("Stats").GetCharName() + " is going to attack!");
+        GD.Print(turnOrder[currTurn].GetNode<Stats>("Stats").GetCharName() + " is going to attack! " + i);
         gui.DissapearAttackMenu();
         Player player = turnOrder[currTurn] as Player;
         player.SetTimer(0);
-        player.SetTargetChoose(true);
-        enemies[0].GetNode<Sprite>("Marker").Visible = true;
+        player.ChooseSkill(i);
+        player.SetTargetChoose(true);        
     }
 
-    public void NextTurn(bool playerControl)
+    public void NextTurn()
     {
         Player prevPlayer = turnOrder[currTurn] as Player;
 
@@ -163,7 +164,7 @@ public class BattleManager : Node
         else
         {
             enemies.Remove(charachter);
-            
+
             if (enemies.Count == 0)
             {
                 GetTree().Quit();

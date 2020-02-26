@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://Assets/Marker.png" type="Texture" id=1]
+
+[node name="Marker" type="Sprite"]
+visible = false
+position = Vector2( 0, -210 )
+scale = Vector2( 4, 4 )
+texture = ExtResource( 1 )
