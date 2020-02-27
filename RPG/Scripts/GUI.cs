@@ -5,7 +5,6 @@ using System.Collections.Generic;
 public class GUI : Node
 {    
     private BattleManager battleManager;
-    private Node playerHP;
     private Node attackMenu;
     private MarginContainer attackMenuContainer;
 
@@ -16,17 +15,29 @@ public class GUI : Node
         attackMenu =  attackMenuContainer.GetChild(0).GetChild(0);
         attackMenuContainer.Visible = false;
     }
-    public void ChangeNames(List<Node> players)
+    public void ChangeNames(List<Node> players, List<Node> enemies)
     {
-        playerHP = GetChild(0).GetChild(0);
+        Node hpBars = GetChild(0).GetChild(0);
 
-        for (int i = 0; i < playerHP.GetChildCount(); i++)
+        for (int i = 0; i < hpBars.GetChildCount(); i++)
         {
             CharacterDamage damageScript = players[i].GetNode<CharacterDamage>("Damage");
-            damageScript.SetHealthBar(playerHP.GetChild(i).GetNode<TextureProgress>("HealthBar"));
-            damageScript.SetStaminaBar(playerHP.GetChild(i).GetNode<TextureProgress>("StaminaBar"));
-            Label label = playerHP.GetChild(i).GetChild(0) as Label;
+            damageScript.SetHealthBar(hpBars.GetChild(i).GetNode<TextureProgress>("HealthBar"));
+            damageScript.SetStaminaBar(hpBars.GetChild(i).GetNode<TextureProgress>("StaminaBar"));
+            Label label = hpBars.GetChild(i).GetChild(0) as Label;
             Stats stats = players[i].GetNode("Stats") as Stats;
+            label.Text = stats.GetCharName();
+        }
+
+        hpBars = GetChild(1).GetChild(0);
+
+        for (int i = 0; i < hpBars.GetChildCount(); i++)
+        {
+            CharacterDamage damageScript = enemies[i].GetNode<CharacterDamage>("Damage");
+            damageScript.SetHealthBar(hpBars.GetChild(i).GetNode<TextureProgress>("HealthBar"));
+            damageScript.SetStaminaBar(hpBars.GetChild(i).GetNode<TextureProgress>("StaminaBar"));
+            Label label = hpBars.GetChild(i).GetChild(0) as Label;
+            Stats stats = enemies[i].GetNode("Stats") as Stats;
             label.Text = stats.GetCharName();
         }
     }

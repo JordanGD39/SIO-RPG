@@ -42,6 +42,50 @@ public class Stats : Node
      [Export] private int maxLuk = 80;
      public void SetMaxLuk(int l) {maxLuk = l;} public int GetMaxLuk(){ return maxLuk;}
      [Export] private List<weakness> weaknesses = new List<weakness>();
-
      public List<weakness> GetWeaknesses() {return weaknesses;}
+     private int atkCounter = 3;
+     public void SetAtkCounter(int a) {atkCounter = a;}
+     private int spdCounter = 3;
+     public void SetSpdCounter(int a) {spdCounter = a;}
+     private int defCounter = 3;
+     public void SetDefCounter(int a) {defCounter = a;}
+
+     public void CheckStatBonus()
+     {
+          if (atk != maxAtk)
+          {
+               atkCounter--;
+               if (atkCounter <= 0)
+               {
+                    atk = maxAtk;
+                    mag = maxMag;
+                    atkCounter = 3;
+                    GD.Print("ATK & MAG RESET");
+               }
+          }
+
+          if (spd != maxSpd)
+          {
+               spdCounter--;
+               if (spdCounter <= 0)
+               {
+                    spd = maxSpd;
+                    luk = maxLuk;
+                    spdCounter = 3;
+                    GD.Print("SPD & LUK RESET");
+               }
+          }
+
+          if (def != maxDef)
+          {
+               defCounter--;
+               if (defCounter <= 0)
+               {
+                    def = maxDef;
+                    res = maxRes;
+                    defCounter = 3;
+                    GD.Print("DEF & RES RESET");
+               }
+          }
+     }
 }

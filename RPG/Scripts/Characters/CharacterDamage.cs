@@ -31,28 +31,23 @@ public class CharacterDamage : Node
         stats = GetParent().GetNode("Stats") as Stats;
         stats.SetMaxHealth(stats.GetHealth());
         battleManager = GetParent().GetParent() as BattleManager;
-    }
-
-    public void GetMyHealthBar()
-    {
-        Node ui = GetParent().GetParent().GetParent().GetNode("UI");        
-
-        GD.Print(stats.GetCharName());
-        guard = GetParent().GetNode("Guard") as AnimatedSprite;
-        guard.Visible = false;
-
         if (player == null)
         {
-            playerControl = false;            
-            healthBar = ui.GetNode("BossHP").GetChild(0).GetChild((GetIndex() - (battleManager.GetPlayers().Count - 1)) - 1).GetNode("HealthBar") as TextureProgress;
-            staminaBar = healthBar.GetParent().GetNode("StaminaBar") as TextureProgress;
+            playerControl = false;
         }
+    }
+
+    public void GetMyGuard()
+    {
+        guard = GetParent().GetNode("Guard") as AnimatedSprite;
+        guard.Visible = false;
     }
     public void StartGuardSequence(Stats attackerStatsTemp, Skill skill)
     {
         skillThatAttackedMe = skill;
         if (marker != null)
         {
+            GD.Print("MARKER INVISIBLE");
             marker.Visible = false;
         }
         
@@ -83,7 +78,11 @@ public class CharacterDamage : Node
         if (!playerControl)
         {
             EnemyGuardChoose();
-        }            
+        }     
+        else
+        {
+            player.SetChooseAttackDir(true);            
+        }       
     }
 
     // Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -148,11 +147,19 @@ public class CharacterDamage : Node
             }
         }        
 
+        float attackerAtk = attackerStats.GetAtk() + atkOrMag;
+
+        if (attackerStats.GetStamina() <= 0)
+        {
+            attackerAtk *= 0.6f;
+            attackerAtk = Mathf.Round(attackerAtk);
+        }
+
         float damage = 0;
         if (!missed)
         {
-            GD.Print("Attacker atk: " + (attackerStats.GetAtk() + atkOrMag) + " | Defender def: " + stats.GetDef());            
-            damage = attackerStats.GetAtk() + atkOrMag - stats.GetDef();
+            GD.Print("Attacker atk: " + attackerAtk + " | Defender def: " + stats.GetDef());            
+            damage = attackerAtk - stats.GetDef();
             if (damage < 0)
             {
                 damage = 0;
@@ -162,6 +169,7 @@ public class CharacterDamage : Node
         {
             GD.Print("Missed!");
         }     
+
         Player attacker = attackerStats.GetParent() as Player;
         if (attacker != null)
         {
@@ -169,6 +177,7 @@ public class CharacterDamage : Node
             {
                 damage *= 0.5f;
                 GD.Print("You hit their shield!");
+                attacker.SetChooseAttackDir(false);
             } 
         }
         else
@@ -182,91 +191,140 @@ public class CharacterDamage : Node
         
         GD.Print(attackerStats.GetCharName() + " did " + damage + " damage to " + stats.GetCharName());
         
-        stats.SetHealth(stats.GetHealth() - Mathf.RoundToInt(damage));        
+        stats.SetHealth(stats.GetHealth() - Mathf.RoundToInt(damage));
 
-        float maxHealth = stats.GetMaxHealth();
-        float health = stats.GetHealth();
-
-        healthBar.Value = health / maxHealth * 100;
+        healthBar.Value = (float)stats.GetHealth() / (float)stats.GetMaxHealth() * 100;
 
         GD.Print(stats.GetCharName() + " has " + stats.GetHealth() + " HP left");
         guard.Visible = false;
         attackerStats.GetParent().GetNode<AnimatedSprite>("Guard").Visible = false;
-        battleManager.NextTurn();
+        if (skillThatAttackedMe == null || !skillThatAttackedMe.GetAttackAll())
+        {
+           battleManager.NextTurn(); 
+        }
+        else
+        {
+            battleManager.SetAttacksForNextTurn(battleManager.GetAttacksForNextTurn() + 1);
+            battleManager.CheckIfNextTurn(skillThatAttackedMe.GetTeam());
+        }        
 
         if (stats.GetHealth() <= 0)
         {
             battleManager.TakeMeOutList(GetParent(), playerControl);
         }
     }
-
     public void Support(Skill skill)
     {
+        if (marker != null)
+        {
+            marker.Visible = false;
+        }
+
         if (skill.GetHeal() && stats.GetHealth() < stats.GetMaxHealth())
         {
             stats.SetHealth(stats.GetHealth() + skill.GetMag());
+            if (stats.GetHealth() > stats.GetMaxHealth())
+            {
+                stats.SetHealth(stats.GetMaxHealth());
+            }
+            healthBar.Value = (float)stats.GetHealth() / (float)stats.GetMaxHealth() * 100;
+            GD.Print("Health: " + stats.GetHealth());
         }        
         if (stats.GetAtk() <= stats.GetMaxAtk())
         {
            stats.SetAtk(stats.GetAtk() + skill.GetStatBonusAtk()); 
-           player.SetAtkCounter(3);
+           stats.SetAtkCounter(3);
+           GD.Print("ATK: " + stats.GetAtk());
         }
         if (stats.GetMag() <= stats.GetMaxMag())
         {
             stats.SetMag(stats.GetMag() + skill.GetStatBonusMag());
+            GD.Print("MAG: " + stats.GetMag());
         }
         if (stats.GetDef() <= stats.GetMaxDef())
         {
             stats.SetDef(stats.GetDef() + skill.GetStatBonusDef());
-            player.SetDefCounter(3);
+            stats.SetDefCounter(3);
+            GD.Print("DEF: " + stats.GetDef());
         }
         if (stats.GetRes() <= stats.GetMaxRes())
         {
             stats.SetRes(stats.GetRes() + skill.GetStatBonusRes());
+            GD.Print("RES: " + stats.GetRes());
         }
         if (stats.GetLuk() <= stats.GetMaxLuk())
         {
             stats.SetLuk(stats.GetLuk() + skill.GetStatBonusLuk());
+            GD.Print("LUK: " + stats.GetLuk());
         }
         if (stats.GetSpd() <= stats.GetMaxSpd())
         {
             stats.SetSpd(stats.GetSpd() + skill.GetStatBonusSpd());
-            player.SetSpdCounter(3);
+            stats.SetSpdCounter(3);
+            GD.Print("SPD: " + stats.GetSpd());
         }    
         marker.Visible = false;
-        battleManager.NextTurn();
+        if (!skill.GetAttackAll())
+        {
+           battleManager.NextTurn(); 
+        }
+        else
+        {
+            battleManager.SetAttacksForNextTurn(battleManager.GetAttacksForNextTurn() + 1);
+            battleManager.CheckIfNextTurn(skill.GetTeam());
+        }
     }
 
     public void Debuff(Skill skill)
     {  
+        if (marker != null)
+        {
+            marker.Visible = false;
+        }
+
         if (stats.GetAtk() >= stats.GetMaxAtk())
         {
            stats.SetAtk(stats.GetAtk() + skill.GetStatBonusAtk()); 
-           player.SetAtkCounter(3);
+           stats.SetAtkCounter(3);
+           GD.Print("ATK: " + stats.GetAtk());
         }
         if (stats.GetMag() >= stats.GetMaxMag())
         {
             stats.SetMag(stats.GetMag() + skill.GetStatBonusMag());
+            GD.Print("MAG: " + stats.GetMag());
         }
         if (stats.GetDef() >= stats.GetMaxDef())
         {
             stats.SetDef(stats.GetDef() + skill.GetStatBonusDef());
-            player.SetDefCounter(3);
+            stats.SetDefCounter(3);
+            GD.Print("DEF: " + stats.GetDef());
         }
         if (stats.GetRes() >= stats.GetMaxRes())
         {
             stats.SetRes(stats.GetRes() + skill.GetStatBonusRes());
+            GD.Print("RES: " + stats.GetRes());
         }
         if (stats.GetLuk() >= stats.GetMaxLuk())
         {
             stats.SetLuk(stats.GetLuk() + skill.GetStatBonusLuk());
+            GD.Print("LUK: " + stats.GetLuk());
         }
         if (stats.GetSpd() >= stats.GetMaxSpd())
         {
             stats.SetSpd(stats.GetSpd() + skill.GetStatBonusSpd());
-            player.SetSpdCounter(3);
+            stats.SetSpdCounter(3);
+            GD.Print("SPD: " + stats.GetSpd());
         }        
         marker.Visible = false;
-        battleManager.NextTurn();
+
+        if (!skill.GetAttackAll())
+        {
+           battleManager.NextTurn(); 
+        }
+        else
+        {
+            battleManager.SetAttacksForNextTurn(battleManager.GetAttacksForNextTurn() + 1);
+            battleManager.CheckIfNextTurn(skill.GetTeam());
+        }
     }
 }

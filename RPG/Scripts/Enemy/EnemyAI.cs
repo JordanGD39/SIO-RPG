@@ -24,7 +24,7 @@ public class EnemyAI : KinematicBody2D
         if (timer != null && timerStarted)
         {
             if (timer.TimeLeft == 0)
-            {
+            {                
                 timerStarted = false;
                 timer.Stop();
                 timer.QueueFree();

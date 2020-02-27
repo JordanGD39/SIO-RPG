@@ -33,7 +33,7 @@ texture = ExtResource( 1 )
 offset = Vector2( -6, 0 )
 vframes = 6
 hframes = 5
-frame = 23
+frame = 20
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Sprite"]
 anims/Miku_Idle = ExtResource( 2 )
@@ -95,7 +95,7 @@ staminaDepletion = 20
 team = true
 statChange = true
 statBonusSpd = 20
-statBonusLuk = 200
+statBonusLuk = 250
 
 [node name="Def & Res Up!" type="Node" parent="Special Moves"]
 script = ExtResource( 5 )

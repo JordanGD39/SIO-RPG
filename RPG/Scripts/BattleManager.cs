@@ -27,9 +27,10 @@ public class BattleManager : Node
     public List<Node> GetTurnOrder() {return turnOrder;}
     public List<Node> GetEnemies() {return enemies;}
     public List<Node> GetPlayers() {return players;}
-
     private int currTurn = 0;
     public int GetCurrTurn() {return currTurn;}
+    private int attacksForNextTurn = 0;
+    public int GetAttacksForNextTurn(){return attacksForNextTurn;} public void SetAttacksForNextTurn(int a) {attacksForNextTurn = a;}
 
     public override void _Ready()
     {
@@ -66,13 +67,13 @@ public class BattleManager : Node
                 }
             }    
 
-            GetChild(i).GetNode<CharacterDamage>("Damage").GetMyHealthBar(); 
+            GetChild(i).GetNode<CharacterDamage>("Damage").GetMyGuard(); 
         }
 
         GD.Print(enemies.Count);
 
         gui = GetParent().GetNode("UI") as GUI;
-        gui.ChangeNames(turnOrder);
+        gui.ChangeNames(players, enemies);
 
         SpeedCompare spdCompare = new SpeedCompare();
 
@@ -118,7 +119,7 @@ public class BattleManager : Node
 
         Player player = turnOrder[currTurn] as Player;
 
-        //If enemy
+        //If previous attacker is enemy
         if(prevPlayer == null)
         {
             if (player != null)
@@ -133,6 +134,25 @@ public class BattleManager : Node
         }         
     }
 
+    public void CheckIfNextTurn(bool team)
+    {       
+        List<Node> targets = null;
+
+        if (team)
+        {
+            targets = players;
+        }
+        else
+        {
+            targets = enemies;
+        }
+
+        if (attacksForNextTurn >= targets.Count)
+        {
+            NextTurn();
+            attacksForNextTurn = 0;
+        }
+    }
     public void CurrCharacterGoesToMid()
     {
         Player player = turnOrder[currTurn] as Player;
