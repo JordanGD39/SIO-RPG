@@ -110,6 +110,8 @@ public class Player : KinematicBody2D
             stats.SetStamina(0);            
         }
 
+        targetIndex = 0;
+        
         if (i >= 0)
         {
             chosenSkill = GetNode("Special Moves").GetChild(i) as Skill;
@@ -122,8 +124,7 @@ public class Player : KinematicBody2D
         else
         {
             chosenSkill = null;
-        }
-        targetIndex = 0;
+        }        
         battleManager.GetEnemies()[0].GetNode<Sprite>("Marker").Visible = true;
     }
 

@@ -35,12 +35,39 @@ public class EnemyAI : KinematicBody2D
 
     public void MyTurn()
     {
+        while (!RandomSkill())
+        {
+            GD.Print("Searching skill");
+        }
+
         int count = battleManager.GetPlayers().Count;
 
         Random rand = new Random();
         int num = rand.Next() % count;
 
-        battleManager.GetPlayers()[num].GetNode<CharacterDamage>("Damage").StartGuardSequence(stats, chosenSkill);
+        if (chosenSkill != null)
+        {
+            GD.Print("Skill: " + chosenSkill.GetAtk());
+            stats.SetStamina(stats.GetStamina() - chosenSkill.GetStaminaDepletion());
+            damageScript.GetStaminaBar().Value = (float)stats.GetStamina() / (float)stats.GetMaxStamina() * 100;
+
+            if (chosenSkill.GetAttackAll())
+            {
+                for (int i = 0; i < battleManager.GetPlayers().Count; i++)
+                {
+                    battleManager.GetPlayers()[i].GetNode<CharacterDamage>("Damage").StartGuardSequence(stats, chosenSkill);
+                }                
+            }
+            else
+            {
+                battleManager.GetPlayers()[num].GetNode<CharacterDamage>("Damage").StartGuardSequence(stats, chosenSkill);
+            }
+        }
+        else
+        {
+            battleManager.GetPlayers()[num].GetNode<CharacterDamage>("Damage").StartGuardSequence(stats, chosenSkill);
+        }        
+
         damageScript.EnemyGuardChoose();
         timer = new Timer();
         timer.WaitTime = 0.4f;
@@ -48,5 +75,28 @@ public class EnemyAI : KinematicBody2D
         AddChild(timer);
         timer.Start();
         timerStarted = true;
+    }
+
+    private bool RandomSkill()
+    {
+        bool skillFound = true;
+
+        Random rand = new Random();
+
+        int numSkill = rand.Next() % 5;
+        if (numSkill > 0)
+        {
+            chosenSkill = GetNode("Special Moves").GetChild(numSkill - 1) as Skill;
+            if (chosenSkill.GetStaminaDepletion() >= stats.GetStamina())
+            {
+                skillFound = false;
+            }
+        }
+        else
+        {
+            chosenSkill = null;
+        }
+
+        return skillFound;
     }
 }

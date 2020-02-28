@@ -45,11 +45,8 @@ public class CharacterDamage : Node
     public void StartGuardSequence(Stats attackerStatsTemp, Skill skill)
     {
         skillThatAttackedMe = skill;
-        if (marker != null)
-        {
-            GD.Print("MARKER INVISIBLE");
-            marker.Visible = false;
-        }
+
+        marker.Visible = false;
         
         attackerStats = attackerStatsTemp;
         float luk = stats.GetLuk() / 10;
@@ -198,9 +195,10 @@ public class CharacterDamage : Node
         GD.Print(stats.GetCharName() + " has " + stats.GetHealth() + " HP left");
         guard.Visible = false;
         attackerStats.GetParent().GetNode<AnimatedSprite>("Guard").Visible = false;
+
         if (skillThatAttackedMe == null || !skillThatAttackedMe.GetAttackAll())
         {
-           battleManager.NextTurn(); 
+           battleManager.NextTurn();
         }
         else
         {
