@@ -27,7 +27,6 @@ namespace VoiceApp
             if (isSpeaking)
             {
                 recEngine.RecognizeAsync(RecognizeMode.Multiple);
-                MessageBox.Show("started");
             }
         }
 
@@ -37,7 +36,6 @@ namespace VoiceApp
             if (!isSpeaking)
             {
                 recEngine.RecognizeAsyncStop();
-                MessageBox.Show("stoped");
             }
         }
 
