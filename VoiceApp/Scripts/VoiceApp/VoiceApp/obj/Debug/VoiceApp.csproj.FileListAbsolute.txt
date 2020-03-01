@@ -1,0 +1,9 @@
+C:\Users\ianar\OneDrive\Bureaublad\ma\bewijzenmap\periode 2.1\idp\github\SIO-RPG\VoiceApp\Scripts\VoiceApp\VoiceApp\bin\Debug\VoiceApp.exe.config
+C:\Users\ianar\OneDrive\Bureaublad\ma\bewijzenmap\periode 2.1\idp\github\SIO-RPG\VoiceApp\Scripts\VoiceApp\VoiceApp\bin\Debug\VoiceApp.exe
+C:\Users\ianar\OneDrive\Bureaublad\ma\bewijzenmap\periode 2.1\idp\github\SIO-RPG\VoiceApp\Scripts\VoiceApp\VoiceApp\bin\Debug\VoiceApp.pdb
+C:\Users\ianar\OneDrive\Bureaublad\ma\bewijzenmap\periode 2.1\idp\github\SIO-RPG\VoiceApp\Scripts\VoiceApp\VoiceApp\obj\Debug\VoiceApp.Properties.Resources.resources
+C:\Users\ianar\OneDrive\Bureaublad\ma\bewijzenmap\periode 2.1\idp\github\SIO-RPG\VoiceApp\Scripts\VoiceApp\VoiceApp\obj\Debug\VoiceApp.csproj.GenerateResource.cache
+C:\Users\ianar\OneDrive\Bureaublad\ma\bewijzenmap\periode 2.1\idp\github\SIO-RPG\VoiceApp\Scripts\VoiceApp\VoiceApp\obj\Debug\VoiceApp.exe
+C:\Users\ianar\OneDrive\Bureaublad\ma\bewijzenmap\periode 2.1\idp\github\SIO-RPG\VoiceApp\Scripts\VoiceApp\VoiceApp\obj\Debug\VoiceApp.pdb
+C:\Users\ianar\OneDrive\Bureaublad\ma\bewijzenmap\periode 2.1\idp\github\SIO-RPG\VoiceApp\Scripts\VoiceApp\VoiceApp\obj\Debug\VoiceApp.VoiceApp.resources
+C:\Users\ianar\OneDrive\Bureaublad\ma\bewijzenmap\periode 2.1\idp\github\SIO-RPG\VoiceApp\Scripts\VoiceApp\VoiceApp\obj\Debug\VoiceApp.csprojAssemblyReference.cache
