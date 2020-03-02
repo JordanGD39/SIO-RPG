@@ -3,6 +3,8 @@ using System;
 
 public class Skill : Node
 {
+    [Export] private weakness element;
+    public weakness GetElement() {return element;}
     [Export] private int atk = 0;
     public int GetAtk() {return atk;}
     [Export] private int mag = 0;

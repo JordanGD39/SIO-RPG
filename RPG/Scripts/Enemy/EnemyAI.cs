@@ -1,8 +1,14 @@
 using Godot;
 using System;
+using System.Collections.Generic;
+
+public enum AIskillTypes {HIGHESTATK, SUPPORT, EVERYONE, ATTACK};
 
 public class EnemyAI : KinematicBody2D
 {
+    private Node specials;
+    private List<AIskillTypes> learnList = new List<AIskillTypes>();
+    public List<AIskillTypes> GetLearnList() {return learnList;}
     private BattleManager battleManager;
     private Stats stats;
     private CharacterDamage damageScript;
@@ -13,6 +19,7 @@ public class EnemyAI : KinematicBody2D
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
+        specials = GetNode("Special Moves");
         battleManager = GetParent() as BattleManager;
         stats = GetNode("Stats") as Stats;
         damageScript = GetNode("Damage") as CharacterDamage;
@@ -35,7 +42,7 @@ public class EnemyAI : KinematicBody2D
 
     public void MyTurn()
     {
-        while (!RandomSkill())
+        while (!RandomSkill(specials))
         {
             GD.Print("Searching skill");
         }
@@ -55,17 +62,17 @@ public class EnemyAI : KinematicBody2D
             {
                 for (int i = 0; i < battleManager.GetPlayers().Count; i++)
                 {
-                    battleManager.GetPlayers()[i].GetNode<CharacterDamage>("Damage").StartGuardSequence(stats, chosenSkill);
+                    battleManager.GetPlayers()[i].GetNode<CharacterDamage>("Damage").StartGuardSequence(stats, chosenSkill, null);
                 }                
             }
             else
             {
-                battleManager.GetPlayers()[num].GetNode<CharacterDamage>("Damage").StartGuardSequence(stats, chosenSkill);
+                battleManager.GetPlayers()[num].GetNode<CharacterDamage>("Damage").StartGuardSequence(stats, chosenSkill, null);
             }
         }
         else
         {
-            battleManager.GetPlayers()[num].GetNode<CharacterDamage>("Damage").StartGuardSequence(stats, chosenSkill);
+            battleManager.GetPlayers()[num].GetNode<CharacterDamage>("Damage").StartGuardSequence(stats, chosenSkill, null);
         }        
 
         damageScript.EnemyGuardChoose();
@@ -77,7 +84,7 @@ public class EnemyAI : KinematicBody2D
         timerStarted = true;
     }
 
-    private bool RandomSkill()
+    private bool RandomSkill(Node specials)
     {
         bool skillFound = true;
 
@@ -86,7 +93,7 @@ public class EnemyAI : KinematicBody2D
         int numSkill = rand.Next() % 5;
         if (numSkill > 0)
         {
-            chosenSkill = GetNode("Special Moves").GetChild(numSkill - 1) as Skill;
+            chosenSkill = specials.GetChild(numSkill - 1) as Skill;
             if (chosenSkill.GetStaminaDepletion() >= stats.GetStamina())
             {
                 skillFound = false;

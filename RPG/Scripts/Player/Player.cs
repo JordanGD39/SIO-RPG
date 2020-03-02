@@ -28,8 +28,10 @@ public class Player : KinematicBody2D
     public void SetChooseAttackDir(bool a) {chooseAttackDir = a;}
     private AnimatedSprite guard;    
     private Skill chosenSkill;
+    private Node specials;
     public override void _Ready()
     {
+        specials = GetNode("Special Moves");
         gui = GetParent().GetParent().GetNode("UI") as GUI;
         battleManager = GetParent() as BattleManager;
         stats = GetNode("Stats") as Stats;
@@ -114,7 +116,7 @@ public class Player : KinematicBody2D
         
         if (i >= 0)
         {
-            chosenSkill = GetNode("Special Moves").GetChild(i) as Skill;
+            chosenSkill = specials.GetChild(i) as Skill;
             if (chosenSkill.GetTeam())
             {
                 battleManager.GetPlayers()[0].GetNode<Sprite>("Marker").Visible = true;
@@ -160,13 +162,13 @@ public class Player : KinematicBody2D
                     {
                         if (!chosenSkill.GetAttackAll())
                         {
-                            targets[targetIndex].GetNode<CharacterDamage>("Damage").Debuff(chosenSkill);
+                            targets[targetIndex].GetNode<CharacterDamage>("Damage").Debuff(chosenSkill, specials);
                         }
                         else
                         {
                             for (int i = 0; i < targets.Count; i++)
                             {
-                                targets[i].GetNode<CharacterDamage>("Damage").Debuff(chosenSkill);
+                                targets[i].GetNode<CharacterDamage>("Damage").Debuff(chosenSkill, specials);
                             }
                         }
                         
@@ -176,26 +178,26 @@ public class Player : KinematicBody2D
                     {
                         if (!chosenSkill.GetAttackAll())
                         {
-                            targets[targetIndex].GetNode<CharacterDamage>("Damage").StartGuardSequence(stats, chosenSkill);
+                            targets[targetIndex].GetNode<CharacterDamage>("Damage").StartGuardSequence(stats, chosenSkill, specials);
                         }  
                         else
                         {
                             for (int i = 0; i < targets.Count; i++)
                             {
-                                targets[i].GetNode<CharacterDamage>("Damage").StartGuardSequence(stats, chosenSkill);
+                                targets[i].GetNode<CharacterDamage>("Damage").StartGuardSequence(stats, chosenSkill, specials);
                             }
                         }
                     }
                 }
                 else
                 {
-                    targets[targetIndex].GetNode<CharacterDamage>("Damage").StartGuardSequence(stats, chosenSkill);                
+                    targets[targetIndex].GetNode<CharacterDamage>("Damage").StartGuardSequence(stats, chosenSkill, specials);                
                 }
                   
             }
             else
             {
-                targets[targetIndex].GetNode<CharacterDamage>("Damage").Support(chosenSkill);
+                targets[targetIndex].GetNode<CharacterDamage>("Damage").Support(chosenSkill, specials);
                 visible = false;
             }
             

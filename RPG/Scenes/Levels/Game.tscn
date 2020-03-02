@@ -338,7 +338,7 @@ texture = SubResource( 1 )
 offset = Vector2( 150, 0 )
 vframes = 2
 hframes = 6
-frame = 1
+frame = 10
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="TurnQueue/Palladin/Sprite"]
 anims/Kris_Idle = ExtResource( 9 )
@@ -494,7 +494,7 @@ offset = Vector2( 10, 0 )
 flip_h = true
 vframes = 8
 hframes = 8
-frame = 14
+frame = 53
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="TurnQueue/Dwarf/Sprite"]
 anims/Miku_Idle = SubResource( 11 )
@@ -551,13 +551,11 @@ atk = 30
 staminaDepletion = 40
 attackAll = true
 
-[node name="Atk & Mag Up!" type="Node" parent="TurnQueue/Dwarf/Special Moves"]
+[node name="Death slam" type="Node" parent="TurnQueue/Dwarf/Special Moves"]
 script = ExtResource( 15 )
-staminaDepletion = 30
-team = true
-statChange = true
-statBonusAtk = 20
-statBonusMag = 20
+element = 1
+atk = 60
+staminaDepletion = 60
 
 [node name="Def & Res Down!" type="Node" parent="TurnQueue/Dwarf/Special Moves"]
 script = ExtResource( 15 )

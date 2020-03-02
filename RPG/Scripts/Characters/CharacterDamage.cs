@@ -6,6 +6,7 @@ public class CharacterDamage : Node
 {
     private Stats stats;
     private Player player;
+    private EnemyAI ai;
     private Stats attackerStats;
     private bool playerControl = true;
     private bool chooseGuardDir = false;
@@ -26,6 +27,7 @@ public class CharacterDamage : Node
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {        
+        ai = GetParent() as EnemyAI;
         player = GetParent() as Player;
         marker = GetParent().GetNode("Marker") as Sprite;
         stats = GetParent().GetNode("Stats") as Stats;
@@ -42,7 +44,7 @@ public class CharacterDamage : Node
         guard = GetParent().GetNode("Guard") as AnimatedSprite;
         guard.Visible = false;
     }
-    public void StartGuardSequence(Stats attackerStatsTemp, Skill skill)
+    public void StartGuardSequence(Stats attackerStatsTemp, Skill skill, Node allSpecials)
     {
         skillThatAttackedMe = skill;
 
@@ -211,7 +213,7 @@ public class CharacterDamage : Node
             battleManager.TakeMeOutList(GetParent(), playerControl);
         }
     }
-    public void Support(Skill skill)
+    public void Support(Skill skill, Node allSpecials)
     {
         if (marker != null)
         {
@@ -273,7 +275,7 @@ public class CharacterDamage : Node
         }
     }
 
-    public void Debuff(Skill skill)
+    public void Debuff(Skill skill, Node allSpecials)
     {  
         if (marker != null)
         {
