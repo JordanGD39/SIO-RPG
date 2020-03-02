@@ -22,7 +22,7 @@ namespace VoiceApp
 
             SpeechRecognitionEngine recEngine = new SpeechRecognitionEngine();
             Choices voiceCommands = new Choices();
-            voiceCommands.Add(new string[] { "Block", "Attack", "Parry", "Deflect", "Special", "Start" });
+            voiceCommands.Add(new string[] { "Block up", "Block right", "Block down",  "Attack", "Parry", "Deflect", "Special", "Start" });
             GrammarBuilder builder = new GrammarBuilder();
             builder.Append(voiceCommands);
             Grammar grammar = new Grammar(builder);
@@ -46,11 +46,25 @@ namespace VoiceApp
 
             switch (e.Result.Text)
             {
-                case "Block":
-                //    MessageBox.Show("Epic Block");
-                    speechSynth.SpeakAsync("Epic block");
+                case "Block up":
+                    //    rBox.Text = "Epic Block";
+                    speechSynth.SpeakAsync("block up");
+                    //   a.KeyValue = Keys.Up;
                     SendKeys.SendWait("{UP}");
-                    SendKeys.SendWait("(e)");
+                    break;
+
+                case "Block right":
+                    //    rBox.Text = "Epic Block";
+                    speechSynth.SpeakAsync("block right");
+                    //   a.KeyValue = Keys.Up;
+                    SendKeys.SendWait("{RIGHT}");
+                    break;
+
+                case "Block down":
+                    //    rBox.Text = "Epic Block";
+                    speechSynth.SpeakAsync("block down");
+                    //   a.KeyValue = Keys.Up;
+                    SendKeys.SendWait("{DOWN}");
                     break;
 
                 case "Attack":

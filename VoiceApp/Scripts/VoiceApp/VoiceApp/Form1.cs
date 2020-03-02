@@ -23,26 +23,21 @@ namespace VoiceApp
 
         private void button1_Click(object sender, EventArgs e)
         {
-            isSpeaking = true;
-            if (isSpeaking)
-            {
-                recEngine.RecognizeAsync(RecognizeMode.Multiple);
-            }
+            recEngine.RecognizeAsync(RecognizeMode.Multiple);
+            isSpeaking = false;
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
-            isSpeaking = false;
-            if (!isSpeaking)
-            {
-                recEngine.RecognizeAsyncStop();
-            }
+            recEngine.RecognizeAsyncStop();
+            isSpeaking = true;
+
         }
 
         private void Form1_Load(object sender, EventArgs e)
         {
             Choices voiceCommands = new Choices();
-            voiceCommands.Add(new string[] { "Block", "Attack", "Parry", "Deflect", "Special", "Start" });
+            voiceCommands.Add(new string[] { "Block up", "Block right", "Block down",  " Attack", "Parry", "Deflect", "Special", "Start" });
             GrammarBuilder builder = new GrammarBuilder();
             builder.Append(voiceCommands);
             Grammar grammar = new Grammar(builder);
@@ -70,11 +65,25 @@ namespace VoiceApp
 
             switch (e.Result.Text)
             {
-                case "Block":
+                case "Block up":
                 //    rBox.Text = "Epic Block";
-                    speechSynth.SpeakAsync("Epic block");
+                    speechSynth.SpeakAsync("block up");
                     //   a.KeyValue = Keys.Up;
                     SendKeys.SendWait("{UP}");
+                    break;
+
+                case "Block right":
+                    //    rBox.Text = "Epic Block";
+                    speechSynth.SpeakAsync("block right");
+                    //   a.KeyValue = Keys.Up;
+                    SendKeys.SendWait("{RIGHT}");
+                    break;
+
+                case "Block down":
+                    //    rBox.Text = "Epic Block";
+                    speechSynth.SpeakAsync("block down");
+                    //   a.KeyValue = Keys.Up;
+                    SendKeys.SendWait("{DOWN}");
                     break;
 
                 case "Attack":
