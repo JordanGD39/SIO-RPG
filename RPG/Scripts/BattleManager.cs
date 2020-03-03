@@ -103,6 +103,11 @@ public class BattleManager : Node
 
     public void NextTurn()
     {
+        if (currTurn > turnOrder.Count - 1)
+        {
+            currTurn--;
+        } 
+
         Player prevPlayer = turnOrder[currTurn] as Player;
 
         if (prevPlayer != null)

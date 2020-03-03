@@ -49,6 +49,15 @@ public class Stats : Node
      public void SetSpdCounter(int a) {spdCounter = a;}
      private int defCounter = 3;
      public void SetDefCounter(int a) {defCounter = a;}
+     
+     private TextureProgress healthBar;
+     public TextureProgress GetHealthBar() {return healthBar;} public void SetHealthBar(TextureProgress a) {healthBar = a;}
+     private TextureProgress staminaBar;
+     public TextureProgress GetStaminaBar() {return staminaBar;} public void SetStaminaBar(TextureProgress a) {staminaBar = a;}
+     private Label healthText;
+     public void SetHealthText(Label a) {healthText = a;}
+     private Label staminaText;
+     public void SetStaminaText(Label a) {staminaText = a;}
 
      public void CheckStatBonus()
      {
@@ -87,5 +96,21 @@ public class Stats : Node
                     GD.Print("DEF & RES RESET");
                }
           }
+     }
+
+     public void UpdateStamina(Skill chosenSkill)
+     {
+          if (chosenSkill != null)
+          {
+              stamina -= chosenSkill.GetStaminaDepletion();
+          }
+          
+          staminaBar.Value = (float)stamina / (float)maxStamina * 100;
+          staminaText.Text = "ST: " + stamina + "/" + maxStamina;
+     }
+     public void UpdateHealth()
+     {
+          healthBar.Value = (float)health / (float)maxHealth * 100;
+          healthText.Text = "HP: " + health + "/" + maxHealth;
      }
 }

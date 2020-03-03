@@ -1,13 +1,23 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://GameFont.tres" type="DynamicFont" id=1]
 [ext_resource path="res://Assets/square.png" type="Texture" id=2]
 [ext_resource path="res://Animations/UI/LifeBarTurnBegin.tres" type="Animation" id=3]
 [ext_resource path="res://Animations/UI/LifeBarTurnEnd.tres" type="Animation" id=4]
 
+[sub_resource type="DynamicFontData" id=1]
+font_path = "res://Assets/IMMORTAL.ttf"
+
+[sub_resource type="DynamicFont" id=2]
+size = 24
+outline_size = 3
+outline_color = Color( 0, 0, 0, 1 )
+font_data = SubResource( 1 )
+
 [node name="LifeBar" type="VBoxContainer"]
 margin_right = 499.999
-margin_bottom = 86.0
+margin_bottom = 161.0
+rect_scale = Vector2( 0.8, 0.8 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -19,10 +29,18 @@ rect_min_size = Vector2( 301, 20 )
 custom_fonts/font = ExtResource( 1 )
 text = "Miku"
 
-[node name="HealthBar" type="TextureProgress" parent="."]
+[node name="HP" type="Label" parent="."]
 margin_top = 47.0
 margin_right = 499.0
-margin_bottom = 77.0
+margin_bottom = 78.0
+rect_min_size = Vector2( 301, 10 )
+custom_fonts/font = SubResource( 2 )
+text = "HP: 39/39"
+
+[node name="HealthBar" type="TextureProgress" parent="."]
+margin_top = 82.0
+margin_right = 499.0
+margin_bottom = 112.0
 rect_min_size = Vector2( 300, 30 )
 value = 100.0
 texture_under = ExtResource( 2 )
@@ -32,10 +50,18 @@ tint_over = Color( 0, 0, 0, 1 )
 tint_progress = Color( 0, 1, 0.109804, 1 )
 nine_patch_stretch = true
 
-[node name="StaminaBar" type="TextureProgress" parent="."]
-margin_top = 81.0
+[node name="ST" type="Label" parent="."]
+margin_top = 116.0
 margin_right = 499.0
-margin_bottom = 91.0
+margin_bottom = 147.0
+rect_min_size = Vector2( 301, 10 )
+custom_fonts/font = SubResource( 2 )
+text = "ST: 39/39"
+
+[node name="StaminaBar" type="TextureProgress" parent="."]
+margin_top = 151.0
+margin_right = 499.0
+margin_bottom = 161.0
 rect_min_size = Vector2( 300, 10 )
 value = 100.0
 texture_under = ExtResource( 2 )

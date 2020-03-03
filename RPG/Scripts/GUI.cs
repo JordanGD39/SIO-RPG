@@ -21,24 +21,30 @@ public class GUI : Node
 
         for (int i = 0; i < hpBars.GetChildCount(); i++)
         {
-            CharacterDamage damageScript = players[i].GetNode<CharacterDamage>("Damage");
-            damageScript.SetHealthBar(hpBars.GetChild(i).GetNode<TextureProgress>("HealthBar"));
-            damageScript.SetStaminaBar(hpBars.GetChild(i).GetNode<TextureProgress>("StaminaBar"));
+            Stats stats = players[i].GetNode<Stats>("Stats");
+            stats.SetHealthBar(hpBars.GetChild(i).GetNode<TextureProgress>("HealthBar"));
+            stats.SetStaminaBar(hpBars.GetChild(i).GetNode<TextureProgress>("StaminaBar"));
+            stats.SetHealthText(hpBars.GetChild(i).GetNode<Label>("HP"));
+            stats.SetStaminaText(hpBars.GetChild(i).GetNode<Label>("ST"));
             Label label = hpBars.GetChild(i).GetChild(0) as Label;
-            Stats stats = players[i].GetNode("Stats") as Stats;
             label.Text = stats.GetCharName();
+            stats.UpdateHealth();
+            stats.UpdateStamina(null);
         }
 
         hpBars = GetChild(1).GetChild(0);
 
         for (int i = 0; i < hpBars.GetChildCount(); i++)
         {
-            CharacterDamage damageScript = enemies[i].GetNode<CharacterDamage>("Damage");
-            damageScript.SetHealthBar(hpBars.GetChild(i).GetNode<TextureProgress>("HealthBar"));
-            damageScript.SetStaminaBar(hpBars.GetChild(i).GetNode<TextureProgress>("StaminaBar"));
+            Stats stats = enemies[i].GetNode<Stats>("Stats");
+            stats.SetHealthBar(hpBars.GetChild(i).GetNode<TextureProgress>("HealthBar"));
+            stats.SetStaminaBar(hpBars.GetChild(i).GetNode<TextureProgress>("StaminaBar"));
+            stats.SetHealthText(hpBars.GetChild(i).GetNode<Label>("HP"));
+            stats.SetStaminaText(hpBars.GetChild(i).GetNode<Label>("ST"));
             Label label = hpBars.GetChild(i).GetChild(0) as Label;
-            Stats stats = enemies[i].GetNode("Stats") as Stats;
             label.Text = stats.GetCharName();
+            stats.UpdateHealth();
+            stats.UpdateStamina(null);
         }
     }
 

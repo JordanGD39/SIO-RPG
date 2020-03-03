@@ -52,7 +52,8 @@ public class EnemyAI : KinematicBody2D
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
-        gameManager = GetParent().GetParent().GetParent() as GameManager;
+        learnList.Add(AIskillTypes.ATTACK);
+        gameManager = GetParent().GetParent() as GameManager;
         specials = GetNode("Special Moves");
         battleManager = GetParent() as BattleManager;
         stats = GetNode("Stats") as Stats;
@@ -73,18 +74,34 @@ public class EnemyAI : KinematicBody2D
             }            
         }
 
-        if (Input.IsActionJustPressed("print_list"))
-        {
-            GD.Print(learnList);
+        if (Input.IsActionJustPressed("print_list") && battleManager.GetEnemies().IndexOf(GetChild(0).GetParent()) == 0)
+        {            
+            for (int i = 0; i < learnList.Count; i++)
+            {
+                GD.Print(learnList[i]);
+            }
         }
     }
 
     public void MyTurn()
     {
-        while (!ChooseSkill())
+        bool skillFound = false;
+
+        for (int i = 0; i < 10; i++)
         {
+            skillFound = ChooseSkill();
             GD.Print("Searching skill");
-        }        
+
+            if (skillFound)
+            {
+                break;
+            }
+        }
+
+        if (!skillFound)
+        {
+            chosenSkill = null;
+        }
 
         bool def = true;
 
@@ -92,7 +109,7 @@ public class EnemyAI : KinematicBody2D
         int count = battleManager.GetPlayers().Count;
         Random rand = new Random();
 
-        List<Node> lowestDeforMagChar = new List<Node>();
+        List<Node> lowestDeforMagChar = battleManager.GetPlayers();
 
         if (gameManager.GetDifficulty() != 0)
         {
@@ -117,16 +134,16 @@ public class EnemyAI : KinematicBody2D
                 int randNum = rand.Next() % 3;
                 num = battleManager.GetPlayers().IndexOf(lowestDeforMagChar[randNum]);
             break;
-            case 2:                
+            case 2:         
+                GD.Print("Searching index of lowest def");
                 num = battleManager.GetPlayers().IndexOf(lowestDeforMagChar[0]);
             break;
         }       
 
         if (chosenSkill != null)
         {
-            GD.Print("Skill: " + chosenSkill.GetAtk());
-            stats.SetStamina(stats.GetStamina() - chosenSkill.GetStaminaDepletion());
-            damageScript.GetStaminaBar().Value = (float)stats.GetStamina() / (float)stats.GetMaxStamina() * 100;
+            GD.Print("Skill: " + (chosenSkill.GetAtk() + chosenSkill.GetMag()));
+            stats.UpdateStamina(chosenSkill);
 
             if (chosenSkill.GetAttackAll())
             {
@@ -137,7 +154,14 @@ public class EnemyAI : KinematicBody2D
             }
             else
             {
-                battleManager.GetPlayers()[num].GetNode<CharacterDamage>("Damage").StartGuardSequence(stats, chosenSkill);
+                if (chosenSkill.GetStatChange())
+                {
+                    GetNode<CharacterDamage>("Damage").Support(chosenSkill);
+                }
+                else
+                {
+                    battleManager.GetPlayers()[num].GetNode<CharacterDamage>("Damage").StartGuardSequence(stats, chosenSkill);
+                }                
             }
         }
         else
@@ -175,7 +199,7 @@ public class EnemyAI : KinematicBody2D
             {
                 chosenSkill = specials.GetChild(0) as Skill;
             }
-            
+
             break;
             case AIskillTypes.EVERYONE:
             chosenSkill = specials.GetChild(1) as Skill;
@@ -186,14 +210,28 @@ public class EnemyAI : KinematicBody2D
             case AIskillTypes.HIGHESTATK:
             chosenSkill = specials.GetChild(2) as Skill;
             break;
-        }
+        }        
 
-        numSkill = rand.Next() % 101;
-
-        if (chosenSkill.GetStaminaDepletion() >= stats.GetStamina() || gameManager.GetDifficulty() == 0 || (gameManager.GetDifficulty() == 1 && numSkill <= 30))
+        if (chosenSkill != null)
         {
-            skillFound = false;
-        }
+            if (chosenSkill.GetStaminaDepletion() >= stats.GetStamina())
+            {
+                switch (gameManager.GetDifficulty())
+                {                
+                    case 1:
+                    numSkill = rand.Next() % 101;
+
+                    if (numSkill <= 70)
+                    {
+                        skillFound = false;
+                    }
+                    break;
+                    case 2:
+                    skillFound = false;
+                    break;
+                }
+            }            
+        }        
 
         return skillFound;
     }

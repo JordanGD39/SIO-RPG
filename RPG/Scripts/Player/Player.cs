@@ -82,7 +82,7 @@ public class Player : KinematicBody2D
                 {
                     stats.SetStamina(100);
                 }
-                damageScript.GetStaminaBar().Value = (float)stats.GetStamina() / 100 * 100;
+                stats.UpdateStamina(null);
             }  
             
             stats.CheckStatBonus();   
@@ -155,8 +155,7 @@ public class Player : KinematicBody2D
             {                
                 if (chosenSkill != null)
                 {
-                    stats.SetStamina(stats.GetStamina() - chosenSkill.GetStaminaDepletion());
-                    GetNode<CharacterDamage>("Damage").GetStaminaBar().Value = (float)stats.GetStamina() / (float)stats.GetMaxStamina() * 100;
+                    stats.UpdateStamina(chosenSkill);                   
 
                     if (chosenSkill.GetStatChange() || chosenSkill.GetHeal())
                     {
@@ -297,6 +296,6 @@ public class Player : KinematicBody2D
                 guard.Play("Forward");
                 guardDelay = 0;
             }      
-        }            
+        }         
     }
 }

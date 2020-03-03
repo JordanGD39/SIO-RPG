@@ -17,11 +17,7 @@ public class CharacterDamage : Node
     private Timer timer;
     private bool alreadyChosen = false;
     private AnimatedSprite guard;
-    private BattleManager battleManager;
-    private TextureProgress healthBar;
-    public void SetHealthBar(TextureProgress a) {healthBar = a;}
-    private TextureProgress staminaBar;
-    public TextureProgress GetStaminaBar() {return staminaBar;} public void SetStaminaBar(TextureProgress a) {staminaBar = a;}
+    private BattleManager battleManager;    
     private Sprite marker;
     private Skill skillThatAttackedMe;
     // Called when the node enters the scene tree for the first time.
@@ -51,7 +47,7 @@ public class CharacterDamage : Node
         
         if (!playerControl)
         {
-            CheckAttackToLearn();
+            CheckAttackToLearn(false, null);
         }
 
         attackerStats = attackerStatsTemp;
@@ -137,6 +133,7 @@ public class CharacterDamage : Node
     private void ReceiveDamage()
     {
         int atkOrMag = 0;
+        int defOrRes = stats.GetDef();
 
         if (skillThatAttackedMe != null)
         {
@@ -147,8 +144,9 @@ public class CharacterDamage : Node
             else if (skillThatAttackedMe.GetMag() > 0)
             {
                 atkOrMag = skillThatAttackedMe.GetMag();
+                defOrRes = stats.GetRes();
             }
-        }        
+        }
 
         float attackerAtk = attackerStats.GetAtk() + atkOrMag;
 
@@ -161,8 +159,10 @@ public class CharacterDamage : Node
         float damage = 0;
         if (!missed)
         {
-            GD.Print("Attacker atk: " + attackerAtk + " | Defender def: " + stats.GetDef());            
-            damage = attackerAtk - stats.GetDef();
+            GD.Print("Attacker atk: " + attackerAtk + " | Defender def: " + defOrRes);            
+            damage = attackerAtk - defOrRes;
+            Random rand = new Random();
+            damage += (rand.Next() % 15) - 10;            
             if (damage < 0)
             {
                 damage = 0;
@@ -191,12 +191,19 @@ public class CharacterDamage : Node
                 GD.Print("You hit their shield!");
             } 
         }
-        
-        GD.Print(attackerStats.GetCharName() + " did " + damage + " damage to " + stats.GetCharName());
-        
-        stats.SetHealth(stats.GetHealth() - Mathf.RoundToInt(damage));
 
-        healthBar.Value = (float)stats.GetHealth() / (float)stats.GetMaxHealth() * 100;
+        int damageInt = Mathf.RoundToInt(damage);
+        
+        GD.Print(attackerStats.GetCharName() + " did " + damageInt + " damage to " + stats.GetCharName());        
+
+        stats.SetHealth(stats.GetHealth() - damageInt);
+        if (stats.GetHealth() <= 0)
+        {
+            stats.SetHealth(0);
+            battleManager.TakeMeOutList(GetParent(), playerControl);
+        }
+
+        stats.UpdateHealth();
 
         GD.Print(stats.GetCharName() + " has " + stats.GetHealth() + " HP left");
         guard.Visible = false;
@@ -209,12 +216,7 @@ public class CharacterDamage : Node
         else
         {
             battleManager.SetAttacksForNextTurn(battleManager.GetAttacksForNextTurn() + 1);
-            battleManager.CheckIfNextTurn(skillThatAttackedMe.GetTeam());
-        }        
-
-        if (stats.GetHealth() <= 0)
-        {
-            battleManager.TakeMeOutList(GetParent(), playerControl);
+            battleManager.CheckIfNextTurn(playerControl);
         }
     }
     public void Support(Skill skill)
@@ -223,9 +225,9 @@ public class CharacterDamage : Node
 
         marker.Visible = false;
 
-        if (!playerControl)
+        if (playerControl)
         {
-            CheckAttackToLearn();
+            battleManager.GetEnemies()[0].GetNode<CharacterDamage>("Damage").CheckAttackToLearn(true, skill);
         }
 
         if (skill.GetHeal() && stats.GetHealth() < stats.GetMaxHealth())
@@ -235,7 +237,7 @@ public class CharacterDamage : Node
             {
                 stats.SetHealth(stats.GetMaxHealth());
             }
-            healthBar.Value = (float)stats.GetHealth() / (float)stats.GetMaxHealth() * 100;
+            stats.UpdateHealth();
             GD.Print("Health: " + stats.GetHealth());
         }        
         if (stats.GetAtk() <= stats.GetMaxAtk())
@@ -294,7 +296,7 @@ public class CharacterDamage : Node
 
         if (!playerControl)
         {
-            CheckAttackToLearn();
+            CheckAttackToLearn(false, null);
         }
 
         if (stats.GetAtk() >= stats.GetMaxAtk())
@@ -339,13 +341,18 @@ public class CharacterDamage : Node
         else
         {
             battleManager.SetAttacksForNextTurn(battleManager.GetAttacksForNextTurn() + 1);
-            battleManager.CheckIfNextTurn(skill.GetTeam());
+            battleManager.CheckIfNextTurn(playerControl);
         }
     }
 
-    public void CheckAttackToLearn()
+    public void CheckAttackToLearn(bool playerCalled, Skill skill)
     {
-        if (skillThatAttackedMe == null)
+        if (playerCalled)
+        {
+            skillThatAttackedMe = skill;
+        }
+
+        if (skillThatAttackedMe == null || !skillThatAttackedMe.GetStatChange() && !skillThatAttackedMe.GetAttackAll() && skillThatAttackedMe.GetMag() <= 20 && skillThatAttackedMe.GetAtk() <= 20)
         {
             ai.GetLearnList().Add(AIskillTypes.ATTACK);
             return;
@@ -363,7 +370,7 @@ public class CharacterDamage : Node
                 return;
             }
             //Checking if skill has highest atk of all
-            else if (skillThatAttackedMe.GetAtk() > 0 || skillThatAttackedMe.GetMag() > 0)
+            else if (skillThatAttackedMe.GetAtk() > 20 || skillThatAttackedMe.GetMag() > 20)
             {
                 ai.GetLearnList().Add(AIskillTypes.HIGHESTATK);
                 return;
