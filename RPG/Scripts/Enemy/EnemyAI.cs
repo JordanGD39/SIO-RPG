@@ -4,8 +4,41 @@ using System.Collections.Generic;
 
 public enum AIskillTypes {HIGHESTATK, SUPPORT, EVERYONE, ATTACK};
 
+class DefCompare : IComparer<Node> 
+{ 
+    public int Compare(Node x, Node y) 
+    { 
+        if (x == null || y == null) 
+        { 
+            return 0; 
+        } 
+
+        Stats p1 = x.GetNode("Stats") as Stats;
+        Stats p2 = y.GetNode("Stats") as Stats;
+
+        return p1.GetDef().CompareTo(p2.GetDef());           
+    } 
+} 
+
+class MagCompare : IComparer<Node> 
+{ 
+    public int Compare(Node x, Node y) 
+    { 
+        if (x == null || y == null) 
+        { 
+            return 0; 
+        } 
+
+        Stats p1 = x.GetNode("Stats") as Stats;
+        Stats p2 = y.GetNode("Stats") as Stats;
+
+        return p1.GetMag().CompareTo(p2.GetMag());           
+    } 
+} 
+
 public class EnemyAI : KinematicBody2D
 {
+    private GameManager gameManager;
     private Node specials;
     private List<AIskillTypes> learnList = new List<AIskillTypes>();
     public List<AIskillTypes> GetLearnList() {return learnList;}
@@ -19,6 +52,7 @@ public class EnemyAI : KinematicBody2D
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
+        gameManager = GetParent().GetParent().GetParent() as GameManager;
         specials = GetNode("Special Moves");
         battleManager = GetParent() as BattleManager;
         stats = GetNode("Stats") as Stats;
@@ -38,19 +72,55 @@ public class EnemyAI : KinematicBody2D
                 damageScript.EnemyGuardChoose();
             }            
         }
+
+        if (Input.IsActionJustPressed("print_list"))
+        {
+            GD.Print(learnList);
+        }
     }
 
     public void MyTurn()
     {
-        while (!RandomSkill(specials))
+        while (!ChooseSkill())
         {
             GD.Print("Searching skill");
+        }        
+
+        bool def = true;
+
+        int num = 0;
+        int count = battleManager.GetPlayers().Count;
+        Random rand = new Random();
+
+        List<Node> lowestDeforMagChar = new List<Node>();
+
+        if (gameManager.GetDifficulty() != 0)
+        {
+            if (def)
+            {
+                DefCompare defCompare = new DefCompare();
+                lowestDeforMagChar.Sort(defCompare);
+            }
+            else
+            {
+                MagCompare magCompare = new MagCompare();
+                lowestDeforMagChar.Sort(magCompare);
+            }
         }
 
-        int count = battleManager.GetPlayers().Count;
-
-        Random rand = new Random();
-        int num = rand.Next() % count;
+        switch (gameManager.GetDifficulty())
+        {            
+            case 0:               
+                num = rand.Next() % count;
+            break;
+            case 1:                
+                int randNum = rand.Next() % 3;
+                num = battleManager.GetPlayers().IndexOf(lowestDeforMagChar[randNum]);
+            break;
+            case 2:                
+                num = battleManager.GetPlayers().IndexOf(lowestDeforMagChar[0]);
+            break;
+        }       
 
         if (chosenSkill != null)
         {
@@ -62,17 +132,17 @@ public class EnemyAI : KinematicBody2D
             {
                 for (int i = 0; i < battleManager.GetPlayers().Count; i++)
                 {
-                    battleManager.GetPlayers()[i].GetNode<CharacterDamage>("Damage").StartGuardSequence(stats, chosenSkill, null);
+                    battleManager.GetPlayers()[i].GetNode<CharacterDamage>("Damage").StartGuardSequence(stats, chosenSkill);
                 }                
             }
             else
             {
-                battleManager.GetPlayers()[num].GetNode<CharacterDamage>("Damage").StartGuardSequence(stats, chosenSkill, null);
+                battleManager.GetPlayers()[num].GetNode<CharacterDamage>("Damage").StartGuardSequence(stats, chosenSkill);
             }
         }
         else
         {
-            battleManager.GetPlayers()[num].GetNode<CharacterDamage>("Damage").StartGuardSequence(stats, chosenSkill, null);
+            battleManager.GetPlayers()[num].GetNode<CharacterDamage>("Damage").StartGuardSequence(stats, chosenSkill);
         }        
 
         damageScript.EnemyGuardChoose();
@@ -84,24 +154,45 @@ public class EnemyAI : KinematicBody2D
         timerStarted = true;
     }
 
-    private bool RandomSkill(Node specials)
+    private bool ChooseSkill()
     {
         bool skillFound = true;
 
         Random rand = new Random();
 
-        int numSkill = rand.Next() % 5;
-        if (numSkill > 0)
-        {
-            chosenSkill = specials.GetChild(numSkill - 1) as Skill;
-            if (chosenSkill.GetStaminaDepletion() >= stats.GetStamina())
+        int numSkill = rand.Next() % learnList.Count;
+
+        switch (learnList[numSkill])
+        {            
+            case AIskillTypes.ATTACK:
+            int numAtk = rand.Next() % 2;
+
+            if (numAtk == 0)
             {
-                skillFound = false;
+                chosenSkill = null;
             }
+            else
+            {
+                chosenSkill = specials.GetChild(0) as Skill;
+            }
+            
+            break;
+            case AIskillTypes.EVERYONE:
+            chosenSkill = specials.GetChild(1) as Skill;
+            break;
+            case AIskillTypes.SUPPORT:
+            chosenSkill = specials.GetChild(3) as Skill;
+            break;
+            case AIskillTypes.HIGHESTATK:
+            chosenSkill = specials.GetChild(2) as Skill;
+            break;
         }
-        else
+
+        numSkill = rand.Next() % 101;
+
+        if (chosenSkill.GetStaminaDepletion() >= stats.GetStamina() || gameManager.GetDifficulty() == 0 || (gameManager.GetDifficulty() == 1 && numSkill <= 30))
         {
-            chosenSkill = null;
+            skillFound = false;
         }
 
         return skillFound;

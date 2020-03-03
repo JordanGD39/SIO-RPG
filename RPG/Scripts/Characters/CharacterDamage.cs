@@ -38,18 +38,22 @@ public class CharacterDamage : Node
             playerControl = false;
         }
     }
-
     public void GetMyGuard()
     {
         guard = GetParent().GetNode("Guard") as AnimatedSprite;
         guard.Visible = false;
     }
-    public void StartGuardSequence(Stats attackerStatsTemp, Skill skill, Node allSpecials)
+    public void StartGuardSequence(Stats attackerStatsTemp, Skill skill)
     {
         skillThatAttackedMe = skill;
 
         marker.Visible = false;
         
+        if (!playerControl)
+        {
+            CheckAttackToLearn();
+        }
+
         attackerStats = attackerStatsTemp;
         float luk = stats.GetLuk() / 10;
         Random rand = new Random();
@@ -213,11 +217,15 @@ public class CharacterDamage : Node
             battleManager.TakeMeOutList(GetParent(), playerControl);
         }
     }
-    public void Support(Skill skill, Node allSpecials)
+    public void Support(Skill skill)
     {
-        if (marker != null)
+        skillThatAttackedMe = skill;
+
+        marker.Visible = false;
+
+        if (!playerControl)
         {
-            marker.Visible = false;
+            CheckAttackToLearn();
         }
 
         if (skill.GetHeal() && stats.GetHealth() < stats.GetMaxHealth())
@@ -275,11 +283,18 @@ public class CharacterDamage : Node
         }
     }
 
-    public void Debuff(Skill skill, Node allSpecials)
+    public void Debuff(Skill skill)
     {  
+        skillThatAttackedMe = skill;
+
         if (marker != null)
         {
             marker.Visible = false;
+        }
+
+        if (!playerControl)
+        {
+            CheckAttackToLearn();
         }
 
         if (stats.GetAtk() >= stats.GetMaxAtk())
@@ -326,5 +341,33 @@ public class CharacterDamage : Node
             battleManager.SetAttacksForNextTurn(battleManager.GetAttacksForNextTurn() + 1);
             battleManager.CheckIfNextTurn(skill.GetTeam());
         }
+    }
+
+    public void CheckAttackToLearn()
+    {
+        if (skillThatAttackedMe == null)
+        {
+            ai.GetLearnList().Add(AIskillTypes.ATTACK);
+            return;
+        }
+        else
+        {
+            if (skillThatAttackedMe.GetAttackAll())
+            {
+                ai.GetLearnList().Add(AIskillTypes.EVERYONE);
+                return;
+            }
+            else if (skillThatAttackedMe.GetStatChange())
+            {
+                ai.GetLearnList().Add(AIskillTypes.SUPPORT);
+                return;
+            }
+            //Checking if skill has highest atk of all
+            else if (skillThatAttackedMe.GetAtk() > 0 || skillThatAttackedMe.GetMag() > 0)
+            {
+                ai.GetLearnList().Add(AIskillTypes.HIGHESTATK);
+                return;
+            }
+        }                
     }
 }

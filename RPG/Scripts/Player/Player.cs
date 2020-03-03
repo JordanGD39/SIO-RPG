@@ -162,13 +162,13 @@ public class Player : KinematicBody2D
                     {
                         if (!chosenSkill.GetAttackAll())
                         {
-                            targets[targetIndex].GetNode<CharacterDamage>("Damage").Debuff(chosenSkill, specials);
+                            targets[targetIndex].GetNode<CharacterDamage>("Damage").Debuff(chosenSkill);
                         }
                         else
                         {
                             for (int i = 0; i < targets.Count; i++)
                             {
-                                targets[i].GetNode<CharacterDamage>("Damage").Debuff(chosenSkill, specials);
+                                targets[i].GetNode<CharacterDamage>("Damage").Debuff(chosenSkill);
                             }
                         }
                         
@@ -178,26 +178,26 @@ public class Player : KinematicBody2D
                     {
                         if (!chosenSkill.GetAttackAll())
                         {
-                            targets[targetIndex].GetNode<CharacterDamage>("Damage").StartGuardSequence(stats, chosenSkill, specials);
+                            targets[targetIndex].GetNode<CharacterDamage>("Damage").StartGuardSequence(stats, chosenSkill);
                         }  
                         else
                         {
                             for (int i = 0; i < targets.Count; i++)
                             {
-                                targets[i].GetNode<CharacterDamage>("Damage").StartGuardSequence(stats, chosenSkill, specials);
+                                targets[i].GetNode<CharacterDamage>("Damage").StartGuardSequence(stats, chosenSkill);
                             }
                         }
                     }
                 }
                 else
                 {
-                    targets[targetIndex].GetNode<CharacterDamage>("Damage").StartGuardSequence(stats, chosenSkill, specials);                
+                    targets[targetIndex].GetNode<CharacterDamage>("Damage").StartGuardSequence(stats, chosenSkill);                
                 }
                   
             }
             else
             {
-                targets[targetIndex].GetNode<CharacterDamage>("Damage").Support(chosenSkill, specials);
+                targets[targetIndex].GetNode<CharacterDamage>("Damage").Support(chosenSkill);
                 visible = false;
             }
             

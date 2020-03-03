@@ -58,6 +58,7 @@
     <Compile Include="Scripts\Characters\CharacterDamage.cs" />
     <Compile Include="Scripts\Characters\Stats.cs" />
     <Compile Include="Scripts\Enemy\EnemyAI.cs" />
+    <Compile Include="Scripts\GameManager.cs" />
     <Compile Include="Scripts\GUI.cs" />
     <Compile Include="Scripts\Player\Player.cs" />
     <Compile Include="Scripts\Skill.cs" />
