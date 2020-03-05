@@ -29,6 +29,7 @@ public class Player : KinematicBody2D
     private AnimatedSprite guard;    
     private Skill chosenSkill;
     private Node specials;
+    private bool someoneIsGuarding = false;
     public override void _Ready()
     {
         specials = GetNode("Special Moves");
@@ -105,29 +106,49 @@ public class Player : KinematicBody2D
         }
     }
 
-    public void ChooseSkill(int i)
+    public void ChooseSkill(int skillIndex)
     {
-        if (stats.GetStamina() <= 0)
-        {
-            stats.SetStamina(0);            
-        }
-
         targetIndex = 0;
         
-        if (i >= 0)
+        if (skillIndex >= 0)
         {
-            chosenSkill = specials.GetChild(i) as Skill;
+            chosenSkill = specials.GetChild(skillIndex) as Skill;
             if (chosenSkill.GetTeam())
             {
                 battleManager.GetPlayers()[0].GetNode<Sprite>("Marker").Visible = true;
+                targetChoose = true;
                 return;
+            }
+            else if (chosenSkill.GetGuardTeam())
+            {
+                if (stats.GetGuard() == 0)
+                {
+                    stats.SetGuard(3);
+                    battleManager.NextTurn();
+                    return;
+                }                
             }
         }
         else
         {
             chosenSkill = null;
-        }        
+        }
+
+        someoneIsGuarding = false;
+
+        for (int i = 0; i < battleManager.GetEnemies().Count; i++)
+        {
+            if (battleManager.GetEnemies()[i].GetNode<Stats>("Stats").GetGuard() > 0)
+            {
+                someoneIsGuarding = true;
+                targetIndex = i;
+                battleManager.GetEnemies()[i].GetNode<Sprite>("Marker").Visible = true;
+                return;
+            }
+        }
+
         battleManager.GetEnemies()[0].GetNode<Sprite>("Marker").Visible = true;
+        targetChoose = true;
     }
 
     private void ChooseTarget(float delta, bool team)
@@ -196,18 +217,18 @@ public class Player : KinematicBody2D
             }
             else
             {
-                targets[targetIndex].GetNode<CharacterDamage>("Damage").Support(chosenSkill);
+                targets[targetIndex].GetNode<CharacterDamage>("Damage").Support(chosenSkill, true);
                 visible = false;
             }
             
             guard.Visible = visible;
             targetChoose = false;
             attackDir = 0; 
-            chooseAttackDir = true;    
+            chooseAttackDir = true;
             guardDelay = 0;                  
         }
 
-        if (battleManager.GetEnemies().Count == 0 || (chosenSkill != null && chosenSkill.GetAttackAll())) 
+        if (someoneIsGuarding || battleManager.GetEnemies().Count == 0 || (chosenSkill != null && chosenSkill.GetAttackAll())) 
         {   
             if(chosenSkill.GetAttackAll() && timer < 0.25f) 
             {

@@ -85,6 +85,8 @@ public class EnemyAI : KinematicBody2D
 
     public void MyTurn()
     {
+        stats.SetStamina(stats.GetStamina() + 10);
+        stats.UpdateStamina(null);
         bool skillFound = false;
 
         for (int i = 0; i < 10; i++)
@@ -97,48 +99,60 @@ public class EnemyAI : KinematicBody2D
                 break;
             }
         }
-
         if (!skillFound)
         {
             chosenSkill = null;
         }
 
-        bool def = true;
-
+        bool someoneIsGuarding = false;
         int num = 0;
+
+        for (int i = 0; i < battleManager.GetEnemies().Count; i++)
+        {
+            if (battleManager.GetPlayers()[i].GetNode<Stats>("Stats").GetGuard() > 0)
+            {
+                someoneIsGuarding = true;
+                num = i;
+            }
+        }
+        
+        bool def = true;
+        
         int count = battleManager.GetPlayers().Count;
         Random rand = new Random();
 
         List<Node> lowestDeforMagChar = battleManager.GetPlayers();
-
-        if (gameManager.GetDifficulty() != 0)
+        if((chosenSkill == null || !chosenSkill.GetStatChange() && !chosenSkill.GetHeal()) && !someoneIsGuarding)
         {
-            if (def)
+            if (gameManager.GetDifficulty() != 0)
             {
-                DefCompare defCompare = new DefCompare();
-                lowestDeforMagChar.Sort(defCompare);
+                if (def)
+                {
+                    DefCompare defCompare = new DefCompare();
+                    lowestDeforMagChar.Sort(defCompare);
+                }
+                else
+                {
+                    MagCompare magCompare = new MagCompare();
+                    lowestDeforMagChar.Sort(magCompare);
+                }
             }
-            else
-            {
-                MagCompare magCompare = new MagCompare();
-                lowestDeforMagChar.Sort(magCompare);
-            }
-        }
 
-        switch (gameManager.GetDifficulty())
-        {            
-            case 0:               
-                num = rand.Next() % count;
-            break;
-            case 1:                
-                int randNum = rand.Next() % 3;
-                num = battleManager.GetPlayers().IndexOf(lowestDeforMagChar[randNum]);
-            break;
-            case 2:         
-                GD.Print("Searching index of lowest def");
-                num = battleManager.GetPlayers().IndexOf(lowestDeforMagChar[0]);
-            break;
-        }       
+            switch (gameManager.GetDifficulty())
+            {            
+                case 0:               
+                    num = rand.Next() % count;
+                break;
+                case 1:                
+                    int randNum = rand.Next() % 3;
+                    num = battleManager.GetPlayers().IndexOf(lowestDeforMagChar[randNum]);
+                break;
+                case 2:         
+                    GD.Print("Searching index of lowest def");
+                    num = battleManager.GetPlayers().IndexOf(lowestDeforMagChar[0]);
+                break;
+            }  
+        }     
 
         if (chosenSkill != null)
         {
@@ -154,9 +168,17 @@ public class EnemyAI : KinematicBody2D
             }
             else
             {
-                if (chosenSkill.GetStatChange())
+                if (chosenSkill.GetStatChange() || chosenSkill.GetHeal())
                 {
-                    GetNode<CharacterDamage>("Damage").Support(chosenSkill);
+                    if (stats.GetMaxHealth() > 1000)
+                    {
+                        GetNode<CharacterDamage>("Damage").Support(chosenSkill, false);
+                    }
+                    else
+                    {
+                        battleManager.GetEnemies()[0].GetNode<CharacterDamage>("Damage").Support(chosenSkill, false);
+                    }
+                    
                 }
                 else
                 {

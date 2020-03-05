@@ -98,7 +98,6 @@ public class BattleManager : Node
         Player player = turnOrder[currTurn] as Player;
         player.SetTimer(0);
         player.ChooseSkill(i);
-        player.SetTargetChoose(true);        
     }
 
     public void NextTurn()

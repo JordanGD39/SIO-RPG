@@ -49,6 +49,9 @@ public class Stats : Node
      public void SetSpdCounter(int a) {spdCounter = a;}
      private int defCounter = 3;
      public void SetDefCounter(int a) {defCounter = a;}
+     private int guardCounter = 0;
+     public int GetGuard(){return guardCounter;} public void SetGuard(int a){guardCounter = a;}
+
      
      private TextureProgress healthBar;
      public TextureProgress GetHealthBar() {return healthBar;} public void SetHealthBar(TextureProgress a) {healthBar = a;}
@@ -58,9 +61,13 @@ public class Stats : Node
      public void SetHealthText(Label a) {healthText = a;}
      private Label staminaText;
      public void SetStaminaText(Label a) {staminaText = a;}
-
      public void CheckStatBonus()
      {
+          if (guardCounter > 0)
+          {
+              guardCounter--;              
+          }
+          
           if (atk != maxAtk)
           {
                atkCounter--;
@@ -103,6 +110,10 @@ public class Stats : Node
           if (chosenSkill != null)
           {
               stamina -= chosenSkill.GetStaminaDepletion();
+              if (stamina < 0)
+              {
+                  stamina = 0;
+              }
           }
           
           staminaBar.Value = (float)stamina / (float)maxStamina * 100;

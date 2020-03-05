@@ -33,7 +33,7 @@ texture = ExtResource( 1 )
 offset = Vector2( -6, 0 )
 vframes = 6
 hframes = 5
-frame = 28
+frame = 9
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Sprite"]
 anims/Miku_Idle = ExtResource( 2 )
@@ -57,6 +57,7 @@ luk = 100
 maxLuk = 100
 
 [node name="Marker" parent="." instance=ExtResource( 8 )]
+position = Vector2( 0, -100 )
 
 [node name="AnimationTree" type="AnimationTree" parent="."]
 tree_root = SubResource( 3 )

@@ -219,7 +219,7 @@ public class CharacterDamage : Node
             battleManager.CheckIfNextTurn(playerControl);
         }
     }
-    public void Support(Skill skill)
+    public void Support(Skill skill, bool userIsPlayer)
     {
         skillThatAttackedMe = skill;
 
@@ -227,7 +227,10 @@ public class CharacterDamage : Node
 
         if (playerControl)
         {
-            battleManager.GetEnemies()[0].GetNode<CharacterDamage>("Damage").CheckAttackToLearn(true, skill);
+            for (int i = 0; i < battleManager.GetEnemies().Count; i++)
+            {
+                battleManager.GetEnemies()[i].GetNode<CharacterDamage>("Damage").CheckAttackToLearn(true, skill);
+            }            
         }
 
         if (skill.GetHeal() && stats.GetHealth() < stats.GetMaxHealth())
@@ -272,8 +275,10 @@ public class CharacterDamage : Node
             stats.SetSpd(stats.GetSpd() + skill.GetStatBonusSpd());
             stats.SetSpdCounter(3);
             GD.Print("SPD: " + stats.GetSpd());
-        }    
+        }
+
         marker.Visible = false;
+
         if (!skill.GetAttackAll())
         {
            battleManager.NextTurn(); 
@@ -281,7 +286,7 @@ public class CharacterDamage : Node
         else
         {
             battleManager.SetAttacksForNextTurn(battleManager.GetAttacksForNextTurn() + 1);
-            battleManager.CheckIfNextTurn(skill.GetTeam());
+            battleManager.CheckIfNextTurn(userIsPlayer);
         }
     }
 
