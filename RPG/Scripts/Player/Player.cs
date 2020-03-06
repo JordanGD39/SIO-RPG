@@ -123,8 +123,10 @@ public class Player : KinematicBody2D
             {
                 if (stats.GetGuard() == 0)
                 {
-                    stats.SetGuard(3);
+                    stats.SetGuard(1);
+                    stats.UpdateStamina(chosenSkill);
                     battleManager.NextTurn();
+                    GD.Print(stats.GetCharName() + " is guarding");
                     return;
                 }                
             }

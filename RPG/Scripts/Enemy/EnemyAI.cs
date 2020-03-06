@@ -99,9 +99,19 @@ public class EnemyAI : KinematicBody2D
                 break;
             }
         }
+        
         if (!skillFound)
         {
             chosenSkill = null;
+        }
+
+        if (chosenSkill != null && chosenSkill.GetGuardTeam())
+        {
+            stats.SetGuard(3);
+            stats.UpdateStamina(chosenSkill);
+            battleManager.NextTurn();
+            GD.Print(stats.GetCharName() + " is guarding");
+            return;
         }
 
         bool someoneIsGuarding = false;
@@ -115,7 +125,7 @@ public class EnemyAI : KinematicBody2D
                 num = i;
             }
         }
-        
+
         bool def = true;
         
         int count = battleManager.GetPlayers().Count;
