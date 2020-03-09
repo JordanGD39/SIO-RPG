@@ -51,11 +51,11 @@ public class CharacterDamage : Node
         }
 
         attackerStats = attackerStatsTemp;
-        float luk = stats.GetLuk() / 10;
+        float spd = stats.GetSpd() / 10;
         Random rand = new Random();
         float num = rand.Next() % 100;
 
-        if (num <= luk)
+        if (num <= spd)
         {
             missed = true;
         }
@@ -64,7 +64,7 @@ public class CharacterDamage : Node
             missed = false;
         }
 
-        GD.Print("Missed: " + missed + " " + luk + " " + num + " is player: " + playerControl);
+        GD.Print("Missed: " + missed + " " + spd + " " + num + " is player: " + playerControl);
 
         timer = new Timer();
         timer.WaitTime = 1f;
@@ -132,6 +132,18 @@ public class CharacterDamage : Node
 
     private void ReceiveDamage()
     {
+        float crit = 1;
+
+        Random rand = new Random();
+        float num = rand.Next() % 100;
+        float luk = attackerStats.GetLuk() / 10;
+
+        if (num <= luk)
+        {
+            crit = 2;
+            GD.Print("CRIT!!!!!");
+        }
+
         int atkOrMag = 0;
         int defOrRes = stats.GetDef();
 
@@ -159,9 +171,8 @@ public class CharacterDamage : Node
         float damage = 0;
         if (!missed)
         {
-            GD.Print("Attacker atk: " + attackerAtk + " | Defender def: " + defOrRes);            
-            damage = attackerAtk - defOrRes;
-            Random rand = new Random();
+            GD.Print("Attacker atk: " + attackerAtk + " | Defender def: " + defOrRes);           
+            damage = (attackerAtk - defOrRes) * crit;
             damage += (rand.Next() % 15) - 10;            
             if (damage < 0)
             {
@@ -203,8 +214,6 @@ public class CharacterDamage : Node
             battleManager.TakeMeOutList(GetParent(), playerControl);
         }
 
-        stats.UpdateHealth();
-
         GD.Print(stats.GetCharName() + " has " + stats.GetHealth() + " HP left");
         guard.Visible = false;
         attackerStats.GetParent().GetNode<AnimatedSprite>("Guard").Visible = false;
@@ -240,7 +249,6 @@ public class CharacterDamage : Node
             {
                 stats.SetHealth(stats.GetMaxHealth());
             }
-            stats.UpdateHealth();
             GD.Print("Health: " + stats.GetHealth());
         }        
         if (stats.GetAtk() <= stats.GetMaxAtk())

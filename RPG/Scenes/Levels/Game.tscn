@@ -108,7 +108,7 @@ start_node = "Sonic_Idle"
 
 [sub_resource type="AnimationNodeStateMachinePlayback" id=14]
 
-[sub_resource type="Animation" id=21]
+[sub_resource type="Animation" id=15]
 length = 0.5
 tracks/0/type = "bezier"
 tracks/0/path = NodePath(".:rect_position:x")
@@ -131,7 +131,7 @@ tracks/1/keys = {
 "times": PoolRealArray( 0, 0.5 )
 }
 
-[sub_resource type="Animation" id=22]
+[sub_resource type="Animation" id=16]
 length = 0.5
 tracks/0/type = "bezier"
 tracks/0/path = NodePath(".:rect_position:x")
@@ -154,7 +154,7 @@ tracks/1/keys = {
 "times": PoolRealArray( 0, 0.5 )
 }
 
-[sub_resource type="Animation" id=23]
+[sub_resource type="Animation" id=17]
 length = 0.5
 tracks/0/type = "bezier"
 tracks/0/path = NodePath(".:rect_position:x")
@@ -177,7 +177,7 @@ tracks/1/keys = {
 "times": PoolRealArray( 0, 0.5 )
 }
 
-[sub_resource type="Animation" id=24]
+[sub_resource type="Animation" id=18]
 length = 0.5
 tracks/0/type = "bezier"
 tracks/0/path = NodePath(".:rect_position:x")
@@ -200,19 +200,19 @@ tracks/1/keys = {
 "times": PoolRealArray( 0, 0.5 )
 }
 
-[sub_resource type="StyleBoxFlat" id=25]
+[sub_resource type="StyleBoxFlat" id=19]
 bg_color = Color( 0.0392157, 0.0313726, 0.0313726, 0.635294 )
 
-[sub_resource type="StyleBoxFlat" id=26]
+[sub_resource type="StyleBoxFlat" id=20]
 bg_color = Color( 0, 0, 0, 0.235294 )
 
-[sub_resource type="StyleBoxFlat" id=27]
+[sub_resource type="StyleBoxFlat" id=21]
 bg_color = Color( 0, 0, 0, 0.392157 )
 
-[sub_resource type="StyleBoxFlat" id=28]
+[sub_resource type="StyleBoxFlat" id=22]
 bg_color = Color( 0, 0, 0, 0.235294 )
 
-[sub_resource type="StyleBoxEmpty" id=29]
+[sub_resource type="StyleBoxEmpty" id=23]
 
 [node name="Game" type="Node2D"]
 script = ExtResource( 18 )
@@ -241,15 +241,15 @@ texture = SubResource( 1 )
 offset = Vector2( 150, 0 )
 vframes = 2
 hframes = 6
-frame = 1
+frame = 8
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="TurnQueue/Palladin/Sprite"]
 anims/Kris_Idle = ExtResource( 9 )
 anims/Miku_Idle = SubResource( 2 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="TurnQueue/Palladin"]
-visible = false
 shape = SubResource( 3 )
+disabled = true
 
 [node name="Stats" type="Node" parent="TurnQueue/Palladin"]
 script = ExtResource( 7 )
@@ -317,6 +317,7 @@ scale = Vector2( 1.01189, 1 )
 texture = ExtResource( 5 )
 offset = Vector2( 10, -30 )
 hframes = 4
+frame = 3
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="TurnQueue/Mage/Sprite"]
 anims/Miku_Idle = SubResource( 7 )
@@ -325,6 +326,7 @@ anims/Naruto_Idle = ExtResource( 10 )
 [node name="CollisionShape2D" type="CollisionShape2D" parent="TurnQueue/Mage"]
 visible = false
 shape = SubResource( 3 )
+disabled = true
 
 [node name="Stats" type="Node" parent="TurnQueue/Mage"]
 script = ExtResource( 7 )
@@ -396,7 +398,7 @@ offset = Vector2( 10, 0 )
 flip_h = true
 vframes = 8
 hframes = 8
-frame = 27
+frame = 45
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="TurnQueue/Dwarf/Sprite"]
 anims/Miku_Idle = SubResource( 11 )
@@ -405,6 +407,7 @@ anims/Sonic_Idle = ExtResource( 4 )
 [node name="CollisionShape2D" type="CollisionShape2D" parent="TurnQueue/Dwarf"]
 visible = false
 shape = SubResource( 3 )
+disabled = true
 
 [node name="Stats" type="Node" parent="TurnQueue/Dwarf"]
 script = ExtResource( 7 )
@@ -632,8 +635,8 @@ margin_right = 301.0
 margin_right = 301.0
 
 [node name="AnimationPlayer" parent="UI/BossHP/VBoxContainer/LifeBar2" index="5"]
-anims/LifeBar = SubResource( 21 )
-anims/LifeBarTurnEnd = SubResource( 22 )
+anims/LifeBar = SubResource( 15 )
+anims/LifeBarTurnEnd = SubResource( 16 )
 
 [node name="LifeBar3" parent="UI/BossHP/VBoxContainer" instance=ExtResource( 11 )]
 margin_top = 330.0
@@ -659,8 +662,8 @@ margin_right = 301.0
 margin_right = 301.0
 
 [node name="AnimationPlayer" parent="UI/BossHP/VBoxContainer/LifeBar3" index="5"]
-anims/LifeBar = SubResource( 23 )
-anims/LifeBarTurnEnd = SubResource( 24 )
+anims/LifeBar = SubResource( 17 )
+anims/LifeBarTurnEnd = SubResource( 18 )
 
 [node name="AttackMenu" type="MarginContainer" parent="UI"]
 margin_left = 488.623
@@ -674,7 +677,7 @@ __meta__ = {
 [node name="Panel" type="Panel" parent="UI/AttackMenu"]
 margin_right = 416.0
 margin_bottom = 279.0
-custom_styles/panel = SubResource( 25 )
+custom_styles/panel = SubResource( 19 )
 
 [node name="VBoxContainer" type="VBoxContainer" parent="UI/AttackMenu/Panel"]
 margin_right = 416.0
@@ -687,10 +690,10 @@ __meta__ = {
 margin_right = 416.0
 margin_bottom = 60.0
 rect_min_size = Vector2( 0, 60 )
-custom_styles/hover = SubResource( 26 )
-custom_styles/pressed = SubResource( 27 )
-custom_styles/focus = SubResource( 28 )
-custom_styles/normal = SubResource( 29 )
+custom_styles/hover = SubResource( 20 )
+custom_styles/pressed = SubResource( 21 )
+custom_styles/focus = SubResource( 22 )
+custom_styles/normal = SubResource( 23 )
 custom_fonts/font = ExtResource( 13 )
 action_mode = 0
 button_mask = 0
@@ -702,10 +705,10 @@ margin_top = 64.0
 margin_right = 416.0
 margin_bottom = 124.0
 rect_min_size = Vector2( 0, 60 )
-custom_styles/hover = SubResource( 26 )
-custom_styles/pressed = SubResource( 27 )
-custom_styles/focus = SubResource( 28 )
-custom_styles/normal = SubResource( 29 )
+custom_styles/hover = SubResource( 20 )
+custom_styles/pressed = SubResource( 21 )
+custom_styles/focus = SubResource( 22 )
+custom_styles/normal = SubResource( 23 )
 custom_fonts/font = ExtResource( 13 )
 action_mode = 0
 button_mask = 0
@@ -717,10 +720,10 @@ margin_top = 128.0
 margin_right = 416.0
 margin_bottom = 188.0
 rect_min_size = Vector2( 0, 60 )
-custom_styles/hover = SubResource( 26 )
-custom_styles/pressed = SubResource( 27 )
-custom_styles/focus = SubResource( 28 )
-custom_styles/normal = SubResource( 29 )
+custom_styles/hover = SubResource( 20 )
+custom_styles/pressed = SubResource( 21 )
+custom_styles/focus = SubResource( 22 )
+custom_styles/normal = SubResource( 23 )
 custom_fonts/font = ExtResource( 13 )
 action_mode = 0
 button_mask = 0
@@ -732,10 +735,10 @@ margin_top = 192.0
 margin_right = 416.0
 margin_bottom = 252.0
 rect_min_size = Vector2( 0, 60 )
-custom_styles/hover = SubResource( 26 )
-custom_styles/pressed = SubResource( 27 )
-custom_styles/focus = SubResource( 28 )
-custom_styles/normal = SubResource( 29 )
+custom_styles/hover = SubResource( 20 )
+custom_styles/pressed = SubResource( 21 )
+custom_styles/focus = SubResource( 22 )
+custom_styles/normal = SubResource( 23 )
 custom_fonts/font = ExtResource( 13 )
 action_mode = 0
 button_mask = 0
@@ -756,10 +759,10 @@ __meta__ = {
 margin_right = 414.0
 margin_bottom = 60.0
 rect_min_size = Vector2( 0, 60 )
-custom_styles/hover = SubResource( 26 )
-custom_styles/pressed = SubResource( 27 )
-custom_styles/focus = SubResource( 28 )
-custom_styles/normal = SubResource( 29 )
+custom_styles/hover = SubResource( 20 )
+custom_styles/pressed = SubResource( 21 )
+custom_styles/focus = SubResource( 22 )
+custom_styles/normal = SubResource( 23 )
 custom_fonts/font = ExtResource( 13 )
 action_mode = 0
 button_mask = 0
@@ -784,10 +787,10 @@ margin_top = 64.0
 margin_right = 414.0
 margin_bottom = 124.0
 rect_min_size = Vector2( 0, 60 )
-custom_styles/hover = SubResource( 26 )
-custom_styles/pressed = SubResource( 27 )
-custom_styles/focus = SubResource( 28 )
-custom_styles/normal = SubResource( 29 )
+custom_styles/hover = SubResource( 20 )
+custom_styles/pressed = SubResource( 21 )
+custom_styles/focus = SubResource( 22 )
+custom_styles/normal = SubResource( 23 )
 custom_fonts/font = ExtResource( 13 )
 action_mode = 0
 button_mask = 0
@@ -812,10 +815,10 @@ margin_top = 128.0
 margin_right = 414.0
 margin_bottom = 188.0
 rect_min_size = Vector2( 0, 60 )
-custom_styles/hover = SubResource( 26 )
-custom_styles/pressed = SubResource( 27 )
-custom_styles/focus = SubResource( 28 )
-custom_styles/normal = SubResource( 29 )
+custom_styles/hover = SubResource( 20 )
+custom_styles/pressed = SubResource( 21 )
+custom_styles/focus = SubResource( 22 )
+custom_styles/normal = SubResource( 23 )
 custom_fonts/font = ExtResource( 13 )
 action_mode = 0
 button_mask = 0
@@ -840,10 +843,10 @@ margin_top = 192.0
 margin_right = 414.0
 margin_bottom = 252.0
 rect_min_size = Vector2( 0, 60 )
-custom_styles/hover = SubResource( 26 )
-custom_styles/pressed = SubResource( 27 )
-custom_styles/focus = SubResource( 28 )
-custom_styles/normal = SubResource( 29 )
+custom_styles/hover = SubResource( 20 )
+custom_styles/pressed = SubResource( 21 )
+custom_styles/focus = SubResource( 22 )
+custom_styles/normal = SubResource( 23 )
 custom_fonts/font = ExtResource( 13 )
 action_mode = 0
 button_mask = 0

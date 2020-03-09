@@ -30,6 +30,7 @@ public class Player : KinematicBody2D
     private Skill chosenSkill;
     private Node specials;
     private bool someoneIsGuarding = false;
+    private bool alreadyTargeted = false;
     public override void _Ready()
     {
         specials = GetNode("Special Moves");
@@ -83,7 +84,6 @@ public class Player : KinematicBody2D
                 {
                     stats.SetStamina(100);
                 }
-                stats.UpdateStamina(null);
             }  
             
             stats.CheckStatBonus();   
@@ -124,7 +124,7 @@ public class Player : KinematicBody2D
                 if (stats.GetGuard() == 0)
                 {
                     stats.SetGuard(1);
-                    stats.UpdateStamina(chosenSkill);
+                    stats.SetStamina(stats.GetStamina() - chosenSkill.GetStaminaDepletion());
                     battleManager.NextTurn();
                     GD.Print(stats.GetCharName() + " is guarding");
                     return;
@@ -145,11 +145,14 @@ public class Player : KinematicBody2D
                 someoneIsGuarding = true;
                 targetIndex = i;
                 battleManager.GetEnemies()[i].GetNode<Sprite>("Marker").Visible = true;
+                alreadyTargeted = false;
+                targetChoose = true;
                 return;
             }
         }
 
         battleManager.GetEnemies()[0].GetNode<Sprite>("Marker").Visible = true;
+        alreadyTargeted = false;
         targetChoose = true;
     }
 
@@ -178,7 +181,7 @@ public class Player : KinematicBody2D
             {                
                 if (chosenSkill != null)
                 {
-                    stats.UpdateStamina(chosenSkill);                   
+                    stats.SetStamina(stats.GetStamina() - chosenSkill.GetStaminaDepletion());            
 
                     if (chosenSkill.GetStatChange() || chosenSkill.GetHeal())
                     {
@@ -219,6 +222,8 @@ public class Player : KinematicBody2D
             }
             else
             {
+                stats.SetStamina(stats.GetStamina() - chosenSkill.GetStaminaDepletion());
+
                 targets[targetIndex].GetNode<CharacterDamage>("Damage").Support(chosenSkill, true);
                 visible = false;
             }
@@ -232,12 +237,14 @@ public class Player : KinematicBody2D
 
         if (someoneIsGuarding || battleManager.GetEnemies().Count == 0 || (chosenSkill != null && chosenSkill.GetAttackAll())) 
         {   
-            if(chosenSkill.GetAttackAll() && timer < 0.25f) 
+            if(chosenSkill.GetAttackAll() && !alreadyTargeted) 
             {
                 for (int i = 0; i < targets.Count; i++)
                 {                    
                     targets[i].GetNode<Sprite>("Marker").Visible = true;
+                    GD.Print("All attack index: " + i);
                 }
+                alreadyTargeted = true;
             } 
 
             return;

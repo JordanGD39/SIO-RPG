@@ -62,11 +62,11 @@ tracks/0/keys = {
 "values": [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63 ]
 }
 
-[sub_resource type="CapsuleShape2D" id=33]
+[sub_resource type="CapsuleShape2D" id=4]
 radius = 50.7881
 height = 65.4726
 
-[sub_resource type="SpriteFrames" id=34]
+[sub_resource type="SpriteFrames" id=5]
 animations = [ {
 "frames": [ ExtResource( 4 ) ],
 "loop": false,
@@ -104,7 +104,8 @@ anims/Miku_Idle = SubResource( 2 )
 anims/Sonic_Idle = SubResource( 3 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-shape = SubResource( 33 )
+shape = SubResource( 4 )
+disabled = true
 
 [node name="Stats" type="Node" parent="."]
 script = ExtResource( 1 )
@@ -118,8 +119,8 @@ mag = 40
 maxMag = 40
 res = 70
 maxRes = 70
-spd = 60
-maxSpd = 60
+spd = 55
+maxSpd = 55
 luk = 40
 maxLuk = 40
 weaknesses = [ 5 ]
@@ -130,7 +131,7 @@ script = ExtResource( 7 )
 [node name="Guard" parent="." instance=ExtResource( 9 )]
 position = Vector2( -20.3705, -3.90088 )
 scale = Vector2( 0.45, 0.45 )
-frames = SubResource( 34 )
+frames = SubResource( 5 )
 
 [node name="Marker" parent="." instance=ExtResource( 10 )]
 position = Vector2( 0, -120 )

@@ -29,7 +29,7 @@ public class GUI : Node
             Label label = hpBars.GetChild(i).GetChild(0) as Label;
             label.Text = stats.GetCharName();
             stats.UpdateHealth();
-            stats.UpdateStamina(null);
+            stats.UpdateStamina();
         }
 
         hpBars = GetChild(1).GetChild(0);
@@ -44,7 +44,7 @@ public class GUI : Node
             Label label = hpBars.GetChild(i).GetChild(0) as Label;
             label.Text = stats.GetCharName();
             stats.UpdateHealth();
-            stats.UpdateStamina(null);
+            stats.UpdateStamina();
         }
     }
 

@@ -86,7 +86,6 @@ public class EnemyAI : KinematicBody2D
     public void MyTurn()
     {
         stats.SetStamina(stats.GetStamina() + 10);
-        stats.UpdateStamina(null);
         bool skillFound = false;
 
         for (int i = 0; i < 10; i++)
@@ -108,7 +107,7 @@ public class EnemyAI : KinematicBody2D
         if (chosenSkill != null && chosenSkill.GetGuardTeam())
         {
             stats.SetGuard(3);
-            stats.UpdateStamina(chosenSkill);
+            stats.SetStamina(stats.GetStamina() - chosenSkill.GetStaminaDepletion());
             battleManager.NextTurn();
             GD.Print(stats.GetCharName() + " is guarding");
             return;
@@ -167,7 +166,7 @@ public class EnemyAI : KinematicBody2D
         if (chosenSkill != null)
         {
             GD.Print("Skill: " + (chosenSkill.GetAtk() + chosenSkill.GetMag()));
-            stats.UpdateStamina(chosenSkill);
+            stats.SetStamina(stats.GetStamina() - chosenSkill.GetStaminaDepletion());
 
             if (chosenSkill.GetAttackAll())
             {

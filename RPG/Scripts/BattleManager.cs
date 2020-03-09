@@ -32,6 +32,8 @@ public class BattleManager : Node
     private int attacksForNextTurn = 0;
     public int GetAttacksForNextTurn(){return attacksForNextTurn;} public void SetAttacksForNextTurn(int a) {attacksForNextTurn = a;}
 
+    private SpeedCompare spdCompare = new SpeedCompare();
+
     public override void _Ready()
     {
         for (int i = 0; i < GetChildCount(); i++)
@@ -75,16 +77,7 @@ public class BattleManager : Node
         gui = GetParent().GetNode("UI") as GUI;
         gui.ChangeNames(players, enemies);
 
-        SpeedCompare spdCompare = new SpeedCompare();
-
-        turnOrder.Sort(spdCompare);
-        turnOrder.Reverse();
-
-        for (int i = 0; i < turnOrder.Count; i++)
-        {
-            Stats a = turnOrder[i].GetNode("Stats") as Stats;
-            GD.Print(a.GetSpd() + " " + turnOrder[i].Name);
-        }
+        SortTurnOrder();
 
         Player player = turnOrder[0] as Player;
 
@@ -102,6 +95,7 @@ public class BattleManager : Node
 
     public void NextTurn()
     {
+
         if (currTurn > turnOrder.Count - 1)
         {
             currTurn--;
@@ -118,7 +112,8 @@ public class BattleManager : Node
         
         if (currTurn > turnOrder.Count - 1)
         {
-            currTurn = 0;
+            currTurn = 0;          
+            SortTurnOrder();  
         } 
 
         Player player = turnOrder[currTurn] as Player;
@@ -136,6 +131,19 @@ public class BattleManager : Node
                 enemy.MyTurn();
             }                 
         }         
+    }
+
+    private void SortTurnOrder()
+    {
+        turnOrder.Sort(spdCompare);
+        turnOrder.Reverse();
+        GD.Print("\n");
+        for (int i = 0; i < turnOrder.Count; i++)
+        {
+            Stats a = turnOrder[i].GetNode("Stats") as Stats;
+            GD.Print(a.GetSpd() + " " + turnOrder[i].Name);
+        }
+        GD.Print("\n");
     }
 
     public void CheckIfNextTurn(bool team)

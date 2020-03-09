@@ -33,14 +33,14 @@ texture = ExtResource( 1 )
 offset = Vector2( -6, 0 )
 vframes = 6
 hframes = 5
-frame = 9
+frame = 20
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Sprite"]
 anims/Miku_Idle = ExtResource( 2 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-visible = false
 shape = SubResource( 1 )
+disabled = true
 
 [node name="Stats" type="Node" parent="."]
 script = ExtResource( 3 )

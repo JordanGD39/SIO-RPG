@@ -66,6 +66,7 @@ anims/Sonic_Idle = SubResource( 2 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource( 3 )
+disabled = true
 
 [node name="Stats" type="Node" parent="."]
 script = ExtResource( 4 )

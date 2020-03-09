@@ -9,12 +9,11 @@ public class Stats : Node
      [Export] private string charName = "";
      public string GetCharName() { return charName;}
      [Export] private int health = 300;
-     public void SetHealth(int h) {health = h;} public int GetHealth(){ return health;}
-
+     public void SetHealth(int h) {health = h; UpdateHealth();} public int GetHealth(){ return health;}
      [Export] private int maxHealth = 300;
      public void SetMaxHealth(int h) {maxHealth = h;} public int GetMaxHealth(){ return maxHealth;}
      [Export] private int stamina = 100;
-     public void SetStamina(int s) {stamina = s;} public int GetStamina(){ return stamina;}
+     public void SetStamina(int s) {stamina = s; UpdateStamina();} public int GetStamina(){ return stamina;}
      [Export] private int maxStamina = 100;
      public void SetMaxStamina(int s) {maxStamina = s;} public int GetMaxStamina(){ return maxStamina;}
      [Export] private int atk = 80;
@@ -51,12 +50,11 @@ public class Stats : Node
      public void SetDefCounter(int a) {defCounter = a;}
      private int guardCounter = 0;
      public int GetGuard(){return guardCounter;} public void SetGuard(int a){guardCounter = a;}
-
      
      private TextureProgress healthBar;
      public TextureProgress GetHealthBar() {return healthBar;} public void SetHealthBar(TextureProgress a) {healthBar = a;}
      private TextureProgress staminaBar;
-     public TextureProgress GetStaminaBar() {return staminaBar;} public void SetStaminaBar(TextureProgress a) {staminaBar = a;}
+     public TextureProgress GetStaminaBar() {return staminaBar;} public void SetStaminaBar(TextureProgress a) { staminaBar = a;}
      private Label healthText;
      public void SetHealthText(Label a) {healthText = a;}
      private Label staminaText;
@@ -105,17 +103,8 @@ public class Stats : Node
           }
      }
 
-     public void UpdateStamina(Skill chosenSkill)
-     {
-          if (chosenSkill != null)
-          {
-              stamina -= chosenSkill.GetStaminaDepletion();
-              if (stamina < 0)
-              {
-                  stamina = 0;
-              }
-          }
-          
+     public void UpdateStamina()
+     {          
           staminaBar.Value = (float)stamina / (float)maxStamina * 100;
           staminaText.Text = "ST: " + stamina + "/" + maxStamina;
      }

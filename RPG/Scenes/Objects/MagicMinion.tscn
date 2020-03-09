@@ -105,6 +105,7 @@ anims/Sonic_Idle = SubResource( 3 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource( 4 )
+disabled = true
 
 [node name="Stats" type="Node" parent="."]
 script = ExtResource( 1 )
@@ -118,8 +119,8 @@ def = 70
 maxDef = 70
 res = 90
 maxRes = 90
-spd = 70
-maxSpd = 70
+spd = 65
+maxSpd = 65
 luk = 40
 maxLuk = 40
 weaknesses = [ 2 ]
