@@ -237,7 +237,7 @@ public class Player : KinematicBody2D
 
         if (someoneIsGuarding || battleManager.GetEnemies().Count == 0 || (chosenSkill != null && chosenSkill.GetAttackAll())) 
         {   
-            if(chosenSkill.GetAttackAll() && !alreadyTargeted) 
+            if(chosenSkill != null && chosenSkill.GetAttackAll() && !alreadyTargeted) 
             {
                 for (int i = 0; i < targets.Count; i++)
                 {                    
