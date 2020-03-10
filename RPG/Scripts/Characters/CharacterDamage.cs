@@ -20,6 +20,7 @@ public class CharacterDamage : Node
     private BattleManager battleManager;    
     private Sprite marker;
     private Skill skillThatAttackedMe;
+    private GameManager gameManager;
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {        
@@ -29,6 +30,7 @@ public class CharacterDamage : Node
         stats = GetParent().GetNode("Stats") as Stats;
         stats.SetMaxHealth(stats.GetHealth());
         battleManager = GetParent().GetParent() as BattleManager;
+        gameManager = battleManager.GetParent() as GameManager;
         if (player == null)
         {
             playerControl = false;
@@ -74,7 +76,7 @@ public class CharacterDamage : Node
         GD.Print("Missed: " + missed + " " + (spd + lessAcc) + " " + num + " is player: " + playerControl);
 
         timer = new Timer();
-        timer.WaitTime = 1f;
+        timer.WaitTime = 1f * gameManager.GetVoiceControl();
         timer.OneShot = true;
         AddChild(timer);
         timer.Start();
@@ -104,7 +106,7 @@ public class CharacterDamage : Node
                 alreadyChosen = false;
                 ReceiveDamage();
             } 
-            else if (timer.TimeLeft < 0.6f && !playerControl)
+            else if (timer.TimeLeft < 0.6f * gameManager.GetVoiceControl() && !playerControl)
             {
                 if (!alreadyChosen)
                 {

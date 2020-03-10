@@ -218,7 +218,7 @@ public class EnemyAI : KinematicBody2D
 
         damageScript.EnemyGuardChoose();
         timer = new Timer();
-        timer.WaitTime = 0.4f;
+        timer.WaitTime = 0.4f * gameManager.GetVoiceControl();
         timer.OneShot = true;
         AddChild(timer);
         timer.Start();

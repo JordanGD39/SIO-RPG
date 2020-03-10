@@ -31,11 +31,13 @@ public class Player : KinematicBody2D
     private Node specials;
     private bool someoneIsGuarding = false;
     private bool alreadyTargeted = false;
+    private GameManager gameManager;
     public override void _Ready()
     {
         specials = GetNode("Special Moves");
         gui = GetParent().GetParent().GetNode("UI") as GUI;
         battleManager = GetParent() as BattleManager;
+        gameManager = battleManager.GetParent() as GameManager;
         stats = GetNode("Stats") as Stats;
         guard = GetNode("Guard") as AnimatedSprite;
         damageScript = GetNode<CharacterDamage>("Damage") as CharacterDamage;
@@ -123,15 +125,17 @@ public class Player : KinematicBody2D
             {
                 if (stats.GetGuard() == 0)
                 {
-                    stats.SetGuard(3);
-                    stats.SetStamina(stats.GetStamina() - chosenSkill.GetStaminaDepletion());
-                    battleManager.NextTurn();
-                    GD.Print(stats.GetCharName() + " is guarding");
-                    return;
-                }                
+                    stats.SetGuard(3);       
+                    GD.Print(stats.GetCharName() + " is guarding");                                
+                }     
+
+                stats.SetStamina(stats.GetStamina() - chosenSkill.GetStaminaDepletion());
+                battleManager.NextTurn();                
+                return;           
             }
             else if (chosenSkill.GetCounter())
             {
+                stats.SetStamina(stats.GetStamina() - chosenSkill.GetStaminaDepletion());
                 stats.SetCounter(true);
                 battleManager.NextTurn();
                 GD.Print(stats.GetCharName() + " is in counter mode!");
@@ -313,7 +317,7 @@ public class Player : KinematicBody2D
     {
         guardDelay += delta;
 
-        if (guardDelay > 0.25f || stats.GetStamina() > 0)
+        if (guardDelay > 0.25f * gameManager.GetVoiceControl() || stats.GetStamina() > 0)
         {
             if (Input.IsActionPressed("ui_up"))
             {
