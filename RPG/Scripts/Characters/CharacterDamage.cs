@@ -50,12 +50,19 @@ public class CharacterDamage : Node
             CheckAttackToLearn(false, null);
         }
 
+        int lessAcc = 0;
+
+        if (skillThatAttackedMe != null)
+        {
+            lessAcc = skillThatAttackedMe.GetLessAcc();
+        }
+
         attackerStats = attackerStatsTemp;
         float spd = stats.GetSpd() / 10;
         Random rand = new Random();
         float num = rand.Next() % 100;
 
-        if (num <= spd)
+        if (num <= spd + lessAcc)
         {
             missed = true;
         }
@@ -64,7 +71,7 @@ public class CharacterDamage : Node
             missed = false;
         }
 
-        GD.Print("Missed: " + missed + " " + spd + " " + num + " is player: " + playerControl);
+        GD.Print("Missed: " + missed + " " + (spd + lessAcc) + " " + num + " is player: " + playerControl);
 
         timer = new Timer();
         timer.WaitTime = 1f;
@@ -146,6 +153,7 @@ public class CharacterDamage : Node
 
         int atkOrMag = 0;
         int defOrRes = stats.GetDef();
+        bool stun = false;
 
         if (skillThatAttackedMe != null)
         {
@@ -158,6 +166,8 @@ public class CharacterDamage : Node
                 atkOrMag = skillThatAttackedMe.GetMag();
                 defOrRes = stats.GetRes();
             }
+
+            stun = skillThatAttackedMe.GetStun();
         }
 
         float attackerAtk = attackerStats.GetAtk() + atkOrMag;
@@ -173,7 +183,10 @@ public class CharacterDamage : Node
         {
             GD.Print("Attacker atk: " + attackerAtk + " | Defender def: " + defOrRes);           
             damage = (attackerAtk - defOrRes) * crit;
-            damage += (rand.Next() % 15) - 10;            
+            int randExtraDamage = (rand.Next() % 12) - 2; 
+            GD.Print("Random extra Damage: " + randExtraDamage);
+            damage += randExtraDamage;
+           
             if (damage < 0)
             {
                 damage = 0;
@@ -184,14 +197,15 @@ public class CharacterDamage : Node
             GD.Print("Missed!");
         }     
 
-        Player attacker = attackerStats.GetParent() as Player;
-        if (attacker != null)
+        Player attackerIsPlayer = attackerStats.GetParent() as Player;
+        if (attackerIsPlayer != null)
         {
-            if (attackerStats.GetParent<Player>().GetAttackDirection() == guardDir)
+            if (attackerIsPlayer.GetAttackDirection() == guardDir)
             {
                 damage *= 0.5f;
                 GD.Print("You hit their shield!");
-                attacker.SetChooseAttackDir(false);
+                attackerIsPlayer.SetChooseAttackDir(false);
+                stun = false;                
             } 
         }
         else
@@ -200,6 +214,13 @@ public class CharacterDamage : Node
             {
                 damage *= 0.5f;
                 GD.Print("You hit their shield!");
+                stun = false;
+                if (stats.GetCounter())
+                {
+                    attackerStats.GetParent().GetNode<CharacterDamage>("Damage").StartGuardSequence(stats, null);
+                    stats.SetCounter(false);
+                    return;
+                }
             } 
         }
 
@@ -208,6 +229,13 @@ public class CharacterDamage : Node
         GD.Print(attackerStats.GetCharName() + " did " + damageInt + " damage to " + stats.GetCharName());        
 
         stats.SetHealth(stats.GetHealth() - damageInt);
+
+        if (stun && stats.GetStun() == 0 && damageInt > 0)
+        {
+            stats.SetStun(3);
+            GD.Print(stats.GetCharName() + " is hit with a stun skill!");
+        }
+        
         if (stats.GetHealth() <= 0)
         {
             stats.SetHealth(0);
@@ -224,7 +252,6 @@ public class CharacterDamage : Node
         }
         else
         {
-            battleManager.SetAttacksForNextTurn(battleManager.GetAttacksForNextTurn() + 1);
             battleManager.CheckIfNextTurn(playerControl);
         }
     }
@@ -293,7 +320,6 @@ public class CharacterDamage : Node
         }
         else
         {
-            battleManager.SetAttacksForNextTurn(battleManager.GetAttacksForNextTurn() + 1);
             battleManager.CheckIfNextTurn(userIsPlayer);
         }
     }
@@ -353,7 +379,6 @@ public class CharacterDamage : Node
         }
         else
         {
-            battleManager.SetAttacksForNextTurn(battleManager.GetAttacksForNextTurn() + 1);
             battleManager.CheckIfNextTurn(playerControl);
         }
     }

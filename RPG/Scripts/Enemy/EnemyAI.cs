@@ -87,6 +87,23 @@ public class EnemyAI : KinematicBody2D
     {
         stats.SetStamina(stats.GetStamina() + 10);
         bool skillFound = false;
+        Random rand = new Random();
+
+        stats.CheckStatBonus();
+
+        if (stats.GetStun() > 0)
+        {
+            float stunNum = rand.Next() % 100;
+
+            GD.Print("stun chance: " + stunNum);
+
+            if (stunNum <= 50)
+            {
+                battleManager.NextTurn();
+                GD.Print(stats.GetCharName() + " is stunned!");
+                return;
+            }
+        }
 
         for (int i = 0; i < 10; i++)
         {
@@ -128,7 +145,6 @@ public class EnemyAI : KinematicBody2D
         bool def = true;
         
         int count = battleManager.GetPlayers().Count;
-        Random rand = new Random();
 
         List<Node> lowestDeforMagChar = battleManager.GetPlayers();
         if((chosenSkill == null || !chosenSkill.GetStatChange() && !chosenSkill.GetHeal()) && !someoneIsGuarding)

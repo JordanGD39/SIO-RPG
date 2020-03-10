@@ -50,7 +50,10 @@ public class Stats : Node
      public void SetDefCounter(int a) {defCounter = a;}
      private int guardCounter = 0;
      public int GetGuard(){return guardCounter;} public void SetGuard(int a){guardCounter = a;}
-     
+     private int stunCounter = 0;
+     public int GetStun(){return stunCounter;} public void SetStun(int a){stunCounter = a;}
+     private bool countering = false;
+     public bool GetCounter(){return countering;} public void SetCounter(bool a){countering = a;}
      private TextureProgress healthBar;
      public TextureProgress GetHealthBar() {return healthBar;} public void SetHealthBar(TextureProgress a) {healthBar = a;}
      private TextureProgress staminaBar;
@@ -64,6 +67,11 @@ public class Stats : Node
           if (guardCounter > 0)
           {
               guardCounter--;              
+          }
+
+          if (stunCounter > 0)
+          {
+              stunCounter--;              
           }
           
           if (atk != maxAtk)

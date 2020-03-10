@@ -123,12 +123,19 @@ public class Player : KinematicBody2D
             {
                 if (stats.GetGuard() == 0)
                 {
-                    stats.SetGuard(1);
+                    stats.SetGuard(3);
                     stats.SetStamina(stats.GetStamina() - chosenSkill.GetStaminaDepletion());
                     battleManager.NextTurn();
                     GD.Print(stats.GetCharName() + " is guarding");
                     return;
                 }                
+            }
+            else if (chosenSkill.GetCounter())
+            {
+                stats.SetCounter(true);
+                battleManager.NextTurn();
+                GD.Print(stats.GetCharName() + " is in counter mode!");
+                return;
             }
         }
         else

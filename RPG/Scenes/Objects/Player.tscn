@@ -33,7 +33,7 @@ texture = ExtResource( 1 )
 offset = Vector2( -6, 0 )
 vframes = 6
 hframes = 5
-frame = 5
+frame = 19
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Sprite"]
 anims/Miku_Idle = ExtResource( 2 )

@@ -30,7 +30,6 @@ public class BattleManager : Node
     private int currTurn = 0;
     public int GetCurrTurn() {return currTurn;}
     private int attacksForNextTurn = 0;
-    public int GetAttacksForNextTurn(){return attacksForNextTurn;} public void SetAttacksForNextTurn(int a) {attacksForNextTurn = a;}
 
     private SpeedCompare spdCompare = new SpeedCompare();
 
@@ -95,7 +94,8 @@ public class BattleManager : Node
 
     public void NextTurn()
     {
-
+        attacksForNextTurn = 0;
+        
         if (currTurn > turnOrder.Count - 1)
         {
             currTurn--;
@@ -148,6 +148,8 @@ public class BattleManager : Node
 
     public void CheckIfNextTurn(bool team)
     {       
+        attacksForNextTurn++;
+
         List<Node> targets = null;
 
         if (team)
