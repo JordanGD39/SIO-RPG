@@ -77,6 +77,30 @@ public class GUI : Node
             button.GetChild<Label>(0).Text = specials.GetChild<Skill>(i).GetStaminaDepletion() + " ST";
         }
     }
+
+    public void GiveUIToNewCharacter(Node enemy)
+    {
+        Stats stats = enemy.GetNode<Stats>("Stats");
+        Node hpBars = GetChild(1).GetChild(0);        
+        VBoxContainer firstHealthBar = hpBars.GetChild<VBoxContainer>(1);
+        
+        int i = 1; 
+
+        if (firstHealthBar.Visible)
+        {
+            i = 2;
+        }
+
+        stats.SetHealthBar(hpBars.GetChild(i).GetNode<TextureProgress>("HealthBar"));
+        stats.SetStaminaBar(hpBars.GetChild(i).GetNode<TextureProgress>("StaminaBar"));
+        stats.SetHealthText(hpBars.GetChild(i).GetNode<Label>("HP"));
+        stats.SetStaminaText(hpBars.GetChild(i).GetNode<Label>("ST"));
+        Label label = hpBars.GetChild(i).GetChild(0) as Label;
+        label.Text = stats.GetCharName();
+        stats.UpdateHealth();
+        stats.UpdateStamina();
+        hpBars.GetChild<VBoxContainer>(i).Visible = true;
+    }
 //  // Called every frame. 'delta' is the elapsed time since the previous frame.
 //  public override void _Process(float delta)
 //  {

@@ -39,6 +39,7 @@ class MagCompare : IComparer<Node>
 public class EnemyAI : KinematicBody2D
 {
     private GameManager gameManager;
+    private GUI gui;
     private Node specials;
     private List<AIskillTypes> learnList = new List<AIskillTypes>();
     public List<AIskillTypes> GetLearnList() {return learnList;}
@@ -48,6 +49,8 @@ public class EnemyAI : KinematicBody2D
     private Timer timer;
     private bool timerStarted = false;
     private Skill chosenSkill;
+    private List<Node> minions = new List<Node>();
+    private int spawnMinionChance = 0;
 
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
@@ -58,6 +61,14 @@ public class EnemyAI : KinematicBody2D
         battleManager = GetParent() as BattleManager;
         stats = GetNode("Stats") as Stats;
         damageScript = GetNode("Damage") as CharacterDamage;
+        gui = GetParent().GetParent().GetNode("UI") as GUI;
+
+        Node minionHolder = gameManager.GetNode("MinionHolder");
+
+        for (int i = 0; i < minionHolder.GetChildCount(); i++)
+        {
+            minions.Add(minionHolder.GetChild(i));
+        }
     }
 
     // Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -84,8 +95,9 @@ public class EnemyAI : KinematicBody2D
     }
 
     public void MyTurn()
-    {
-        stats.SetStamina(stats.GetStamina() + 10);
+    {        
+        stats.SetStamina(stats.GetStamina() + 20);
+
         bool skillFound = false;
         Random rand = new Random();
 
@@ -101,6 +113,44 @@ public class EnemyAI : KinematicBody2D
             {
                 battleManager.NextTurn();
                 GD.Print(stats.GetCharName() + " is stunned!");
+                return;
+            }
+        }
+
+        if (stats.GetMaxHealth() > 1000 && battleManager.GetEnemies().Count < 3)
+        {
+            spawnMinionChance += 15;
+            float spawnMinionRand = rand.Next() % 100;
+            GD.Print("Spawning minion outcome: " + spawnMinionRand + " Chance: " + spawnMinionChance);
+            if (spawnMinionRand <= spawnMinionChance)
+            {
+                int minionIndex = rand.Next() % minions.Count;
+                Node minion = minions[minionIndex].Duplicate();
+                KinematicBody2D minionTransform = minion as KinematicBody2D;
+                GetParent().AddChild(minion);
+                battleManager.GetEnemies().Add(minion);
+                battleManager.GetTurnOrder().Add(minion);
+                gui.GiveUIToNewCharacter(minion);
+                if (battleManager.GetEnemies().Count <= 2)
+                {
+                    minionTransform.Position = new Vector2(1200, 500);
+                }
+                else
+                {
+                    Node2D otherMinion = battleManager.GetEnemies()[1] as Node2D;
+                    if (otherMinion.Position == new Vector2(1200, 930))
+                    {
+                        minionTransform.Position = new Vector2(1200, 500);
+                    }
+                    else
+                    {
+                        minionTransform.Position = new Vector2(1200, 930);
+                    }                    
+                }
+
+                spawnMinionChance = 0;
+                battleManager.NextTurn();
+                GD.Print("Minion holder children count: " + gameManager.GetNode("MinionHolder").GetChildCount());
                 return;
             }
         }
@@ -177,7 +227,37 @@ public class EnemyAI : KinematicBody2D
                     num = battleManager.GetPlayers().IndexOf(lowestDeforMagChar[0]);
                 break;
             }  
-        }     
+        }  
+        else
+        {
+            if (chosenSkill != null && chosenSkill.GetStatChange() && !chosenSkill.GetTeam())
+            {
+                if (gameManager.GetDifficulty() > 0)
+                {
+                    int j = -1;
+                    for (int i = 0; i < 10; i++)
+                    {
+                        GD.Print("Choosing player to debuff");
+                        j = ChoosePlayerToDebuff(chosenSkill);
+
+                        if (j > 0)
+                        {
+                            num = j;
+                            break;
+                        }
+                    }   
+
+                    if (num < 0)
+                    {
+                        num = rand.Next() % count;
+                    }
+                }
+                else
+                {
+                    num = rand.Next() % count;
+                }                              
+            }
+        }   
 
         if (chosenSkill != null)
         {
@@ -195,15 +275,22 @@ public class EnemyAI : KinematicBody2D
             {
                 if (chosenSkill.GetStatChange() || chosenSkill.GetHeal())
                 {
-                    if (stats.GetMaxHealth() > 1000)
+                    if (chosenSkill.GetTeam())
                     {
-                        GetNode<CharacterDamage>("Damage").Support(chosenSkill, false);
+                        if (stats.GetMaxHealth() > 1000)
+                        {
+                            GetNode<CharacterDamage>("Damage").Support(chosenSkill, false, stats);
+                        }
+                        else
+                        {
+                            battleManager.GetEnemies()[0].GetNode<CharacterDamage>("Damage").Support(chosenSkill, false, stats);
+                        }
+                        return;
                     }
                     else
                     {
-                        battleManager.GetEnemies()[0].GetNode<CharacterDamage>("Damage").Support(chosenSkill, false);
-                    }
-                    
+                        battleManager.GetPlayers()[num].GetNode<CharacterDamage>("Damage").Debuff(chosenSkill, stats);
+                    }                   
                 }
                 else
                 {
@@ -281,5 +368,49 @@ public class EnemyAI : KinematicBody2D
         }        
 
         return skillFound;
+    }
+
+    private int ChoosePlayerToDebuff(Skill skill)
+    {
+        Random rand = new Random();
+
+        int numPlayer = rand.Next() % battleManager.GetPlayers().Count;
+
+        Stats playerStats = battleManager.GetPlayers()[numPlayer].GetNode("Stats") as Stats;
+
+        int whichDebuff = 0;
+
+        if (skill.GetStatBonusDef() < 0)
+        {
+            whichDebuff = 1;
+        }
+        else if (skill.GetStatBonusSpd() < 0)
+        {
+            whichDebuff = 2;
+        }
+
+        switch (whichDebuff)
+        {
+            case 0:
+            if (playerStats.GetAtk() > playerStats.GetMaxAtk())
+            {
+                numPlayer = -1;
+            }
+            break;
+            case 1:
+            if (playerStats.GetDef() > playerStats.GetMaxDef())
+            {
+                numPlayer = -1;
+            }
+            break;
+            case 2:
+            if (playerStats.GetSpd() > playerStats.GetMaxSpd())
+            {
+                numPlayer = -1;
+            }
+            break;
+        }
+
+        return numPlayer;
     }
 }

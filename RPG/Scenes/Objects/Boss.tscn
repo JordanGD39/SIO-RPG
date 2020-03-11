@@ -74,7 +74,7 @@ __meta__ = {
 "_editor_description_": ""
 }
 charName = "Boss"
-health = 1500
+health = 2500
 atk = 125
 maxAtk = 125
 mag = 110

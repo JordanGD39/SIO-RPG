@@ -1,15 +1,15 @@
 [gd_scene load_steps=16 format=2]
 
 [ext_resource path="res://Scripts/Characters/Stats.cs" type="Script" id=1]
-[ext_resource path="res://Assets/Shield/upShield.png" type="Texture" id=2]
+[ext_resource path="res://Assets/EggPawn.png" type="Texture" id=2]
 [ext_resource path="res://Assets/Shield/DownShield.png" type="Texture" id=3]
-[ext_resource path="res://Assets/Shield/fShield.png" type="Texture" id=4]
-[ext_resource path="res://Scripts/Enemy/EnemyAI.cs" type="Script" id=5]
-[ext_resource path="res://Scripts/Skill.cs" type="Script" id=6]
-[ext_resource path="res://Scripts/Characters/CharacterDamage.cs" type="Script" id=7]
+[ext_resource path="res://Assets/Shield/upShield.png" type="Texture" id=4]
+[ext_resource path="res://Assets/Shield/fShield.png" type="Texture" id=5]
+[ext_resource path="res://Scripts/Enemy/EnemyAI.cs" type="Script" id=7]
+[ext_resource path="res://Scripts/Skill.cs" type="Script" id=8]
 [ext_resource path="res://Scenes/Objects/Guard.tscn" type="PackedScene" id=9]
 [ext_resource path="res://Scenes/Objects/Marker.tscn" type="PackedScene" id=10]
-[ext_resource path="res://Assets/AeroChaser.png" type="Texture" id=11]
+[ext_resource path="res://Scripts/Characters/CharacterDamage.cs" type="Script" id=11]
 
 [sub_resource type="Animation" id=1]
 resource_name = "Boss_Idle"
@@ -68,12 +68,12 @@ height = 65.4726
 
 [sub_resource type="SpriteFrames" id=5]
 animations = [ {
-"frames": [ ExtResource( 4 ) ],
+"frames": [ ExtResource( 5 ) ],
 "loop": false,
 "name": "Forward",
 "speed": 5.0
 }, {
-"frames": [ ExtResource( 2 ) ],
+"frames": [ ExtResource( 4 ) ],
 "loop": false,
 "name": "Up",
 "speed": 5.0
@@ -84,15 +84,16 @@ animations = [ {
 "speed": 5.0
 } ]
 
-[node name="MagicMinion" type="KinematicBody2D"]
+[node name="DebuffMinion" type="KinematicBody2D"]
 position = Vector2( 1200, 930 )
 z_index = -1
-script = ExtResource( 5 )
+script = ExtResource( 7 )
 
 [node name="Sprite" type="Sprite" parent="."]
+modulate = Color( 0.0117647, 1, 0.00392157, 1 )
 position = Vector2( 2.88342, -6.44104 )
 scale = Vector2( 2.5, 2.5 )
-texture = ExtResource( 11 )
+texture = ExtResource( 2 )
 offset = Vector2( -2.635, 0 )
 __meta__ = {
 "_editor_description_": ""
@@ -112,23 +113,22 @@ script = ExtResource( 1 )
 __meta__ = {
 "_editor_description_": ""
 }
-charName = "Magic Minion"
-health = 350
-maxHealth = 350
-mag = 90
-maxMag = 90
-def = 70
-maxDef = 70
-res = 90
-maxRes = 90
-spd = 65
-maxSpd = 65
-luk = 40
-maxLuk = 40
-weaknesses = [ 2 ]
+charName = "Debuff Minion"
+health = 400
+atk = 60
+maxAtk = 60
+mag = 60
+maxMag = 60
+def = 75
+maxDef = 75
+res = 75
+maxRes = 75
+luk = 10
+maxLuk = 10
+weaknesses = [ 0 ]
 
 [node name="Damage" type="Node" parent="."]
-script = ExtResource( 7 )
+script = ExtResource( 11 )
 
 [node name="Guard" parent="." instance=ExtResource( 9 )]
 visible = false
@@ -141,28 +141,35 @@ position = Vector2( 0, -120 )
 
 [node name="Special Moves" type="Node" parent="."]
 
-[node name="Fire Shot" type="Node" parent="Special Moves"]
-script = ExtResource( 6 )
+[node name="Def & Res Up!" type="Node" parent="Special Moves"]
+script = ExtResource( 8 )
 element = 4
-mag = 30
 staminaDepletion = 30
+team = true
+statChange = true
+statBonusDef = 20
+statBonusRes = 20
 
-[node name="Laser Shot" type="Node" parent="Special Moves"]
-script = ExtResource( 6 )
+[node name="Def & Res Down!" type="Node" parent="Special Moves"]
+script = ExtResource( 8 )
 element = 4
-mag = 25
 staminaDepletion = 35
 attackAll = true
+statChange = true
+statBonusDef = -20
+statBonusRes = -20
 
-[node name="Burning Fire Shot" type="Node" parent="Special Moves"]
-script = ExtResource( 6 )
+[node name="Atk & Mag Down!" type="Node" parent="Special Moves"]
+script = ExtResource( 8 )
 element = 4
-mag = 50
 staminaDepletion = 70
+statChange = true
+statBonusAtk = -20
+statBonusMag = -20
 
-[node name="Heal" type="Node" parent="Special Moves"]
-script = ExtResource( 6 )
-mag = 200
+[node name="Atk & Mag Up!" type="Node" parent="Special Moves"]
+script = ExtResource( 8 )
 staminaDepletion = 50
-heal = true
 team = true
+statBonusAtk = 20
+statBonusMag = 20

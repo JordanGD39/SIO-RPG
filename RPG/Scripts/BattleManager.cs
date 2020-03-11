@@ -95,7 +95,7 @@ public class BattleManager : Node
     public void NextTurn()
     {
         attacksForNextTurn = 0;
-        
+
         if (currTurn > turnOrder.Count - 1)
         {
             currTurn--;
@@ -198,6 +198,12 @@ public class BattleManager : Node
         else
         {
             enemies.Remove(charachter);
+            Stats enemyStats = charachter.GetNode<Stats>("Stats");
+            if (enemyStats.GetMaxHealth() < 1000)
+            {
+                enemyStats.GetHealthBar().GetParent<VBoxContainer>().Visible = false;
+                charachter.QueueFree();
+            }
 
             if (enemies.Count == 0)
             {

@@ -78,15 +78,8 @@ public class Player : KinematicBody2D
         MoveAndSlide(vector * speed);
 
         if (Position.x >= target.x)
-        {       
-            if (stats.GetStamina() < 100)
-            {
-                stats.SetStamina(stats.GetStamina() + 15);
-                if (stats.GetStamina() > 100)
-                {
-                    stats.SetStamina(100);
-                }
-            }  
+        {      
+            stats.SetStamina(stats.GetStamina() + 20); 
             
             stats.CheckStatBonus();   
             GD.Print("There");
@@ -198,13 +191,13 @@ public class Player : KinematicBody2D
                     {
                         if (!chosenSkill.GetAttackAll())
                         {
-                            targets[targetIndex].GetNode<CharacterDamage>("Damage").Debuff(chosenSkill);
+                            targets[targetIndex].GetNode<CharacterDamage>("Damage").Debuff(chosenSkill, stats);
                         }
                         else
                         {
                             for (int i = 0; i < targets.Count; i++)
                             {
-                                targets[i].GetNode<CharacterDamage>("Damage").Debuff(chosenSkill);
+                                targets[i].GetNode<CharacterDamage>("Damage").Debuff(chosenSkill, stats);
                             }
                         }
                         
@@ -235,7 +228,7 @@ public class Player : KinematicBody2D
             {
                 stats.SetStamina(stats.GetStamina() - chosenSkill.GetStaminaDepletion());
 
-                targets[targetIndex].GetNode<CharacterDamage>("Damage").Support(chosenSkill, true);
+                targets[targetIndex].GetNode<CharacterDamage>("Damage").Support(chosenSkill, true, stats);
                 visible = false;
             }
             

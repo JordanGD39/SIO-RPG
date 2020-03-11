@@ -13,7 +13,7 @@ public class Stats : Node
      [Export] private int maxHealth = 300;
      public void SetMaxHealth(int h) {maxHealth = h;} public int GetMaxHealth(){ return maxHealth;}
      [Export] private int stamina = 100;
-     public void SetStamina(int s) {stamina = s; UpdateStamina();} public int GetStamina(){ return stamina;}
+     public void SetStamina(int s) { if(s > 100) {s = 100;}else if(s < 0) { s= 0;} stamina = s; UpdateStamina();} public int GetStamina(){ return stamina;}
      [Export] private int maxStamina = 100;
      public void SetMaxStamina(int s) {maxStamina = s;} public int GetMaxStamina(){ return maxStamina;}
      [Export] private int atk = 80;

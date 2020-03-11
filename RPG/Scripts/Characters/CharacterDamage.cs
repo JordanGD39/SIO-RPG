@@ -30,7 +30,10 @@ public class CharacterDamage : Node
         stats = GetParent().GetNode("Stats") as Stats;
         stats.SetMaxHealth(stats.GetHealth());
         battleManager = GetParent().GetParent() as BattleManager;
-        gameManager = battleManager.GetParent() as GameManager;
+        if (battleManager != null)
+        {
+            gameManager = battleManager.GetParent() as GameManager;
+        }        
         if (player == null)
         {
             playerControl = false;
@@ -41,8 +44,15 @@ public class CharacterDamage : Node
         guard = GetParent().GetNode("Guard") as AnimatedSprite;
         guard.Visible = false;
     }
+
     public void StartGuardSequence(Stats attackerStatsTemp, Skill skill)
     {
+        if (battleManager != null)
+        {
+            battleManager = GetParent().GetParent() as BattleManager;
+            gameManager = battleManager.GetParent() as GameManager;
+        }
+
         skillThatAttackedMe = skill;
 
         marker.Visible = false;
@@ -81,6 +91,11 @@ public class CharacterDamage : Node
         AddChild(timer);
         timer.Start();
 
+        if (guard == null)
+        {
+            GetMyGuard();
+        }
+
         choosing = true;
         guard.Visible = true;    
         if (!playerControl)
@@ -118,7 +133,12 @@ public class CharacterDamage : Node
     }
 
     public void EnemyGuardChoose()
-    {        
+    {      
+        if (guard == null)
+        {
+            GetMyGuard();
+        }
+
         guard.Visible = true;
         Random rand = new Random();
         guardDir = rand.Next() % 3 - 1;
@@ -207,7 +227,13 @@ public class CharacterDamage : Node
                 damage *= 0.5f;
                 GD.Print("You hit their shield!");
                 attackerIsPlayer.SetChooseAttackDir(false);
-                stun = false;                
+                stun = false;
+                if (stats.GetCounter())
+                {
+                    attackerIsPlayer.GetNode<CharacterDamage>("Damage").StartGuardSequence(stats, null);
+                    stats.SetCounter(false);
+                    return;
+                }
             } 
         }
         else
@@ -257,7 +283,7 @@ public class CharacterDamage : Node
             battleManager.CheckIfNextTurn(playerControl);
         }
     }
-    public void Support(Skill skill, bool userIsPlayer)
+    public void Support(Skill skill, bool userIsPlayer, Stats characterStats)
     {
         skillThatAttackedMe = skill;
 
@@ -271,9 +297,16 @@ public class CharacterDamage : Node
             }            
         }
 
+        float multiplier = 1;
+
+        if (characterStats.GetStamina() <= 0)
+        {
+            multiplier = 0.25f;
+        }
+        GD.Print(stats.GetCharName() + " is getting supported!");
         if (skill.GetHeal() && stats.GetHealth() < stats.GetMaxHealth())
         {
-            stats.SetHealth(stats.GetHealth() + skill.GetMag());
+            stats.SetHealth(stats.GetHealth() + Mathf.RoundToInt((float)skill.GetMag() * multiplier));
             if (stats.GetHealth() > stats.GetMaxHealth())
             {
                 stats.SetHealth(stats.GetMaxHealth());
@@ -282,36 +315,27 @@ public class CharacterDamage : Node
         }        
         if (stats.GetAtk() <= stats.GetMaxAtk())
         {
-           stats.SetAtk(stats.GetAtk() + skill.GetStatBonusAtk()); 
+           stats.SetAtk(stats.GetAtk() + Mathf.RoundToInt((float)skill.GetStatBonusAtk() * multiplier)); 
            stats.SetAtkCounter(3);
            GD.Print("ATK: " + stats.GetAtk());
-        }
-        if (stats.GetMag() <= stats.GetMaxMag())
-        {
-            stats.SetMag(stats.GetMag() + skill.GetStatBonusMag());
+           stats.SetMag(stats.GetMag() + Mathf.RoundToInt((float)skill.GetStatBonusMag() * multiplier));
             GD.Print("MAG: " + stats.GetMag());
         }
         if (stats.GetDef() <= stats.GetMaxDef())
         {
-            stats.SetDef(stats.GetDef() + skill.GetStatBonusDef());
+            stats.SetDef(stats.GetDef() + Mathf.RoundToInt((float)skill.GetStatBonusDef() * multiplier));
             stats.SetDefCounter(3);
             GD.Print("DEF: " + stats.GetDef());
-        }
-        if (stats.GetRes() <= stats.GetMaxRes())
-        {
-            stats.SetRes(stats.GetRes() + skill.GetStatBonusRes());
+            stats.SetRes(stats.GetRes() + Mathf.RoundToInt((float)skill.GetStatBonusRes() * multiplier));
             GD.Print("RES: " + stats.GetRes());
-        }
-        if (stats.GetLuk() <= stats.GetMaxLuk())
-        {
-            stats.SetLuk(stats.GetLuk() + skill.GetStatBonusLuk());
-            GD.Print("LUK: " + stats.GetLuk());
         }
         if (stats.GetSpd() <= stats.GetMaxSpd())
         {
-            stats.SetSpd(stats.GetSpd() + skill.GetStatBonusSpd());
+            stats.SetSpd(stats.GetSpd() + Mathf.RoundToInt((float)skill.GetStatBonusSpd() * multiplier));
             stats.SetSpdCounter(3);
             GD.Print("SPD: " + stats.GetSpd());
+            stats.SetLuk(stats.GetLuk() + Mathf.RoundToInt((float)skill.GetStatBonusLuk() * multiplier));
+            GD.Print("LUK: " + stats.GetLuk());
         }
 
         marker.Visible = false;
@@ -326,7 +350,7 @@ public class CharacterDamage : Node
         }
     }
 
-    public void Debuff(Skill skill)
+    public void Debuff(Skill skill, Stats characterStats)
     {  
         skillThatAttackedMe = skill;
 
@@ -340,39 +364,39 @@ public class CharacterDamage : Node
             CheckAttackToLearn(false, null);
         }
 
+        GD.Print(stats.GetCharName() + " is getting debuffed!");
+
+        float multiplier = 1;
+
+        if (characterStats.GetStamina() <= 0)
+        {
+            multiplier = 0.25f;
+        }
+
         if (stats.GetAtk() >= stats.GetMaxAtk())
         {
-           stats.SetAtk(stats.GetAtk() + skill.GetStatBonusAtk()); 
+           stats.SetAtk(stats.GetAtk() + Mathf.RoundToInt((float)skill.GetStatBonusAtk() * multiplier)); 
            stats.SetAtkCounter(3);
            GD.Print("ATK: " + stats.GetAtk());
-        }
-        if (stats.GetMag() >= stats.GetMaxMag())
-        {
-            stats.SetMag(stats.GetMag() + skill.GetStatBonusMag());
+           stats.SetMag(stats.GetMag() + Mathf.RoundToInt((float)skill.GetStatBonusMag() * multiplier));
             GD.Print("MAG: " + stats.GetMag());
         }
         if (stats.GetDef() >= stats.GetMaxDef())
         {
-            stats.SetDef(stats.GetDef() + skill.GetStatBonusDef());
+            stats.SetDef(stats.GetDef() + Mathf.RoundToInt((float)skill.GetStatBonusDef() * multiplier));
             stats.SetDefCounter(3);
             GD.Print("DEF: " + stats.GetDef());
-        }
-        if (stats.GetRes() >= stats.GetMaxRes())
-        {
-            stats.SetRes(stats.GetRes() + skill.GetStatBonusRes());
+            stats.SetRes(stats.GetRes() + Mathf.RoundToInt((float)skill.GetStatBonusRes() * multiplier));
             GD.Print("RES: " + stats.GetRes());
-        }
-        if (stats.GetLuk() >= stats.GetMaxLuk())
-        {
-            stats.SetLuk(stats.GetLuk() + skill.GetStatBonusLuk());
-            GD.Print("LUK: " + stats.GetLuk());
         }
         if (stats.GetSpd() >= stats.GetMaxSpd())
         {
-            stats.SetSpd(stats.GetSpd() + skill.GetStatBonusSpd());
+            stats.SetSpd(stats.GetSpd() + Mathf.RoundToInt((float)skill.GetStatBonusSpd() * multiplier));
             stats.SetSpdCounter(3);
             GD.Print("SPD: " + stats.GetSpd());
-        }        
+            stats.SetLuk(stats.GetLuk() + Mathf.RoundToInt((float)skill.GetStatBonusLuk() * multiplier));
+            GD.Print("LUK: " + stats.GetLuk());
+        }      
         marker.Visible = false;
 
         if (!skill.GetAttackAll())

@@ -85,7 +85,7 @@ animations = [ {
 } ]
 
 [node name="Minion" type="KinematicBody2D"]
-position = Vector2( 1231.44, 505.751 )
+position = Vector2( 1200, 500 )
 z_index = -1
 script = ExtResource( 5 )
 
@@ -117,8 +117,8 @@ atk = 90
 maxAtk = 90
 mag = 40
 maxMag = 40
-res = 70
-maxRes = 70
+res = 60
+maxRes = 60
 spd = 55
 maxSpd = 55
 luk = 40
@@ -129,6 +129,7 @@ weaknesses = [ 5 ]
 script = ExtResource( 7 )
 
 [node name="Guard" parent="." instance=ExtResource( 9 )]
+visible = false
 position = Vector2( -20.3705, -3.90088 )
 scale = Vector2( 0.45, 0.45 )
 frames = SubResource( 5 )
