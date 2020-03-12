@@ -173,9 +173,11 @@ public class CharacterDamage : Node
             GD.Print("CRIT!!!!!");
         }
 
+        int atkOrMagUser = stats.GetAtk();
         int atkOrMag = 0;
         int defOrRes = stats.GetDef();
         bool stun = false;
+        float weaknessHit = 1;
 
         if (skillThatAttackedMe != null)
         {
@@ -185,14 +187,29 @@ public class CharacterDamage : Node
             }
             else if (skillThatAttackedMe.GetMag() != 0)
             {
+                atkOrMagUser = attackerStats.GetMag();
                 atkOrMag = skillThatAttackedMe.GetMag();
                 defOrRes = stats.GetRes();
             }
 
             stun = skillThatAttackedMe.GetStun();
+
+            if (stats.GetWeaknesses().Contains(skillThatAttackedMe.GetElement()))
+            {
+                weaknessHit = 1.5f;
+                GD.Print("WEAKNESS HIT!!");
+            }
+        }
+        else
+        {
+            if (stats.GetWeaknesses().Contains(stats.GetAttackElement()))
+            {
+                weaknessHit = 1.5f;
+                GD.Print("WEAKNESS HIT!!");
+            }
         }
 
-        float attackerAtk = attackerStats.GetAtk() + atkOrMag;
+        float attackerAtk = atkOrMagUser + atkOrMag;
 
         if (attackerStats.GetStamina() <= 0)
         {
@@ -204,7 +221,8 @@ public class CharacterDamage : Node
         if (!missed)
         {
             GD.Print("Attacker atk: " + attackerAtk + " | Defender def: " + defOrRes);           
-            damage = (attackerAtk - defOrRes) * crit;
+            damage = (attackerAtk - defOrRes) * weaknessHit * crit;
+            GD.Print("Without extra damage calc: " + (attackerAtk - defOrRes));
             int randExtraDamage = (rand.Next() % 12) - 2; 
             GD.Print("Random extra Damage: " + randExtraDamage);
             damage += randExtraDamage;
@@ -251,6 +269,7 @@ public class CharacterDamage : Node
                 }
             } 
         }
+        
 
         int damageInt = Mathf.RoundToInt(damage);
         

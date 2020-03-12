@@ -242,7 +242,7 @@ texture = SubResource( 1 )
 offset = Vector2( 150, 0 )
 vframes = 2
 hframes = 6
-frame = 11
+frame = 5
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="TurnQueue/Palladin/Sprite"]
 anims/Kris_Idle = ExtResource( 9 )
@@ -290,11 +290,12 @@ flip_h = true
 
 [node name="Saber Combo" type="Node" parent="TurnQueue/Palladin/Special Moves"]
 script = ExtResource( 15 )
-atk = 45
+atk = 40
 staminaDepletion = 30
 
 [node name="Shield Bash" type="Node" parent="TurnQueue/Palladin/Special Moves"]
 script = ExtResource( 15 )
+element = 5
 lessAcc = 40
 atk = -15
 staminaDepletion = 60
@@ -347,6 +348,7 @@ maxSpd = 70
 luk = 50
 maxLuk = 50
 weaknesses = [ 0 ]
+attackElement = 3
 
 [node name="Marker" parent="TurnQueue/Mage" instance=ExtResource( 17 )]
 position = Vector2( 0, -100 )
@@ -369,23 +371,27 @@ flip_h = true
 
 [node name="Fireball" type="Node" parent="TurnQueue/Mage/Special Moves"]
 script = ExtResource( 15 )
+element = 6
 mag = 40
 staminaDepletion = 30
 
 [node name="Giant Flame" type="Node" parent="TurnQueue/Mage/Special Moves"]
 script = ExtResource( 15 )
+element = 6
 lessAcc = 10
-atk = 30
+mag = 30
 staminaDepletion = 40
 attackAll = true
 
 [node name="Freeze Ray" type="Node" parent="TurnQueue/Mage/Special Moves"]
 script = ExtResource( 15 )
+element = 7
 mag = 40
 staminaDepletion = 30
 
 [node name="Giant Ice Spear" type="Node" parent="TurnQueue/Mage/Special Moves"]
 script = ExtResource( 15 )
+element = 7
 lessAcc = 10
 mag = 30
 staminaDepletion = 40
@@ -403,7 +409,7 @@ offset = Vector2( 10, 0 )
 flip_h = true
 vframes = 8
 hframes = 8
-frame = 30
+frame = 15
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="TurnQueue/Dwarf/Sprite"]
 anims/Miku_Idle = SubResource( 11 )
@@ -431,6 +437,7 @@ maxSpd = 90
 luk = 70
 maxLuk = 70
 weaknesses = [ 5 ]
+attackElement = 1
 
 [node name="Marker" parent="TurnQueue/Dwarf" instance=ExtResource( 17 )]
 position = Vector2( 0, -100 )
@@ -453,11 +460,13 @@ flip_h = true
 
 [node name="Axe Slam" type="Node" parent="TurnQueue/Dwarf/Special Moves"]
 script = ExtResource( 15 )
+element = 1
 atk = 40
 staminaDepletion = 30
 
 [node name="Helicopter Slam" type="Node" parent="TurnQueue/Dwarf/Special Moves"]
 script = ExtResource( 15 )
+element = 1
 lessAcc = 10
 atk = 30
 staminaDepletion = 40

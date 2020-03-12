@@ -123,7 +123,8 @@ spd = 55
 maxSpd = 55
 luk = 40
 maxLuk = 40
-weaknesses = [ 5 ]
+weaknesses = [ 3 ]
+attackElement = 4
 
 [node name="Damage" type="Node" parent="."]
 script = ExtResource( 7 )

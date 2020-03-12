@@ -69,6 +69,23 @@ public class EnemyAI : KinematicBody2D
         {
             minions.Add(minionHolder.GetChild(i));
         }
+        //If Boss
+        if (stats.GetMaxHealth() > 1000)
+        {
+            List<weakness> newWeaknesses = new List<weakness>();
+            Random rand = new Random();
+            int num = rand.Next() % Enum.GetNames(typeof(weakness)).Length;
+            newWeaknesses.Add((weakness)num);
+            num = rand.Next() % Enum.GetNames(typeof(weakness)).Length;
+            newWeaknesses.Add((weakness)num);
+            stats.SetWeaknesses(newWeaknesses);
+            GD.Print("Boss weaknesses: ");
+
+            for (int i = 0; i < stats.GetWeaknesses().Count; i++)
+            {
+                GD.Print(stats.GetWeaknesses()[i]);
+            }
+        }
     }
 
     // Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -152,7 +169,6 @@ public class EnemyAI : KinematicBody2D
 
                 spawnMinionChance = 0;
                 battleManager.NextTurn();
-                GD.Print("Minion holder children count: " + gameManager.GetNode("MinionHolder").GetChildCount());
                 return;
             }
         }

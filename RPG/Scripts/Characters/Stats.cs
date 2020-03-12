@@ -2,7 +2,7 @@ using Godot;
 using System;
 using System.Collections.Generic;
 
-public enum weakness{ SWORD, AXE, LANCE, STAFF, FIRE, ICE}
+public enum weakness{ SWORD, AXE, LANCE, STAFF, FIST, SHIELD, FIRE, ICE}
 
 public class Stats : Node
 {
@@ -41,7 +41,10 @@ public class Stats : Node
      [Export] private int maxLuk = 80;
      public void SetMaxLuk(int l) {maxLuk = l;} public int GetMaxLuk(){ return maxLuk;}
      [Export] private List<weakness> weaknesses = new List<weakness>();
-     public List<weakness> GetWeaknesses() {return weaknesses;}
+     public List<weakness> GetWeaknesses() {return weaknesses;} public void SetWeaknesses(List<weakness> a) {weaknesses = a;}
+
+     [Export] private weakness attackElement;
+     public weakness GetAttackElement() {return attackElement;}
      private int atkCounter = 3;
      public void SetAtkCounter(int a) {atkCounter = a;}
      private int spdCounter = 3;
