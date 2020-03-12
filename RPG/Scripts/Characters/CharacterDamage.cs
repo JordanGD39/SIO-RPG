@@ -179,11 +179,11 @@ public class CharacterDamage : Node
 
         if (skillThatAttackedMe != null)
         {
-            if (skillThatAttackedMe.GetAtk() > 0)
+            if (skillThatAttackedMe.GetAtk() != 0)
             {
                 atkOrMag = skillThatAttackedMe.GetAtk();
             }
-            else if (skillThatAttackedMe.GetMag() > 0)
+            else if (skillThatAttackedMe.GetMag() != 0)
             {
                 atkOrMag = skillThatAttackedMe.GetMag();
                 defOrRes = stats.GetRes();

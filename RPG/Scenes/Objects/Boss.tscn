@@ -111,7 +111,8 @@ attackAll = true
 
 [node name="Death Slash" type="Node" parent="Special Moves"]
 script = ExtResource( 6 )
-atk = 60
+lessAcc = 5
+atk = 80
 staminaDepletion = 70
 
 [node name="Speed & Luck Up!" type="Node" parent="Special Moves"]

@@ -32,6 +32,7 @@ public class Player : KinematicBody2D
     private bool someoneIsGuarding = false;
     private bool alreadyTargeted = false;
     private GameManager gameManager;
+    private int permSkillIndex;
     public override void _Ready()
     {
         specials = GetNode("Special Moves");
@@ -84,7 +85,7 @@ public class Player : KinematicBody2D
             stats.CheckStatBonus();   
             GD.Print("There");
             goToMid = false;
-            gui.ShowAttackMenu(stats);
+            gui.ShowAttackMenu();
         }
     }
 
@@ -154,7 +155,7 @@ public class Player : KinematicBody2D
                 return;
             }
         }
-
+        permSkillIndex = skillIndex;
         battleManager.GetEnemies()[0].GetNode<Sprite>("Marker").Visible = true;
         alreadyTargeted = false;
         targetChoose = true;
@@ -239,6 +240,34 @@ public class Player : KinematicBody2D
             guardDelay = 0;                  
         }
 
+        if (Input.IsActionJustPressed("ui_cancel"))
+        {
+            if (chosenSkill != null && chosenSkill.GetAttackAll())
+            {
+                for (int i = 0; i < targets.Count; i++)
+                {                    
+                    targets[i].GetNode<Sprite>("Marker").Visible = false;
+                }
+            }
+            else
+            {
+                targets[targetIndex].GetNode<Sprite>("Marker").Visible = false;
+            }
+            
+            targetIndex = 0;
+            
+            if (chosenSkill == null)
+            {
+                gui.ShowAttackMenu();
+            }
+            else
+            {
+                gui.ShowSpecialMenu(permSkillIndex);
+            }
+
+            targetChoose = false;
+        }
+
         if (someoneIsGuarding || battleManager.GetEnemies().Count == 0 || (chosenSkill != null && chosenSkill.GetAttackAll())) 
         {   
             if(chosenSkill != null && chosenSkill.GetAttackAll() && !alreadyTargeted) 
@@ -246,7 +275,6 @@ public class Player : KinematicBody2D
                 for (int i = 0; i < targets.Count; i++)
                 {                    
                     targets[i].GetNode<Sprite>("Marker").Visible = true;
-                    GD.Print("All attack index: " + i);
                 }
                 alreadyTargeted = true;
             } 

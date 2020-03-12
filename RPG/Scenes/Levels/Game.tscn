@@ -242,7 +242,7 @@ texture = SubResource( 1 )
 offset = Vector2( 150, 0 )
 vframes = 2
 hframes = 6
-frame = 8
+frame = 11
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="TurnQueue/Palladin/Sprite"]
 anims/Kris_Idle = ExtResource( 9 )
@@ -320,7 +320,7 @@ scale = Vector2( 1.01189, 1 )
 texture = ExtResource( 5 )
 offset = Vector2( 10, -30 )
 hframes = 4
-frame = 2
+frame = 1
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="TurnQueue/Mage/Sprite"]
 anims/Miku_Idle = SubResource( 7 )
@@ -885,7 +885,7 @@ position = Vector2( 2225.18, 964.598 )
 [node name="DebuffMinion" parent="MinionHolder" instance=ExtResource( 22 )]
 position = Vector2( 2212.22, 742.524 )
 [connection signal="pressed" from="UI/AttackMenu/Panel/VBoxContainer/AttackButton" to="TurnQueue" method="AttackPressed" binds= [ -1 ]]
-[connection signal="pressed" from="UI/AttackMenu/Panel/VBoxContainer/SpecialButton" to="UI" method="ShowSpecialMenu"]
+[connection signal="pressed" from="UI/AttackMenu/Panel/VBoxContainer/SpecialButton" to="UI" method="ShowSpecialMenu" binds= [ 0 ]]
 [connection signal="pressed" from="UI/AttackMenu/Panel/SpecialVBoxContainer/Heal" to="TurnQueue" method="AttackPressed" binds= [ 0 ]]
 [connection signal="pressed" from="UI/AttackMenu/Panel/SpecialVBoxContainer/Heal2" to="TurnQueue" method="AttackPressed" binds= [ 1 ]]
 [connection signal="pressed" from="UI/AttackMenu/Panel/SpecialVBoxContainer/Heal3" to="TurnQueue" method="AttackPressed" binds= [ 2 ]]

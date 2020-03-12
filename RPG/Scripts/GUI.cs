@@ -7,12 +7,18 @@ public class GUI : Node
     private BattleManager battleManager;
     private Node attackMenu;
     private MarginContainer attackMenuContainer;
+    private VBoxContainer attackContainer;
+    private VBoxContainer specialContainer;
+
+    private float delayTimer = 0;
 
     public override void _Ready()
     {
         battleManager = GetParent().GetNode("TurnQueue") as BattleManager;
         attackMenuContainer = GetNode("AttackMenu") as MarginContainer;
         attackMenu =  attackMenuContainer.GetChild(0).GetChild(0);
+        attackContainer = attackMenuContainer.GetChild(0).GetChild<VBoxContainer>(0);
+        specialContainer = attackMenuContainer.GetChild(0).GetChild<VBoxContainer>(1);
         attackMenuContainer.Visible = false;
     }
     public void ChangeNames(List<Node> players, List<Node> enemies)
@@ -48,12 +54,11 @@ public class GUI : Node
         }
     }
 
-    public void ShowAttackMenu(Stats stats)
+    public void ShowAttackMenu()
     {
         attackMenuContainer.Visible = true;
-        Node panel = attackMenuContainer.GetChild(0);
-        panel.GetChild<VBoxContainer>(0).Visible = true;
-        panel.GetChild<VBoxContainer>(1).Visible = false;
+        attackContainer.Visible = true;
+        specialContainer.Visible = false;
         Button attackButton = attackMenu.GetChild(0) as Button;
         attackButton.GrabFocus();
     }
@@ -63,16 +68,18 @@ public class GUI : Node
         attackMenuContainer.Visible = false;
     }
 
-    public void ShowSpecialMenu()
+    public void ShowSpecialMenu(int buttonFocus)
     {
+        delayTimer = 0;
         Node specials = battleManager.GetTurnOrder()[battleManager.GetCurrTurn()].GetNode("Special Moves");
-        Node panel = attackMenuContainer.GetChild(0);
-        panel.GetChild<VBoxContainer>(0).Visible = false;
-        panel.GetChild<VBoxContainer>(1).Visible = true;
-        panel.GetChild(1).GetChild<Button>(0).GrabFocus();
-        for (int i = 0; i < panel.GetChild(1).GetChildCount(); i++)
+        attackContainer.Visible = false;
+        attackMenuContainer.Visible = true;
+        specialContainer.Visible = true;
+        specialContainer.GetChild<Button>(buttonFocus).GrabFocus();
+        
+        for (int i = 0; i < specialContainer.GetChildCount(); i++)
         {
-            Button button = panel.GetChild(1).GetChild(i) as Button;
+            Button button = specialContainer.GetChild(i) as Button;
             button.Text = " " + specials.GetChild(i).Name;
             button.GetChild<Label>(0).Text = specials.GetChild<Skill>(i).GetStaminaDepletion() + " ST";
         }
@@ -101,9 +108,20 @@ public class GUI : Node
         stats.UpdateStamina();
         hpBars.GetChild<VBoxContainer>(i).Visible = true;
     }
-//  // Called every frame. 'delta' is the elapsed time since the previous frame.
-//  public override void _Process(float delta)
-//  {
-//      
-//  }
+
+    // Called every frame. 'delta' is the elapsed time since the previous frame.
+    public override void _Process(float delta)
+    {
+        if (delayTimer < 1)
+        {
+            delayTimer += delta;
+        }        
+
+        if (specialContainer.Visible && Input.IsActionJustPressed("ui_cancel") && delayTimer > 0.25f)
+        {
+            specialContainer.Visible = false;
+            attackContainer.Visible = true;
+            attackMenu.GetChild<Button>(1).GrabFocus();
+        }
+    }
 }

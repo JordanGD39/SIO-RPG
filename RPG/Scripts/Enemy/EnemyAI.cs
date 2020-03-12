@@ -139,8 +139,10 @@ public class EnemyAI : KinematicBody2D
                 {
                     Node2D otherMinion = battleManager.GetEnemies()[1] as Node2D;
                     if (otherMinion.Position == new Vector2(1200, 930))
-                    {
+                    {                        
                         minionTransform.Position = new Vector2(1200, 500);
+                        battleManager.GetEnemies()[1] = minion;
+                        battleManager.GetEnemies()[2] = otherMinion;
                     }
                     else
                     {
@@ -346,9 +348,16 @@ public class EnemyAI : KinematicBody2D
             break;
         }        
 
+        int staminaBonusCheck = 0;
+    
+        if (gameManager.GetDifficulty() == 2 && learnList[numSkill] != AIskillTypes.HIGHESTATK)
+        {
+            staminaBonusCheck = 15;
+        }
+
         if (chosenSkill != null)
         {
-            if (chosenSkill.GetStaminaDepletion() >= stats.GetStamina())
+            if (chosenSkill.GetStaminaDepletion() + staminaBonusCheck >= stats.GetStamina())
             {
                 switch (gameManager.GetDifficulty())
                 {                
