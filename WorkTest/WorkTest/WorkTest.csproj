@@ -93,5 +93,8 @@
   <ItemGroup>
     <None Include="Resources\Light mode small.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Teamlogo transparant.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

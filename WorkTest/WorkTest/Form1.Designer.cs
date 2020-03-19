@@ -31,6 +31,7 @@ namespace WorkTest
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
+            this.richTextBox1 = new System.Windows.Forms.RichTextBox();
             this.pictureBox4 = new System.Windows.Forms.PictureBox();
             this.pictureBox3 = new System.Windows.Forms.PictureBox();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
@@ -41,11 +42,22 @@ namespace WorkTest
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
+            // richTextBox1
+            // 
+            this.richTextBox1.BackColor = System.Drawing.SystemColors.ButtonFace;
+            this.richTextBox1.Font = new System.Drawing.Font("Roboto", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.richTextBox1.Location = new System.Drawing.Point(93, 72);
+            this.richTextBox1.Name = "richTextBox1";
+            this.richTextBox1.Size = new System.Drawing.Size(616, 278);
+            this.richTextBox1.TabIndex = 8;
+            this.richTextBox1.Text = "-SHOWING COMMANDS-";
+            this.richTextBox1.TextChanged += new System.EventHandler(this.richTextBox1_TextChanged);
+            // 
             // pictureBox4
             // 
             this.pictureBox4.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.pictureBox4.Image = global::WorkTest.Properties.Resources.Light_mode_small;
-            this.pictureBox4.Location = new System.Drawing.Point(693, 322);
+            this.pictureBox4.Location = new System.Drawing.Point(12, 322);
             this.pictureBox4.Name = "pictureBox4";
             this.pictureBox4.Size = new System.Drawing.Size(50, 62);
             this.pictureBox4.TabIndex = 7;
@@ -56,7 +68,7 @@ namespace WorkTest
             // 
             this.pictureBox3.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.pictureBox3.Image = global::WorkTest.Properties.Resources.Dark_mode_small;
-            this.pictureBox3.Location = new System.Drawing.Point(693, 233);
+            this.pictureBox3.Location = new System.Drawing.Point(12, 233);
             this.pictureBox3.Name = "pictureBox3";
             this.pictureBox3.Size = new System.Drawing.Size(50, 68);
             this.pictureBox3.TabIndex = 6;
@@ -67,7 +79,7 @@ namespace WorkTest
             // 
             this.pictureBox2.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.pictureBox2.Image = global::WorkTest.Properties.Resources.MicOffSmall;
-            this.pictureBox2.Location = new System.Drawing.Point(693, 132);
+            this.pictureBox2.Location = new System.Drawing.Point(738, 105);
             this.pictureBox2.Name = "pictureBox2";
             this.pictureBox2.Size = new System.Drawing.Size(50, 64);
             this.pictureBox2.TabIndex = 5;
@@ -78,7 +90,7 @@ namespace WorkTest
             // 
             this.pictureBox1.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.pictureBox1.Image = global::WorkTest.Properties.Resources.MicOnSmall;
-            this.pictureBox1.Location = new System.Drawing.Point(693, 40);
+            this.pictureBox1.Location = new System.Drawing.Point(738, 12);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(50, 66);
             this.pictureBox1.TabIndex = 4;
@@ -91,6 +103,7 @@ namespace WorkTest
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ButtonHighlight;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.richTextBox1);
             this.Controls.Add(this.pictureBox4);
             this.Controls.Add(this.pictureBox3);
             this.Controls.Add(this.pictureBox2);
@@ -111,6 +124,7 @@ namespace WorkTest
         private System.Windows.Forms.PictureBox pictureBox2;
         private System.Windows.Forms.PictureBox pictureBox3;
         private System.Windows.Forms.PictureBox pictureBox4;
+        private System.Windows.Forms.RichTextBox richTextBox1;
     }
 }
 
