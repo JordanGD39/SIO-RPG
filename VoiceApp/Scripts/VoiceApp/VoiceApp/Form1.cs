@@ -12,26 +12,33 @@ using System.Speech.Synthesis;
 
 namespace VoiceApp
 {
-    public partial class VoiceApp : Form
+    public partial class BuggySpeech : Form
     {
-        private bool isSpeaking = false;
         SpeechRecognitionEngine recEngine = new SpeechRecognitionEngine();
-        public VoiceApp()
+        private bool isSpeaking = false;
+
+
+        public BuggySpeech()
         {
             InitializeComponent();
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void pictureBox1_Click(object sender, EventArgs e)
         {
-            recEngine.RecognizeAsync(RecognizeMode.Multiple);
-            isSpeaking = false;
+            Form2 f2 = new Form2();
+            f2.Show();
         }
 
-        private void button2_Click(object sender, EventArgs e)
+        private void button1_Click_1(object sender, EventArgs e)
+        {
+            recEngine.RecognizeAsync(RecognizeMode.Multiple);
+            button2.Enabled = true;
+        }
+
+        private void button2_Click_1(object sender, EventArgs e)
         {
             recEngine.RecognizeAsyncStop();
-            isSpeaking = true;
-
+            button2.Enabled = false;
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -48,7 +55,7 @@ namespace VoiceApp
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new VoiceApp());
+            Application.Run(new BuggySpeech());
         }
 
         private static void RecognizedSpeech(object sender, SpeechRecognizedEventArgs e)
@@ -66,51 +73,40 @@ namespace VoiceApp
             switch (e.Result.Text)
             {
                 case "Block up":
-                //    rBox.Text = "Epic Block";
                     speechSynth.SpeakAsync("block up");
-                    //   a.KeyValue = Keys.Up;
                     SendKeys.SendWait("{UP}");
                     break;
 
                 case "Block right":
-                    //    rBox.Text = "Epic Block";
                     speechSynth.SpeakAsync("block right");
-                    //   a.KeyValue = Keys.Up;
                     SendKeys.SendWait("{RIGHT}");
                     break;
 
                 case "Block down":
-                    //    rBox.Text = "Epic Block";
                     speechSynth.SpeakAsync("block down");
-                    //   a.KeyValue = Keys.Up;
                     SendKeys.SendWait("{DOWN}");
                     break;
 
                 case "Attack":
-                    rBox.Text = "Attack is the best defence";
-                    speechSynth.SpeakAsync("Attack is the best deffence");
+                    speechSynth.SpeakAsync("Attack is the best defence");
                     break;
 
                 case "Parry":
-                    rBox.Text = "PARRY";
                     speechSynth.SpeakAsync("PARRY!");
                     break;
 
                 case "Deflect":
-                    rBox.Text = "Look at that deflect";
                     speechSynth.SpeakAsync("Look at that deflect");
                     break;
 
                 case "Special":
-                    rBox.Text = "You're special";
                     speechSynth.SpeakAsync("You're special");
                     break;
 
                 case "Start":
                     SendKeys.SendWait("{ESC}");
-                    rBox.Text = "Opening menu";
                     break;
             }
         }
-        }
-    } 
+    }
+  } 

@@ -18,11 +18,9 @@ namespace VoiceApp
         [STAThread]
         static void Main()
         {
-            
-
             SpeechRecognitionEngine recEngine = new SpeechRecognitionEngine();
             Choices voiceCommands = new Choices();
-            voiceCommands.Add(new string[] { "Block up", "Block right", "Block down",  "Attack", "Parry", "Deflect", "Special", "Start" });
+            voiceCommands.Add(new string[] { "Block up", "Block right", "Block down",  "Next", "Previous",   "Attack", "Parry", "Deflect", "Special", "Start" });
             GrammarBuilder builder = new GrammarBuilder();
             builder.Append(voiceCommands);
             Grammar grammar = new Grammar(builder);
@@ -30,11 +28,11 @@ namespace VoiceApp
             recEngine.LoadGrammarAsync(grammar);
             recEngine.SetInputToDefaultAudioDevice();
             recEngine.SpeechRecognized += RecognizedSpeech;
-            recEngine.RecognizeAsync(RecognizeMode.Multiple);
+         //   recEngine.RecognizeAsync(RecognizeMode.Multiple);
            
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new VoiceApp());
+            Application.Run(new BuggySpeech());
         }
 
         private static void RecognizedSpeech(object sender, SpeechRecognizedEventArgs e)
@@ -47,29 +45,31 @@ namespace VoiceApp
             switch (e.Result.Text)
             {
                 case "Block up":
-                    //    rBox.Text = "Epic Block";
                     speechSynth.SpeakAsync("block up");
-                    //   a.KeyValue = Keys.Up;
                     SendKeys.SendWait("{UP}");
                     break;
 
                 case "Block right":
-                    //    rBox.Text = "Epic Block";
                     speechSynth.SpeakAsync("block right");
-                    //   a.KeyValue = Keys.Up;
                     SendKeys.SendWait("{RIGHT}");
                     break;
 
+                case "Next":
+                    SendKeys.SendWait("{DOWN}");
+                    break;
+
+                case "Previous":
+                    SendKeys.SendWait("{UP}");
+                    break;
+
                 case "Block down":
-                    //    rBox.Text = "Epic Block";
                     speechSynth.SpeakAsync("block down");
-                    //   a.KeyValue = Keys.Up;
                     SendKeys.SendWait("{DOWN}");
                     break;
 
                 case "Attack":
                     MessageBox.Show("Attack is the best deffence");
-                    speechSynth.SpeakAsync("Attack is the best deffence");
+                    speechSynth.SpeakAsync("Attack is the best defence");
                     break;
 
                 case "Parry":
