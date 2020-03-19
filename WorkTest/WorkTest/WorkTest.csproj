@@ -84,5 +84,14 @@
   <ItemGroup>
     <None Include="Resources\MicOnSmall.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\MicOffSmall.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Dark mode small.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Light mode small.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

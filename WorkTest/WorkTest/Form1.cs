@@ -13,21 +13,7 @@ using System.Speech.Synthesis;
 namespace WorkTest
 {
     public partial class Form1 : Form
-    {
-        private void button1_Click(object sender, EventArgs e)
-        {
-            recEngine.RecognizeAsync(RecognizeMode.Multiple);
-            button2.Enabled = true;
-            button1.Enabled = false;
-        }
-
-        private void button2_Click(object sender, EventArgs e)
-        {
-            recEngine.RecognizeAsyncStop();
-            button2.Enabled = false;
-            button1.Enabled = true;
-        }
-
+    { 
         SpeechRecognitionEngine recEngine = new SpeechRecognitionEngine();
         SpeechSynthesizer speechSynth = new SpeechSynthesizer();
         public Form1()
@@ -63,7 +49,7 @@ namespace WorkTest
                 case "Block up":
                     SendKeys.SendWait("{UP}");
                     speechSynth.SpeakAsync("UP");
-                  //  MessageBox.Show("UP");
+                    MessageBox.Show("UP");
                     break;
 
                 case "Block right":
@@ -102,18 +88,32 @@ namespace WorkTest
             }
         }
 
-        private void button3_Click(object sender, EventArgs e)
+        private void pictureBox1_Click(object sender, EventArgs e)
         {
-            this.BackColor = Color.Black;
-            button4.Enabled = true;
-            button3.Enabled = false;
+            recEngine.RecognizeAsync(RecognizeMode.Multiple);
+            pictureBox2.Enabled = true;
+            pictureBox1.Enabled = false;
         }
 
-        private void button4_Click(object sender, EventArgs e)
+        private void pictureBox2_Click(object sender, EventArgs e)
+        {
+            recEngine.RecognizeAsyncStop();
+            pictureBox2.Enabled = false;
+            pictureBox1.Enabled = true;
+        }
+
+        private void pictureBox3_Click(object sender, EventArgs e)
+        {
+            this.BackColor = Color.Black;
+            pictureBox4.Enabled = true;
+            pictureBox3.Enabled = false;
+        }
+
+        private void pictureBox4_Click(object sender, EventArgs e)
         {
             this.BackColor = Color.White;
-            button4.Enabled = false;
-            button3.Enabled = true;
+            pictureBox4.Enabled = false;
+            pictureBox3.Enabled = true;
         }
     }
 }
