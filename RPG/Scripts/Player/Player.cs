@@ -71,6 +71,11 @@ public class Player : KinematicBody2D
         {
             ChooseAttackDirection(delta);
         }  
+
+        if (Input.IsKeyPressed(16777232))
+        {
+            GD.Print("Up");
+        }      
     }
 
     private void GoToMiddle()
@@ -252,6 +257,7 @@ public class Player : KinematicBody2D
             guard.Visible = visible;
             targetChoose = false;
             attackDir = 0; 
+            guard.Play("Forward");
             chooseAttackDir = true;
             guardDelay = 0;                  
         }
@@ -356,8 +362,11 @@ public class Player : KinematicBody2D
 
         if (guardDelay > 0.25f * gameManager.GetVoiceControl() || stats.GetStamina() > 0)
         {
+            GD.Print("Block statement");
+            
             if (Input.IsActionPressed("ui_up"))
             {
+                GD.Print("Upping");
                 attackDir = 1;
                 guard.Play("Up");
                 guardDelay = 0;
@@ -371,7 +380,7 @@ public class Player : KinematicBody2D
             else
             {
                 if (gameManager.GetVoiceControl() == 1 || gameManager.GetVoiceControl() > 1 && Input.IsActionJustPressed("ui_right"))
-                {
+                {                              
                     attackDir = 0;
                     guard.Play("Forward");
                     guardDelay = 0;

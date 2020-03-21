@@ -243,7 +243,11 @@ texture = SubResource( 1 )
 offset = Vector2( 150, 0 )
 vframes = 2
 hframes = 6
+<<<<<<< Updated upstream
 frame = 11
+=======
+frame = 4
+>>>>>>> Stashed changes
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="TurnQueue/Palladin/Sprite"]
 anims/Kris_Idle = ExtResource( 9 )
@@ -322,7 +326,11 @@ scale = Vector2( 1.01189, 1 )
 texture = ExtResource( 5 )
 offset = Vector2( 10, -30 )
 hframes = 4
+<<<<<<< Updated upstream
 frame = 2
+=======
+frame = 1
+>>>>>>> Stashed changes
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="TurnQueue/Mage/Sprite"]
 anims/Miku_Idle = SubResource( 7 )

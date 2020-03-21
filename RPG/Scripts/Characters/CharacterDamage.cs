@@ -160,7 +160,8 @@ public class CharacterDamage : Node
     }
 
     private void ReceiveDamage()
-    {
+    {        
+
         float crit = 1;
 
         Random rand = new Random();
@@ -248,13 +249,15 @@ public class CharacterDamage : Node
         }     
 
         Player attackerIsPlayer = attackerStats.GetParent() as Player;
+        
         if (attackerIsPlayer != null)
         {
+            attackerIsPlayer.SetChooseAttackDir(false);
+
             if (attackerIsPlayer.GetAttackDirection() == guardDir)
             {
                 damage *= 0.5f;
-                GD.Print("You hit their shield!");
-                attackerIsPlayer.SetChooseAttackDir(false);
+                GD.Print("You hit their shield!");                
                 stun = false;
                 if (stats.GetCounter())
                 {

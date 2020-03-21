@@ -123,5 +123,10 @@ public class GUI : Node
             attackContainer.Visible = true;
             attackMenu.GetChild<Button>(1).GrabFocus();
         }
+
+        if (Input.IsKeyPressed(16777237))
+        {
+           attackMenu.GetChild<Button>(0).ReleaseFocus(); 
+        }        
     }
 }
