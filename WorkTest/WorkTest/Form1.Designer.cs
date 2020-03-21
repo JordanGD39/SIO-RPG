@@ -67,6 +67,7 @@ namespace WorkTest
             // pictureBox3
             // 
             this.pictureBox3.BackColor = System.Drawing.SystemColors.ButtonFace;
+            this.pictureBox3.Enabled = false;
             this.pictureBox3.Image = global::WorkTest.Properties.Resources.Dark_mode_small;
             this.pictureBox3.Location = new System.Drawing.Point(12, 233);
             this.pictureBox3.Name = "pictureBox3";

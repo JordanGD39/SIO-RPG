@@ -23,6 +23,7 @@ namespace WorkTest
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            this.BackColor = Color.Black;
             Choices voiceCommands = new Choices();
             voiceCommands.Add(new string[] { "Attack", "Parry", "Block up", "Block right", "Block down", "Special 1", "Special 2", "Special 3", "Special 4", "What do you think of or project?", "Use stamina potion", "Use health potion", "Show items" });
             GrammarBuilder builder = new GrammarBuilder();
