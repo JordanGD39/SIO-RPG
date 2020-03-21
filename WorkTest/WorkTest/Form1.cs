@@ -24,7 +24,7 @@ namespace WorkTest
         private void Form1_Load(object sender, EventArgs e)
         {
             Choices voiceCommands = new Choices();
-            voiceCommands.Add(new string[] { "Attack", "Deflect", "Parry", "Block up", "Block right", "Block down", "Special", "What do you think of or project?" });
+            voiceCommands.Add(new string[] { "Attack", "Parry", "Block up", "Block right", "Block down", "Special 1", "Special 2", "Special 3", "Special 4", "What do you think of or project?", "Use stamina potion", "Use health potion", "Show items" });
             GrammarBuilder builder = new GrammarBuilder();
             builder.Append(voiceCommands);
             Grammar grammar = new Grammar(builder);
@@ -48,7 +48,6 @@ namespace WorkTest
             {
                 case "Block up":
                     SendKeys.SendWait("{UP}");
-                    speechSynth.SpeakAsync("UP");
                     richTextBox1.Text += "\n" + e.Result.Text;
                     break;
 
@@ -63,6 +62,7 @@ namespace WorkTest
                     break;
 
                 case "Attack":
+                    SendKeys.SendWait("(a)");
                     richTextBox1.Text += "\n" + e.Result.Text;
                     break;
 
@@ -71,14 +71,38 @@ namespace WorkTest
                     richTextBox1.Text += "\n" + e.Result.Text;
                     break;
 
-                case "Deflect":
-                    SendKeys.SendWait("{DOWN}");
-                    SendKeys.SendWait("(e)");
+                case "Special 1":
+                    SendKeys.SendWait("(s)");
                     richTextBox1.Text += "\n" + e.Result.Text;
                     break;
 
-                case "Special":
-                    SendKeys.SendWait("{TAB}");
+                case "Special 2":
+                    SendKeys.SendWait("(d)");
+                    richTextBox1.Text += "\n" + e.Result.Text;
+                    break;
+
+                case "Special 3":
+                    SendKeys.SendWait("(f)");
+                    richTextBox1.Text += "\n" + e.Result.Text;
+                    break;
+
+                case "Special 4":
+                    SendKeys.SendWait("(g)");
+                    richTextBox1.Text += "\n" + e.Result.Text;
+                    break;
+
+                case "Show items":
+                    SendKeys.SendWait("(g)");
+                    richTextBox1.Text += "\n" + e.Result.Text;
+                    break;
+
+                case "Use stamina potion":
+                    SendKeys.SendWait("(j)");
+                    richTextBox1.Text += "\n" + e.Result.Text;
+                    break;
+
+                case "Use health potion":
+                    SendKeys.SendWait("(h)");
                     richTextBox1.Text += "\n" + e.Result.Text;
                     break;
 
