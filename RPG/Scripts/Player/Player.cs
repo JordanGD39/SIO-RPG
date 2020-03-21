@@ -256,7 +256,7 @@ public class Player : KinematicBody2D
             
             guard.Visible = visible;
             targetChoose = false;
-            attackDir = 0; 
+            attackDir = 0;
             guard.Play("Forward");
             chooseAttackDir = true;
             guardDelay = 0;                  
