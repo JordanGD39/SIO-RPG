@@ -243,7 +243,7 @@ texture = SubResource( 1 )
 offset = Vector2( 150, 0 )
 vframes = 2
 hframes = 6
-frame = 8
+frame = 1
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="TurnQueue/Palladin/Sprite"]
 anims/Kris_Idle = ExtResource( 9 )
@@ -322,7 +322,6 @@ scale = Vector2( 1.01189, 1 )
 texture = ExtResource( 5 )
 offset = Vector2( 10, -30 )
 hframes = 4
-frame = 3
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="TurnQueue/Mage/Sprite"]
 anims/Miku_Idle = SubResource( 7 )
@@ -410,7 +409,7 @@ offset = Vector2( 10, 0 )
 flip_h = true
 vframes = 8
 hframes = 8
-frame = 9
+frame = 32
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="TurnQueue/Dwarf/Sprite"]
 anims/Miku_Idle = SubResource( 11 )
