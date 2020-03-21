@@ -49,37 +49,44 @@ namespace WorkTest
                 case "Block up":
                     SendKeys.SendWait("{UP}");
                     speechSynth.SpeakAsync("UP");
+                    MessageBox.Show("UP");
                     richTextBox1.Text += "\n" + e.Result.Text;
                     break;
 
                 case "Block right":
                     SendKeys.SendWait("{RIGHT}");
+                    MessageBox.Show("RIGHT");
                     richTextBox1.Text += "\n" + e.Result.Text;
                     break;
 
                 case "Block down":
                     SendKeys.SendWait("{DOWN}");
+                    MessageBox.Show("DOWN");
                     richTextBox1.Text += "\n" + e.Result.Text;
                     break;
 
                 case "Attack":
                   //  SendKeys.SendWait("{ENTER}");
+                    MessageBox.Show("Attacking");
                     richTextBox1.Text += "\n" + e.Result.Text;
                     break;
 
                 case "Parry":
                     SendKeys.SendWait("(p)");
+                    MessageBox.Show("PARIED!");
                     richTextBox1.Text += "\n" + e.Result.Text;
                     break;
 
                 case "Deflect":
                     SendKeys.SendWait("{DOWN}");
                     SendKeys.SendWait("(e)");
+                    MessageBox.Show("DEFLECTING SINCE 1942");
                     richTextBox1.Text += "\n" + e.Result.Text;
                     break;
 
                 case "Special":
                     SendKeys.SendWait("{TAB}");
+                    MessageBox.Show("USING SPECIAL");
                     richTextBox1.Text += "\n" + e.Result.Text;
                     break;
 
