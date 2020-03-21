@@ -370,9 +370,12 @@ public class Player : KinematicBody2D
             }
             else
             {
-                attackDir = 0;
-                guard.Play("Forward");
-                guardDelay = 0;
+                if (gameManager.GetVoiceControl() == 1 || gameManager.GetVoiceControl() > 1 && Input.IsActionJustPressed("ui_right"))
+                {
+                    attackDir = 0;
+                    guard.Play("Forward");
+                    guardDelay = 0;
+                }
             }      
         }         
     }
