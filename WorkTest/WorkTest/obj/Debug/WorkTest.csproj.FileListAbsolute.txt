@@ -10,7 +10,6 @@ C:\Users\ianar\OneDrive\Bureaublad\ma\bewijzenmap\periode 2.3\C++\WorkTest\WorkT
 C:\Users\ianar\OneDrive\Bureaublad\ma\bewijzenmap\periode 2.1\idp\github\SIO-RPG\WorkTest\WorkTest\bin\Debug\WorkTest.exe.config
 C:\Users\ianar\OneDrive\Bureaublad\ma\bewijzenmap\periode 2.1\idp\github\SIO-RPG\WorkTest\WorkTest\bin\Debug\WorkTest.exe
 C:\Users\ianar\OneDrive\Bureaublad\ma\bewijzenmap\periode 2.1\idp\github\SIO-RPG\WorkTest\WorkTest\bin\Debug\WorkTest.pdb
-C:\Users\ianar\OneDrive\Bureaublad\ma\bewijzenmap\periode 2.1\idp\github\SIO-RPG\WorkTest\WorkTest\obj\Debug\WorkTest.csprojAssemblyReference.cache
 C:\Users\ianar\OneDrive\Bureaublad\ma\bewijzenmap\periode 2.1\idp\github\SIO-RPG\WorkTest\WorkTest\obj\Debug\WorkTest.Form1.resources
 C:\Users\ianar\OneDrive\Bureaublad\ma\bewijzenmap\periode 2.1\idp\github\SIO-RPG\WorkTest\WorkTest\obj\Debug\WorkTest.Properties.Resources.resources
 C:\Users\ianar\OneDrive\Bureaublad\ma\bewijzenmap\periode 2.1\idp\github\SIO-RPG\WorkTest\WorkTest\obj\Debug\WorkTest.csproj.GenerateResource.cache
