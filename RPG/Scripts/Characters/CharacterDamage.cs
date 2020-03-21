@@ -173,7 +173,7 @@ public class CharacterDamage : Node
             GD.Print("CRIT!!!!!");
         }
 
-        int atkOrMagUser = stats.GetAtk();
+        int atkOrMagUser = attackerStats.GetAtk();
         int atkOrMag = 0;
         int defOrRes = stats.GetDef();
         bool stun = false;
@@ -220,7 +220,7 @@ public class CharacterDamage : Node
         float damage = 0;
         if (!missed)
         {
-            GD.Print("Attacker atk: " + attackerAtk + " | Defender def: " + defOrRes);           
+            GD.Print("Attacker: " + attackerStats.GetCharName() +  " atk: " + attackerAtk + " | Defender def: " + defOrRes);           
             damage = (attackerAtk - defOrRes) * weaknessHit * crit;
             GD.Print("Without extra damage calc: " + (attackerAtk - defOrRes));
             int randExtraDamage = (rand.Next() % 12) - 2; 
@@ -230,6 +230,16 @@ public class CharacterDamage : Node
             if (damage < 0)
             {
                 damage = 0;
+            }
+
+            if (weaknessHit > 1)
+            {
+                float stunChance = rand.Next() % 100;
+                GD.Print("Stun chance: " + stunChance);
+                if (stunChance <= 20)
+                {
+                    stun = true;
+                }
             }
         }    
         else

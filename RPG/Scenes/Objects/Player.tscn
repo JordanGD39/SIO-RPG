@@ -33,7 +33,7 @@ texture = ExtResource( 1 )
 offset = Vector2( -6, 0 )
 vframes = 6
 hframes = 5
-frame = 19
+frame = 3
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Sprite"]
 anims/Miku_Idle = ExtResource( 2 )
@@ -55,6 +55,7 @@ spd = 60
 maxSpd = 60
 luk = 100
 maxLuk = 100
+weaknesses = [ 0 ]
 attackElement = 4
 
 [node name="Marker" parent="." instance=ExtResource( 8 )]

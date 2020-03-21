@@ -106,6 +106,22 @@ public class Player : KinematicBody2D
     {
         targetIndex = 0;
         
+        if (stats.GetStun() > 0)
+        {
+            Random rand = new Random();
+            
+            float stunNum = rand.Next() % 100;
+
+            GD.Print("stun chance: " + stunNum);
+
+            if (stunNum <= 50)
+            {
+                battleManager.NextTurn();
+                GD.Print(stats.GetCharName() + " is stunned!");
+                return;
+            }
+        }
+        
         if (skillIndex >= 0)
         {
             chosenSkill = specials.GetChild(skillIndex) as Skill;
