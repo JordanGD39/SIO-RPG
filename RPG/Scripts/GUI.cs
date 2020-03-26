@@ -5,20 +5,24 @@ using System.Collections.Generic;
 public class GUI : Node
 {    
     private BattleManager battleManager;
+    private ItemHolder itemHolder;
     private Node attackMenu;
     private MarginContainer attackMenuContainer;
     private VBoxContainer attackContainer;
     private VBoxContainer specialContainer;
+    private VBoxContainer itemContainer;
 
     private float delayTimer = 0;
 
     public override void _Ready()
     {
         battleManager = GetParent().GetNode("TurnQueue") as BattleManager;
+        itemHolder = GetParent().GetNode("ItemHolder") as ItemHolder;
         attackMenuContainer = GetNode("AttackMenu") as MarginContainer;
         attackMenu =  attackMenuContainer.GetChild(0).GetChild(0);
         attackContainer = attackMenuContainer.GetChild(0).GetChild<VBoxContainer>(0);
         specialContainer = attackMenuContainer.GetChild(0).GetChild<VBoxContainer>(1);
+        itemContainer = attackMenuContainer.GetChild(0).GetChild<VBoxContainer>(2);
         attackMenuContainer.Visible = false;
     }
     public void ChangeNames(List<Node> players, List<Node> enemies)
@@ -59,6 +63,7 @@ public class GUI : Node
         attackMenuContainer.Visible = true;
         attackContainer.Visible = true;
         specialContainer.Visible = false;
+        itemContainer.Visible = false;
         Button attackButton = attackMenu.GetChild(0) as Button;
         attackButton.GrabFocus();
     }
@@ -83,6 +88,19 @@ public class GUI : Node
             button.Text = " " + specials.GetChild(i).Name;
             button.GetChild<Label>(0).Text = specials.GetChild<Skill>(i).GetStaminaDepletion() + " ST";
         }
+    }
+
+    public void ShowItemMenu()
+    {
+        attackContainer.Visible = false;
+        attackMenuContainer.Visible = true;
+        itemContainer.Visible = true;
+        itemContainer.GetChild<Button>(0).GrabFocus();
+        
+        itemContainer.GetChild(0).GetChild<Label>(0).Text = "x " + itemHolder.GetPotions();
+        itemContainer.GetChild(1).GetChild<Label>(0).Text = "x " + itemHolder.GetStaminaPotions();
+        itemContainer.GetChild(2).GetChild<Label>(0).Text = "x " + itemHolder.GetRevives();
+        itemContainer.GetChild(3).GetChild<Label>(0).Text = "x " + itemHolder.GetNeutralizers();
     }
 
     public void GiveUIToNewCharacter(Node enemy)
@@ -122,11 +140,12 @@ public class GUI : Node
             specialContainer.Visible = false;
             attackContainer.Visible = true;
             attackMenu.GetChild<Button>(1).GrabFocus();
-        }
-
-        if (Input.IsKeyPressed(16777237))
+        } 
+        else if (itemContainer.Visible && Input.IsActionJustPressed("ui_cancel") && delayTimer > 0.25f)
         {
-           attackMenu.GetChild<Button>(0).ReleaseFocus(); 
-        }        
+            itemContainer.Visible = false;
+            attackContainer.Visible = true;
+            attackMenu.GetChild<Button>(2).GrabFocus();
+        }     
     }
 }

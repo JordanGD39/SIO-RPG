@@ -1,4 +1,4 @@
-[gd_scene load_steps=46 format=2]
+[gd_scene load_steps=47 format=2]
 
 [ext_resource path="res://Assets/BG.jpg" type="Texture" id=1]
 [ext_resource path="res://Scenes/Objects/Player.tscn" type="PackedScene" id=2]
@@ -22,6 +22,7 @@
 [ext_resource path="res://Scenes/Objects/Minion.tscn" type="PackedScene" id=20]
 [ext_resource path="res://Scenes/Objects/MagicMinion.tscn" type="PackedScene" id=21]
 [ext_resource path="res://Scenes/Objects/DebuffMinion.tscn" type="PackedScene" id=22]
+[ext_resource path="res://Scenes/Levels/ItemHolder.cs" type="Script" id=23]
 
 [sub_resource type="StreamTexture" id=1]
 flags = 4
@@ -217,8 +218,10 @@ bg_color = Color( 0, 0, 0, 0.235294 )
 
 [node name="Game" type="Node2D"]
 script = ExtResource( 18 )
-voiceControl = 4
 difficulty = 2
+
+[node name="ItemHolder" type="Node" parent="."]
+script = ExtResource( 23 )
 
 [node name="BG" type="Sprite" parent="."]
 position = Vector2( 971.246, 201.941 )
@@ -243,6 +246,7 @@ texture = SubResource( 1 )
 offset = Vector2( 150, 0 )
 vframes = 2
 hframes = 6
+frame = 4
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="TurnQueue/Palladin/Sprite"]
 anims/Kris_Idle = ExtResource( 9 )
@@ -321,6 +325,7 @@ scale = Vector2( 1.01189, 1 )
 texture = ExtResource( 5 )
 offset = Vector2( 10, -30 )
 hframes = 4
+frame = 3
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="TurnQueue/Mage/Sprite"]
 anims/Miku_Idle = SubResource( 7 )
@@ -408,7 +413,7 @@ offset = Vector2( 10, 0 )
 flip_h = true
 vframes = 8
 hframes = 8
-frame = 52
+frame = 62
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="TurnQueue/Dwarf/Sprite"]
 anims/Miku_Idle = SubResource( 11 )
@@ -882,6 +887,126 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="ItemVBoxContainer2" type="VBoxContainer" parent="UI/AttackMenu/Panel"]
+visible = false
+anchor_right = 15.0
+margin_top = 12.0
+margin_right = -5826.0
+margin_bottom = 270.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Potion" type="Button" parent="UI/AttackMenu/Panel/ItemVBoxContainer2"]
+margin_right = 414.0
+margin_bottom = 60.0
+rect_min_size = Vector2( 0, 60 )
+custom_styles/hover = SubResource( 20 )
+custom_styles/pressed = SubResource( 21 )
+custom_styles/focus = SubResource( 22 )
+custom_styles/normal = SubResource( 23 )
+custom_fonts/font = ExtResource( 13 )
+action_mode = 0
+button_mask = 0
+text = " Potion"
+align = 0
+
+[node name="Label" type="Label" parent="UI/AttackMenu/Panel/ItemVBoxContainer2/Potion"]
+margin_left = 255.0
+margin_right = 412.0
+margin_bottom = 43.0
+custom_fonts/font = ExtResource( 13 )
+custom_colors/font_color = Color( 0, 0.717647, 1, 1 )
+text = "x 99"
+align = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="StaminaP" type="Button" parent="UI/AttackMenu/Panel/ItemVBoxContainer2"]
+margin_top = 64.0
+margin_right = 414.0
+margin_bottom = 124.0
+rect_min_size = Vector2( 0, 60 )
+custom_styles/hover = SubResource( 20 )
+custom_styles/pressed = SubResource( 21 )
+custom_styles/focus = SubResource( 22 )
+custom_styles/normal = SubResource( 23 )
+custom_fonts/font = ExtResource( 13 )
+action_mode = 0
+button_mask = 0
+text = " Stamina Potion"
+align = 0
+
+[node name="Label" type="Label" parent="UI/AttackMenu/Panel/ItemVBoxContainer2/StaminaP"]
+margin_left = 255.0
+margin_right = 412.0
+margin_bottom = 53.0
+custom_fonts/font = ExtResource( 13 )
+custom_colors/font_color = Color( 0, 0.717647, 1, 1 )
+text = "x 99"
+align = 2
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Revive" type="Button" parent="UI/AttackMenu/Panel/ItemVBoxContainer2"]
+margin_top = 128.0
+margin_right = 414.0
+margin_bottom = 188.0
+rect_min_size = Vector2( 0, 60 )
+custom_styles/hover = SubResource( 20 )
+custom_styles/pressed = SubResource( 21 )
+custom_styles/focus = SubResource( 22 )
+custom_styles/normal = SubResource( 23 )
+custom_fonts/font = ExtResource( 13 )
+action_mode = 0
+button_mask = 0
+text = " Revive"
+align = 0
+
+[node name="Label" type="Label" parent="UI/AttackMenu/Panel/ItemVBoxContainer2/Revive"]
+margin_left = 255.0
+margin_right = 412.0
+margin_bottom = 53.0
+custom_fonts/font = ExtResource( 13 )
+custom_colors/font_color = Color( 0, 0.717647, 1, 1 )
+text = "x 99"
+align = 2
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Neutralizer" type="Button" parent="UI/AttackMenu/Panel/ItemVBoxContainer2"]
+margin_top = 192.0
+margin_right = 414.0
+margin_bottom = 252.0
+rect_min_size = Vector2( 0, 60 )
+custom_styles/hover = SubResource( 20 )
+custom_styles/pressed = SubResource( 21 )
+custom_styles/focus = SubResource( 22 )
+custom_styles/normal = SubResource( 23 )
+custom_fonts/font = ExtResource( 13 )
+action_mode = 0
+button_mask = 0
+text = " Neutralizer"
+align = 0
+
+[node name="Label" type="Label" parent="UI/AttackMenu/Panel/ItemVBoxContainer2/Neutralizer"]
+margin_left = 255.0
+margin_right = 412.0
+margin_bottom = 53.0
+custom_fonts/font = ExtResource( 13 )
+custom_colors/font_color = Color( 0, 0.717647, 1, 1 )
+text = "x 99"
+align = 2
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="MinionHolder" type="Node" parent="."]
 
 [node name="Minion" parent="MinionHolder" instance=ExtResource( 20 )]
@@ -894,10 +1019,15 @@ position = Vector2( 2225.18, 964.598 )
 position = Vector2( 2212.22, 742.524 )
 [connection signal="pressed" from="UI/AttackMenu/Panel/VBoxContainer/AttackButton" to="TurnQueue" method="AttackPressed" binds= [ -1 ]]
 [connection signal="pressed" from="UI/AttackMenu/Panel/VBoxContainer/SpecialButton" to="UI" method="ShowSpecialMenu" binds= [ 0 ]]
+[connection signal="pressed" from="UI/AttackMenu/Panel/VBoxContainer/ItemButton" to="UI" method="ShowItemMenu"]
 [connection signal="pressed" from="UI/AttackMenu/Panel/SpecialVBoxContainer/Heal" to="TurnQueue" method="AttackPressed" binds= [ 0 ]]
 [connection signal="pressed" from="UI/AttackMenu/Panel/SpecialVBoxContainer/Heal2" to="TurnQueue" method="AttackPressed" binds= [ 1 ]]
 [connection signal="pressed" from="UI/AttackMenu/Panel/SpecialVBoxContainer/Heal3" to="TurnQueue" method="AttackPressed" binds= [ 2 ]]
 [connection signal="pressed" from="UI/AttackMenu/Panel/SpecialVBoxContainer/Heal4" to="TurnQueue" method="AttackPressed" binds= [ 3 ]]
+[connection signal="pressed" from="UI/AttackMenu/Panel/ItemVBoxContainer2/Potion" to="TurnQueue" method="ItemUsed" binds= [ 0 ]]
+[connection signal="pressed" from="UI/AttackMenu/Panel/ItemVBoxContainer2/StaminaP" to="TurnQueue" method="ItemUsed" binds= [ 1 ]]
+[connection signal="pressed" from="UI/AttackMenu/Panel/ItemVBoxContainer2/Revive" to="TurnQueue" method="ItemUsed" binds= [ 2 ]]
+[connection signal="pressed" from="UI/AttackMenu/Panel/ItemVBoxContainer2/Neutralizer" to="TurnQueue" method="ItemUsed" binds= [ 3 ]]
 
 [editable path="TurnQueue/Boss"]
 

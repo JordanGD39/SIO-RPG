@@ -33,6 +33,9 @@ public class Player : KinematicBody2D
     private bool alreadyTargeted = false;
     private GameManager gameManager;
     private int permSkillIndex;
+    private int permItemIndex;
+    private bool useItem = false;
+    private List<Node> targets = new List<Node>();
     public override void _Ready()
     {
         specials = GetNode("Special Moves");
@@ -58,12 +61,7 @@ public class Player : KinematicBody2D
 
         if (targetChoose)
         {
-            bool support = false;
-
-            if (chosenSkill != null)
-            {
-                support = chosenSkill.GetTeam();
-            }
+            bool support = ListSupport();
             ChooseTarget(delta, support);
         }   
 
@@ -71,11 +69,6 @@ public class Player : KinematicBody2D
         {
             ChooseAttackDirection(delta);
         }      
-
-        if (Input.IsActionJustReleased("ui_up"))
-        {
-            GD.Print("Upping");
-        } 
     }
 
     private void GoToMiddle()
@@ -109,8 +102,9 @@ public class Player : KinematicBody2D
 
     public void ChooseSkill(int skillIndex)
     {
-        targetIndex = 0;
-        
+        useItem = false;
+        targetIndex = 0;       
+
         if (stats.GetStun() > 0)
         {
             Random rand = new Random();
@@ -130,8 +124,12 @@ public class Player : KinematicBody2D
         if (skillIndex >= 0)
         {
             chosenSkill = specials.GetChild(skillIndex) as Skill;
+
+            bool support = ListSupport();
+            ChooseTargetsList(support);
+
             if (chosenSkill.GetTeam())
-            {
+            {                
                 battleManager.GetPlayers()[0].GetNode<Sprite>("Marker").Visible = true;
                 targetChoose = true;
                 return;
@@ -159,6 +157,8 @@ public class Player : KinematicBody2D
         }
         else
         {
+            ChooseTargetsList(false);
+
             chosenSkill = null;
         }
 
@@ -179,21 +179,54 @@ public class Player : KinematicBody2D
         permSkillIndex = skillIndex;
         battleManager.GetEnemies()[0].GetNode<Sprite>("Marker").Visible = true;
         alreadyTargeted = false;
+
         targetChoose = true;
     }
 
-    private void ChooseTarget(float delta, bool team)
+    private bool ListSupport()
     {
-        List<Node> targets = new List<Node>();
-        if (team)
+        bool support = useItem;
+
+        if (chosenSkill != null)
         {
-            targets = battleManager.GetPlayers();
+            support = chosenSkill.GetTeam();
+        }
+
+        return support;
+    }
+
+    public void ChooseItem(int itemIndex)
+    {
+        permItemIndex = itemIndex;
+        useItem = true;
+        chosenSkill = null;
+        battleManager.GetPlayers()[0].GetNode<Sprite>("Marker").Visible = true;
+        alreadyTargeted = false;
+        ChooseTargetsList(true);
+        targetChoose = true;
+    }
+
+    private void ChooseTargetsList(bool team)
+    {
+        if (team)
+        {            
+            targets = battleManager.GetPlayers();            
+
+            if (useItem && permItemIndex == 2)
+            {
+                targets = battleManager.GetAllPlayers();
+            }
+
+            GD.Print("targets count: " + targets.Count);
         }
         else
         {
             targets = battleManager.GetEnemies();
         }
+    }
 
+    private void ChooseTarget(float delta, bool team)
+    {
         if (timer < 0.3f)
         {
             timer += delta;
@@ -241,17 +274,25 @@ public class Player : KinematicBody2D
                     }
                 }
                 else
-                {
+                {                    
                     targets[targetIndex].GetNode<CharacterDamage>("Damage").StartGuardSequence(stats, chosenSkill);                
                 }
                   
             }
             else
             {
-                stats.SetStamina(stats.GetStamina() - chosenSkill.GetStaminaDepletion());
+                if (chosenSkill != null)
+                {
+                    stats.SetStamina(stats.GetStamina() - chosenSkill.GetStaminaDepletion());
 
-                targets[targetIndex].GetNode<CharacterDamage>("Damage").Support(chosenSkill, true, stats);
-                visible = false;
+                    targets[targetIndex].GetNode<CharacterDamage>("Damage").Support(chosenSkill, true, stats);
+                    visible = false;
+                }
+                else
+                {
+                    targets[targetIndex].GetNode<CharacterDamage>("Damage").ReceiveItem(permItemIndex);
+                    visible = false;
+                }                
             }
             
             guard.Visible = visible;
@@ -366,7 +407,6 @@ public class Player : KinematicBody2D
             
             if (Input.IsActionPressed("ui_up") || gameManager.GetVoiceControl() > 1 && Input.IsActionJustReleased("ui_up"))
             {
-                GD.Print("Upping");
                 attackDir = 1;
                 guard.Play("Up");
                 guardDelay = 0;

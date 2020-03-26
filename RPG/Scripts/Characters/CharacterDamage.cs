@@ -160,8 +160,7 @@ public class CharacterDamage : Node
     }
 
     private void ReceiveDamage()
-    {        
-
+    {   
         float crit = 1;
 
         Random rand = new Random();
@@ -315,6 +314,7 @@ public class CharacterDamage : Node
             battleManager.CheckIfNextTurn(playerControl);
         }
     }
+
     public void Support(Skill skill, bool userIsPlayer, Stats characterStats)
     {
         skillThatAttackedMe = skill;
@@ -439,6 +439,61 @@ public class CharacterDamage : Node
         {
             battleManager.CheckIfNextTurn(playerControl);
         }
+    }
+
+    public void ReceiveItem(int i)
+    {
+        marker.Visible = false;
+
+        switch (i)
+        {            
+            case 0:
+            stats.SetHealth(stats.GetHealth() + 100);
+            if (stats.GetHealth() > stats.GetMaxHealth())
+            {
+                stats.SetHealth(stats.GetMaxHealth());
+            }
+            GD.Print("Health: " + stats.GetHealth());
+            break;
+            case 1:
+            stats.SetStamina(stats.GetStamina() + 50);
+            if (stats.GetStamina() > stats.GetMaxStamina())
+            {
+                stats.SetStamina(stats.GetMaxStamina());
+            }
+            break;
+            case 2:
+            stats.SetHealth(100);
+            battleManager.PutMeInList(GetParent());
+            break;
+            case 3:
+            if (stats.GetAtk() < stats.GetMaxAtk())
+            {
+                stats.SetAtk(stats.GetMaxAtk());
+            }
+            if (stats.GetMag() < stats.GetMaxMag())
+            {
+                stats.SetMag(stats.GetMaxMag());
+            }
+            if (stats.GetDef() < stats.GetMaxDef())
+            {
+                stats.SetDef(stats.GetMaxDef());
+            }
+            if (stats.GetRes() < stats.GetMaxRes())
+            {
+                stats.SetRes(stats.GetMaxRes());
+            }
+            if (stats.GetSpd() < stats.GetMaxSpd())
+            {
+                stats.SetSpd(stats.GetMaxSpd());
+            }
+            if (stats.GetLuk() < stats.GetMaxLuk())
+            {
+                stats.SetLuk(stats.GetMaxLuk());
+            }
+            break;
+        }
+        battleManager.NextTurn();
     }
 
     public void CheckAttackToLearn(bool playerCalled, Skill skill)

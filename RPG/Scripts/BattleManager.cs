@@ -21,12 +21,15 @@ class SpeedCompare : IComparer<Node>
 public class BattleManager : Node
 {
     private GUI gui;
+    private ItemHolder itemHolder;
     private List<Node> turnOrder = new List<Node>();
     private List<Node> players = new List<Node>();
+    private List<Node> allPlayers = new List<Node>();
     private List<Node> enemies = new List<Node>();
     public List<Node> GetTurnOrder() {return turnOrder;}
     public List<Node> GetEnemies() {return enemies;}
     public List<Node> GetPlayers() {return players;}
+    public List<Node> GetAllPlayers() {return allPlayers;}
     private int currTurn = 0;
     public int GetCurrTurn() {return currTurn;}
     private int attacksForNextTurn = 0;
@@ -74,6 +77,7 @@ public class BattleManager : Node
         GD.Print(enemies.Count);
 
         gui = GetParent().GetNode("UI") as GUI;
+        itemHolder = GetParent().GetNode("ItemHolder") as ItemHolder;
         gui.ChangeNames(players, enemies);
 
         SortTurnOrder();
@@ -81,6 +85,8 @@ public class BattleManager : Node
         Player player = turnOrder[0] as Player;
 
         player.SetGoToMid(true);
+
+        allPlayers = players;
     }
 
     public void AttackPressed(int i)
@@ -90,6 +96,58 @@ public class BattleManager : Node
         Player player = turnOrder[currTurn] as Player;
         player.SetTimer(0);
         player.ChooseSkill(i);
+    }
+
+    public void ItemUsed(int i)
+    {
+        switch (i)
+        {
+            case 0:
+            if (itemHolder.GetPotions() > 0)
+            {
+                itemHolder.LowerPotions();
+            }
+            else
+            {
+                return;
+            }
+            break;
+            case 1:
+            if (itemHolder.GetStaminaPotions() > 0)
+            {
+                itemHolder.LowerStaminaPotions();
+            }
+            else
+            {
+                return;
+            }
+            break;
+            case 2:
+            if (itemHolder.GetRevives() > 0)
+            {
+                itemHolder.LowerRevives();
+            }
+            else
+            {
+                return;
+            }
+            break;
+            case 3:
+            if (itemHolder.GetNeutralizers() > 0)
+            {
+                itemHolder.LowerNeutralizers();
+            }
+            else
+            {
+                return;
+            }
+            break;
+        }
+        GD.Print(turnOrder[currTurn].GetNode<Stats>("Stats").GetCharName() + " is going to use an item! " + i);
+        gui.DissapearAttackMenu();
+        Player player = turnOrder[currTurn] as Player;
+        player.SetTimer(0);
+        player.ChooseItem(i);
     }
 
     public void NextTurn()
@@ -210,6 +268,13 @@ public class BattleManager : Node
                 GetTree().Quit();
             }
         }
+    }
+
+    public void PutMeInList(Node charachter)
+    {
+        turnOrder.Add(charachter);
+        SortTurnOrder();
+        players.Add(charachter);
     }
 
 //  // Called every frame. 'delta' is the elapsed time since the previous frame.
