@@ -45,6 +45,7 @@ namespace WorkTest
             // richTextBox1
             // 
             this.richTextBox1.BackColor = System.Drawing.SystemColors.ButtonFace;
+            this.richTextBox1.Enabled = false;
             this.richTextBox1.Font = new System.Drawing.Font("Roboto", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.richTextBox1.Location = new System.Drawing.Point(93, 72);
             this.richTextBox1.Name = "richTextBox1";

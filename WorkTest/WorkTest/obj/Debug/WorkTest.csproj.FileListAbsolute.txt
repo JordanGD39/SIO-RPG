@@ -15,3 +15,4 @@ C:\Users\ianar\OneDrive\Bureaublad\ma\bewijzenmap\periode 2.1\idp\github\SIO-RPG
 C:\Users\ianar\OneDrive\Bureaublad\ma\bewijzenmap\periode 2.1\idp\github\SIO-RPG\WorkTest\WorkTest\obj\Debug\WorkTest.csproj.GenerateResource.cache
 C:\Users\ianar\OneDrive\Bureaublad\ma\bewijzenmap\periode 2.1\idp\github\SIO-RPG\WorkTest\WorkTest\obj\Debug\WorkTest.exe
 C:\Users\ianar\OneDrive\Bureaublad\ma\bewijzenmap\periode 2.1\idp\github\SIO-RPG\WorkTest\WorkTest\obj\Debug\WorkTest.pdb
+C:\Users\ianar\OneDrive\Bureaublad\ma\bewijzenmap\periode 2.1\idp\github\SIO-RPG\WorkTest\WorkTest\obj\Debug\WorkTest.csprojAssemblyReference.cache
