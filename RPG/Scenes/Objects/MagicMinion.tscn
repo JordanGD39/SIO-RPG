@@ -144,20 +144,20 @@ position = Vector2( 0, -120 )
 
 [node name="Fire Shot" type="Node" parent="Special Moves"]
 script = ExtResource( 6 )
-element = 4
+element = 5
 mag = 30
 staminaDepletion = 30
 
 [node name="Laser Shot" type="Node" parent="Special Moves"]
 script = ExtResource( 6 )
-element = 4
+element = 5
 mag = 25
 staminaDepletion = 35
 attackAll = true
 
 [node name="Burning Fire Shot" type="Node" parent="Special Moves"]
 script = ExtResource( 6 )
-element = 4
+element = 5
 mag = 50
 staminaDepletion = 70
 

@@ -105,6 +105,7 @@ staminaDepletion = 30
 
 [node name="Slash of Darkness" type="Node" parent="Special Moves"]
 script = ExtResource( 6 )
+element = 7
 mag = 35
 staminaDepletion = 35
 attackAll = true

@@ -1,10 +1,12 @@
 using Godot;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 public class CharacterDamage : Node
 {
     private Stats stats;
+    private Node FX;
     private Player player;
     private EnemyAI ai;
     private Stats attackerStats;
@@ -29,11 +31,13 @@ public class CharacterDamage : Node
         marker = GetParent().GetNode("Marker") as Sprite;
         stats = GetParent().GetNode("Stats") as Stats;
         stats.SetMaxHealth(stats.GetHealth());
-        battleManager = GetParent().GetParent() as BattleManager;
+        battleManager = GetParent().GetParent() as BattleManager;        
         if (battleManager != null)
         {
             gameManager = battleManager.GetParent() as GameManager;
-        }        
+            FX = gameManager.GetNode("FX") as Node;
+        }
+
         if (player == null)
         {
             playerControl = false;
@@ -159,7 +163,7 @@ public class CharacterDamage : Node
         }
     }
 
-    private void ReceiveDamage()
+    private async void ReceiveDamage()
     {   
         float crit = 1;
 
@@ -245,13 +249,22 @@ public class CharacterDamage : Node
         else
         {
             GD.Print("Missed!");
-        }     
+        }
+
+        guard.Visible = false;
+        attackerStats.GetParent().GetNode<AnimatedSprite>("Guard").Visible = false;
 
         Player attackerIsPlayer = attackerStats.GetParent() as Player;
         
         if (attackerIsPlayer != null)
         {
             attackerIsPlayer.SetChooseAttackDir(false);
+            attackerIsPlayer.GetAnimationPlayer().Play(attackerStats.GetCharName() + "_Attack");
+
+            PlayElementAnim();
+
+            Task longRunningTask = LongRunningOperationAsync((int)Math.Round(attackerIsPlayer.GetAnimationPlayer().GetAnimation(attackerStats.GetCharName() + "_Attack").Length * 1000, MidpointRounding.AwayFromZero));
+            await longRunningTask;
 
             if (attackerIsPlayer.GetAttackDirection() == guardDir)
             {
@@ -280,8 +293,7 @@ public class CharacterDamage : Node
                     return;
                 }
             } 
-        }
-        
+        }       
 
         int damageInt = Mathf.RoundToInt(damage);
         
@@ -302,8 +314,6 @@ public class CharacterDamage : Node
         }
 
         GD.Print(stats.GetCharName() + " has " + stats.GetHealth() + " HP left");
-        guard.Visible = false;
-        attackerStats.GetParent().GetNode<AnimatedSprite>("Guard").Visible = false;
 
         if (skillThatAttackedMe == null || !skillThatAttackedMe.GetAttackAll())
         {
@@ -527,5 +537,46 @@ public class CharacterDamage : Node
                 return;
             }
         }                
+    }
+
+    private async Task LongRunningOperationAsync(int delay)
+    {
+        await Task.Delay(delay);
+    }
+
+    private void PlayElementAnim()
+    {
+        if (skillThatAttackedMe != null)
+        {
+            switch (skillThatAttackedMe.GetElement())
+            {                
+                case weakness.LIGHTNING:
+                    if (!skillThatAttackedMe.GetAttackAll())
+                    {
+                        FX.GetChild<Sprite>(0).Position = new Vector2(GetParent<KinematicBody2D>().Position.x - 100, GetParent<KinematicBody2D>().Position.y - 250);
+                    }
+                    else
+                    {
+                        FX.GetChild<Sprite>(0).Position = new Vector2(1200, 650);
+                    }
+                                       
+                    FX.GetChild(0).GetChild<AnimationPlayer>(0).Play("Thunder");        
+                break;
+                case weakness.FIRE:
+                if (!skillThatAttackedMe.GetAttackAll())
+                    {
+                        FX.GetChild<Sprite>(1).Position = GetParent<KinematicBody2D>().Position;
+                        FX.GetChild<Sprite>(1).Scale = new Vector2(2, 2);
+                    }
+                    else
+                    {
+                        FX.GetChild<Sprite>(1).Position = new Vector2(1300, 650); 
+                        FX.GetChild<Sprite>(1).Scale = new Vector2(5, 5);
+                    }
+                                       
+                    FX.GetChild(1).GetChild<AnimationPlayer>(0).Play("Fire");        
+                break;
+            }   
+        }
     }
 }

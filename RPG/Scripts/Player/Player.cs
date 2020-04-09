@@ -36,6 +36,8 @@ public class Player : KinematicBody2D
     private int permItemIndex;
     private bool useItem = false;
     private List<Node> targets = new List<Node>();
+    private AnimationPlayer animation;
+    public AnimationPlayer GetAnimationPlayer() {return animation;}
     public override void _Ready()
     {
         specials = GetNode("Special Moves");
@@ -44,7 +46,8 @@ public class Player : KinematicBody2D
         gameManager = battleManager.GetParent() as GameManager;
         stats = GetNode("Stats") as Stats;
         guard = GetNode("Guard") as AnimatedSprite;
-        damageScript = GetNode<CharacterDamage>("Damage") as CharacterDamage;
+        damageScript = GetNode("Damage") as CharacterDamage;
+        animation = GetChild(0).GetChild(0) as AnimationPlayer;
     }
  // Called every frame. 'delta' is the elapsed time since the previous frame.
     public override void _Process(float delta)
@@ -244,6 +247,11 @@ public class Player : KinematicBody2D
 
                     if (chosenSkill.GetStatChange() || chosenSkill.GetHeal())
                     {
+                        if (animation.HasAnimation(stats.GetCharName() + "_Heal"))
+                        {
+                            animation.Play(stats.GetCharName() + "_Heal");
+                        }
+
                         if (!chosenSkill.GetAttackAll())
                         {
                             targets[targetIndex].GetNode<CharacterDamage>("Damage").Debuff(chosenSkill, stats);
@@ -260,6 +268,7 @@ public class Player : KinematicBody2D
                     }
                     else
                     {
+
                         if (!chosenSkill.GetAttackAll())
                         {
                             targets[targetIndex].GetNode<CharacterDamage>("Damage").StartGuardSequence(stats, chosenSkill);
@@ -274,13 +283,18 @@ public class Player : KinematicBody2D
                     }
                 }
                 else
-                {                    
+                {
                     targets[targetIndex].GetNode<CharacterDamage>("Damage").StartGuardSequence(stats, chosenSkill);                
                 }
                   
             }
             else
             {
+                if (animation.HasAnimation(stats.GetCharName() + "_Heal"))
+                {
+                    animation.Play(stats.GetCharName() + "_Heal");
+                }
+
                 if (chosenSkill != null)
                 {
                     stats.SetStamina(stats.GetStamina() - chosenSkill.GetStaminaDepletion());

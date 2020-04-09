@@ -2,7 +2,7 @@ using Godot;
 using System;
 using System.Collections.Generic;
 
-public enum weakness{ SWORD, AXE, LANCE, STAFF, FIST, SHIELD, FIRE, ICE}
+public enum weakness{ SWORD, AXE, LANCE, STAFF, FIST, FIRE, LIGHTNING, DARK}
 
 public class Stats : Node
 {

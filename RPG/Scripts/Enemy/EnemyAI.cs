@@ -151,6 +151,7 @@ public class EnemyAI : KinematicBody2D
                 if (battleManager.GetEnemies().Count <= 2)
                 {
                     minionTransform.Position = new Vector2(1200, 500);
+                    minionTransform.ZIndex = -1;
                 }
                 else
                 {
@@ -160,10 +161,12 @@ public class EnemyAI : KinematicBody2D
                         minionTransform.Position = new Vector2(1200, 500);
                         battleManager.GetEnemies()[1] = minion;
                         battleManager.GetEnemies()[2] = otherMinion;
+                        minionTransform.ZIndex = -1;
                     }
                     else
                     {
                         minionTransform.Position = new Vector2(1200, 930);
+                        minionTransform.ZIndex = 1;
                     }                    
                 }
 

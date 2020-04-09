@@ -1,6 +1,6 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene load_steps=11 format=2]
 
-[ext_resource path="res://Assets/MikuIdle.png" type="Texture" id=1]
+[ext_resource path="res://Assets/Serra.png" type="Texture" id=1]
 [ext_resource path="res://Animations/Player/PlaceHolders/Miku/Miku_Idle.tres" type="Animation" id=2]
 [ext_resource path="res://Scripts/Characters/Stats.cs" type="Script" id=3]
 [ext_resource path="res://Scripts/Player/Player.cs" type="Script" id=4]
@@ -9,42 +9,50 @@
 [ext_resource path="res://Scenes/Objects/Guard.tscn" type="PackedScene" id=7]
 [ext_resource path="res://Scenes/Objects/Marker.tscn" type="PackedScene" id=8]
 
-[sub_resource type="CapsuleShape2D" id=1]
+[sub_resource type="Animation" id=5]
+resource_name = "Serra_Attack"
+length = 0.8
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 0, 1, 2, 3, 4, 30, 31, 32 ]
+}
+
+[sub_resource type="CapsuleShape2D" id=4]
 radius = 33.0083
 height = 70.7271
-
-[sub_resource type="AnimationNodeAnimation" id=2]
-animation = "Miku_Idle"
-
-[sub_resource type="AnimationNodeStateMachine" id=3]
-states/Miku_Idle/node = SubResource( 2 )
-states/Miku_Idle/position = Vector2( 384, 99 )
-start_node = "Miku_Idle"
-
-[sub_resource type="AnimationNodeStateMachinePlayback" id=4]
 
 [node name="Player" type="KinematicBody2D"]
 position = Vector2( 436.65, 518.835 )
 script = ExtResource( 4 )
 
 [node name="Sprite" type="Sprite" parent="."]
-position = Vector2( 2.88342, -6.44104 )
+scale = Vector2( 4, 4 )
 texture = ExtResource( 1 )
-offset = Vector2( -6, 0 )
-vframes = 6
+offset = Vector2( 1, -10 )
+flip_h = true
+vframes = 7
 hframes = 5
-frame = 3
+frame = 32
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Sprite"]
-anims/Miku_Idle = ExtResource( 2 )
+anims/Serra_Attack = SubResource( 5 )
+anims/Serra_Heal = ExtResource( 2 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-shape = SubResource( 1 )
+shape = SubResource( 4 )
 disabled = true
 
 [node name="Stats" type="Node" parent="."]
 script = ExtResource( 3 )
-charName = "Miku"
+charName = "Serra"
 atk = 75
 maxAtk = 75
 mag = 90
@@ -55,17 +63,11 @@ spd = 60
 maxSpd = 60
 luk = 100
 maxLuk = 100
-weaknesses = [ 0 ]
-attackElement = 4
+weaknesses = [ 7 ]
+attackElement = 3
 
 [node name="Marker" parent="." instance=ExtResource( 8 )]
 position = Vector2( 0, -100 )
-
-[node name="AnimationTree" type="AnimationTree" parent="."]
-tree_root = SubResource( 3 )
-anim_player = NodePath("../Sprite/AnimationPlayer")
-active = true
-parameters/playback = SubResource( 4 )
 
 [node name="Damage" type="Node" parent="."]
 script = ExtResource( 6 )
