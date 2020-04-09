@@ -119,7 +119,7 @@ namespace WorkTest
 
                 // When the command is Show items.
                 case "Show items":
-                    SendKeys.SendWait("(g)");
+                    SendKeys.SendWait("(i)");
                     richTextBox1.Text += "\n" + e.Result.Text;
                     break;
 
