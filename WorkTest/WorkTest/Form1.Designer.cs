@@ -51,7 +51,7 @@ namespace WorkTest
             this.richTextBox1.Name = "richTextBox1";
             this.richTextBox1.Size = new System.Drawing.Size(616, 278);
             this.richTextBox1.TabIndex = 8;
-            this.richTextBox1.Text = "-SHOWING COMMANDS-";
+            this.richTextBox1.Text = resources.GetString("richTextBox1.Text");
             this.richTextBox1.TextChanged += new System.EventHandler(this.richTextBox1_TextChanged);
             // 
             // pictureBox4
