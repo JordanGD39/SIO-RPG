@@ -1,4 +1,9 @@
 ## SIO-RPG
+Deze github pagina bevat ons project. Op da branch van Jordan kunt u de game vinden, en op mijn branch(Ian) kunt u de voice app genaamd BuggySpeech vinden. De documentatie van deze producten zijn op de master branch te vinden. Ook zit hierbij Het basis idee van onze presonages die wij aan het begin van dit project hebben gemaakt.
+
+Youtube link naar video product:
+* ...
+
 #RPG gedeelte
 ---
 
