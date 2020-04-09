@@ -2,7 +2,7 @@
 
 #BuggySpeech
 ---
-Deze branch bevat de code van de app BuggySpeech die ik gemaakt heb. Door een aantal problemen staat de oude versie hier nog op. Het is dus belangrijk dat als u naar code wilt kijken u naar het mapje WorkTest gaat. Hier is het uiteindelijke resultaat te vinden. Met deze app kunt u het volgende doen:
+Deze branch bevat de code van de app BuggySpeech die ik gemaakt heb. Met deze app kunt u het volgende doen:
 
 * De spraak herkenning aan en uit zetten zodat de app wel of niet naar u luisterd;
 * Het thema aanpassen, dit is standaard een donker thema, maar dat kan heel simpel aangepast worden naar een licht thema;
