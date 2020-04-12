@@ -51,10 +51,13 @@ public class EnemyAI : KinematicBody2D
     private Skill chosenSkill;
     private List<Node> minions = new List<Node>();
     private int spawnMinionChance = 0;
+    private AnimationPlayer animation;
+    public AnimationPlayer GetAnimationPlayer() {return animation;}
 
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
+        animation = GetChild(0).GetChild(0) as AnimationPlayer;
         learnList.Add(AIskillTypes.ATTACK);
         gameManager = GetParent().GetParent() as GameManager;
         specials = GetNode("Special Moves");
@@ -112,7 +115,7 @@ public class EnemyAI : KinematicBody2D
     }
 
     public void MyTurn()
-    {        
+    {
         stats.SetStamina(stats.GetStamina() + 20);
 
         bool skillFound = false;

@@ -206,7 +206,7 @@ public class CharacterDamage : Node
         }
         else
         {
-            if (stats.GetWeaknesses().Contains(stats.GetAttackElement()))
+            if (stats.GetWeaknesses().Contains(attackerStats.GetAttackElement()))
             {
                 weaknessHit = 1.5f;
                 GD.Print("WEAKNESS HIT!!");
@@ -255,51 +255,126 @@ public class CharacterDamage : Node
         attackerStats.GetParent().GetNode<AnimatedSprite>("Guard").Visible = false;
 
         Player attackerIsPlayer = attackerStats.GetParent() as Player;
-        
+        bool hitShield = false;
         if (attackerIsPlayer != null)
         {
-            attackerIsPlayer.SetChooseAttackDir(false);
-            attackerIsPlayer.GetAnimationPlayer().Play(attackerStats.GetCharName() + "_Attack");
-
-            PlayElementAnim();
-
-            Task longRunningTask = LongRunningOperationAsync((int)Math.Round(attackerIsPlayer.GetAnimationPlayer().GetAnimation(attackerStats.GetCharName() + "_Attack").Length * 1000, MidpointRounding.AwayFromZero));
-            await longRunningTask;
+            attackerIsPlayer.SetChooseAttackDir(false);            
 
             if (attackerIsPlayer.GetAttackDirection() == guardDir)
             {
                 damage *= 0.5f;
                 GD.Print("You hit their shield!");                
                 stun = false;
+                hitShield = true;
                 if (stats.GetCounter())
                 {
-                    attackerIsPlayer.GetNode<CharacterDamage>("Damage").StartGuardSequence(stats, null);
-                    stats.SetCounter(false);
-                    return;
+                    damage = 0;
                 }
             } 
         }
         else
-        {
+        {            
+
             if (attackerStats.GetParent().GetNode<CharacterDamage>("Damage").GetEnemyAttackDirection() == GetParent<Player>().GetAttackDirection())
             {
                 damage *= 0.5f;
                 GD.Print("You hit their shield!");
                 stun = false;
+                hitShield = true;
                 if (stats.GetCounter())
                 {
-                    attackerStats.GetParent().GetNode<CharacterDamage>("Damage").StartGuardSequence(stats, null);
-                    stats.SetCounter(false);
-                    return;
-                }
+                    damage = 0;
+                }             
             } 
         }       
 
         int damageInt = Mathf.RoundToInt(damage);
         
         GD.Print(attackerStats.GetCharName() + " did " + damageInt + " damage to " + stats.GetCharName());        
+        int animDurationMS = 0;
+
+        if (attackerIsPlayer != null)
+        {
+            attackerIsPlayer.GetAnimationPlayer().Play(attackerStats.GetCharName() + "_Attack");
+
+            PlayElementAnim();
+            animDurationMS = (int)Math.Round(attackerIsPlayer.GetAnimationPlayer().GetAnimation(attackerStats.GetCharName() + "_Attack").Length * 1000, MidpointRounding.AwayFromZero);
+            Task longRunningTask = gameManager.LongRunningOperationAsync(attackerStats.GetHitHappened());
+            await longRunningTask;
+
+            animDurationMS -= attackerStats.GetHitHappened() + 200;        
+        }
+        else
+        {
+            attackerStats.GetParent<EnemyAI>().GetAnimationPlayer().Play(attackerStats.GetCharName() + "_Attack");
+
+            PlayElementAnim();
+            animDurationMS = (int)Math.Round(attackerStats.GetParent<EnemyAI>().GetAnimationPlayer().GetAnimation(attackerStats.GetCharName() + "_Attack").Length * 1000, MidpointRounding.AwayFromZero);
+            Task longRunningTask = gameManager.LongRunningOperationAsync(attackerStats.GetHitHappened());
+            await longRunningTask;
+
+            animDurationMS -= attackerStats.GetHitHappened() + 200;
+        }
+
+        Sprite sprite = GetParent().GetChild<Sprite>(0);
+
+        if (damageInt > 0)
+        {            
+            if (crit > 1)
+            {
+                sprite.Modulate = new Color(3,3,3);
+                gameManager.GetAudioNode().GetNode<AudioStreamPlayer>("Crit").Play();
+            }
+            else
+            {
+                if (hitShield)
+                {
+                    sprite.Modulate = new Color(1.25f,1.25f,1.25f);
+                    gameManager.GetAudioNode().GetNode<AudioStreamPlayer>("Guard").Play();
+                }
+                else
+                {
+                    sprite.Modulate = new Color(2,2,2);
+                    gameManager.GetAudioNode().GetChild<AudioStreamPlayer>(0).Play();
+                }
+               
+            }            
+        }
+        else
+        {
+            if (missed)
+            {
+                sprite.Modulate = new Color(0.5f,0.5f,0.5f);
+                gameManager.GetAudioNode().GetNode<AudioStreamPlayer>("Miss").Play();
+            }
+            else
+            {
+                sprite.Modulate = new Color(1.25f,1.25f,1.25f);
+                gameManager.GetAudioNode().GetNode<AudioStreamPlayer>("NoDamage").Play();
+            }
+        }        
+
+        if (skillThatAttackedMe != null)
+        {
+            PlayElementSFX();
+        }        
 
         stats.SetHealth(stats.GetHealth() - damageInt);
+        
+        Task animTask = gameManager.LongRunningOperationAsync(200);
+        await animTask;
+
+        sprite.Modulate = new Color(1,1,1);
+
+        if (stats.GetCounter() && hitShield)
+        {
+            attackerStats.GetParent().GetNode<CharacterDamage>("Damage").StartGuardSequence(stats, null);
+            stats.SetCounter(false);
+            return;
+        }
+
+        animTask = gameManager.LongRunningOperationAsync(animDurationMS);
+        await animTask;        
 
         if (stun && stats.GetStun() == 0 && damageInt > 0)
         {
@@ -501,6 +576,8 @@ public class CharacterDamage : Node
             {
                 stats.SetLuk(stats.GetMaxLuk());
             }
+
+            stats.SetStun(0);
             break;
         }
         battleManager.NextTurn();
@@ -539,11 +616,6 @@ public class CharacterDamage : Node
         }                
     }
 
-    private async Task LongRunningOperationAsync(int delay)
-    {
-        await Task.Delay(delay);
-    }
-
     private void PlayElementAnim()
     {
         if (skillThatAttackedMe != null)
@@ -557,26 +629,77 @@ public class CharacterDamage : Node
                     }
                     else
                     {
-                        FX.GetChild<Sprite>(0).Position = new Vector2(1200, 650);
+                        if (!playerControl)
+                        {
+                            FX.GetChild<Sprite>(0).Position = new Vector2(1200, 650);
+                        }
+                        else
+                        {
+                            FX.GetChild<Sprite>(0).Position = new Vector2(350, 650);
+                        }
+                        
                     }
-                                       
                     FX.GetChild(0).GetChild<AnimationPlayer>(0).Play("Thunder");        
                 break;
                 case weakness.FIRE:
                 if (!skillThatAttackedMe.GetAttackAll())
                     {
                         FX.GetChild<Sprite>(1).Position = GetParent<KinematicBody2D>().Position;
-                        FX.GetChild<Sprite>(1).Scale = new Vector2(2, 2);
+                        if (skillThatAttackedMe.GetMag() < 50)
+                        {
+                            FX.GetChild<Sprite>(1).Scale = new Vector2(2, 2);
+                        }
+                        else
+                        {
+                            FX.GetChild<Sprite>(1).Scale = new Vector2(4, 4);
+                        }
                     }
                     else
                     {
-                        FX.GetChild<Sprite>(1).Position = new Vector2(1300, 650); 
+                        if (!playerControl)
+                        {
+                            FX.GetChild<Sprite>(1).Position = new Vector2(1300, 650);
+                        }
+                        else
+                        {
+                            FX.GetChild<Sprite>(1).Position = new Vector2(450, 650);
+                        }
                         FX.GetChild<Sprite>(1).Scale = new Vector2(5, 5);
                     }
-                                       
                     FX.GetChild(1).GetChild<AnimationPlayer>(0).Play("Fire");        
                 break;
             }   
         }
+        else
+        {
+            if (attackerStats.GetAttackElement() == weakness.FIST)
+            {
+                if (!playerControl)
+                {
+                    FX.GetChild<Sprite>(2).Position = new Vector2(GetParent<KinematicBody2D>().Position.x - 100, GetParent<KinematicBody2D>().Position.y);
+                    FX.GetChild<Sprite>(2).Scale = new Vector2(0.7f, 0.7f);
+                }
+                else
+                {
+                    FX.GetChild<Sprite>(2).Position = new Vector2(GetParent<KinematicBody2D>().Position.x + 100, GetParent<KinematicBody2D>().Position.y);
+                    FX.GetChild<Sprite>(2).Scale = new Vector2(-0.7f, 0.7f);
+                }
+                
+                FX.GetChild(2).GetChild<AnimationPlayer>(0).Play("Hand");
+            }
+        }
+    }
+
+    private void PlayElementSFX()
+    {
+        switch (skillThatAttackedMe.GetElement())
+        {            
+            case weakness.LIGHTNING:
+                gameManager.GetAudioNode().GetChild<AudioStreamPlayer>(2).Play(1);             
+            break;
+            case weakness.FIRE:
+                gameManager.GetAudioNode().GetChild<AudioStreamPlayer>(3).Play(0);
+            break;
+        }        
     }
 }

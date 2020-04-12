@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/Stat-Up Ping.wav-3386caa3d4ac206f3ca11ac96549325d.sample"
+
+[deps]
+
+source_file="res://Audio/GBASFX/Stat-Up Ping.wav"
+dest_files=[ "res://.import/Stat-Up Ping.wav-3386caa3d4ac206f3ca11ac96549325d.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0

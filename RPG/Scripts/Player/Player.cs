@@ -1,6 +1,7 @@
 using Godot;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 public class Player : KinematicBody2D
 {
@@ -38,6 +39,7 @@ public class Player : KinematicBody2D
     private List<Node> targets = new List<Node>();
     private AnimationPlayer animation;
     public AnimationPlayer GetAnimationPlayer() {return animation;}
+    private Sprite marker;
     public override void _Ready()
     {
         specials = GetNode("Special Moves");
@@ -48,6 +50,7 @@ public class Player : KinematicBody2D
         guard = GetNode("Guard") as AnimatedSprite;
         damageScript = GetNode("Damage") as CharacterDamage;
         animation = GetChild(0).GetChild(0) as AnimationPlayer;
+        marker = GetNode("Marker") as Sprite;
     }
  // Called every frame. 'delta' is the elapsed time since the previous frame.
     public override void _Process(float delta)
@@ -104,7 +107,7 @@ public class Player : KinematicBody2D
     }
 
     public void ChooseSkill(int skillIndex)
-    {
+    {        
         useItem = false;
         targetIndex = 0;       
 
@@ -220,7 +223,7 @@ public class Player : KinematicBody2D
                 targets = battleManager.GetAllPlayers();
             }
 
-            GD.Print("targets count: " + targets.Count);
+            GD.Print("targets count: " + targets.Count + " permItemIndex: " + permItemIndex);
         }
         else
         {
@@ -228,7 +231,7 @@ public class Player : KinematicBody2D
         }
     }
 
-    private void ChooseTarget(float delta, bool team)
+    private async void ChooseTarget(float delta, bool team)
     {
         if (timer < 0.3f)
         {
@@ -250,6 +253,9 @@ public class Player : KinematicBody2D
                         if (animation.HasAnimation(stats.GetCharName() + "_Heal"))
                         {
                             animation.Play(stats.GetCharName() + "_Heal");
+                            gameManager.GetAudioNode().GetChild<AudioStreamPlayer>(1).Play(0);
+                            Task longRunningTask = gameManager.LongRunningOperationAsync((int)Math.Round(animation.GetAnimation(stats.GetCharName() + "_Heal").Length * 1000, MidpointRounding.AwayFromZero));
+                            await longRunningTask;
                         }
 
                         if (!chosenSkill.GetAttackAll())
@@ -292,7 +298,11 @@ public class Player : KinematicBody2D
             {
                 if (animation.HasAnimation(stats.GetCharName() + "_Heal"))
                 {
+                    marker.Visible = false;
                     animation.Play(stats.GetCharName() + "_Heal");
+                    gameManager.GetAudioNode().GetChild<AudioStreamPlayer>(1).Play(0);
+                    Task longRunningTask = gameManager.LongRunningOperationAsync((int)Math.Round(animation.GetAnimation(stats.GetCharName() + "_Heal").Length * 1000, MidpointRounding.AwayFromZero));
+                    await longRunningTask;
                 }
 
                 if (chosenSkill != null)

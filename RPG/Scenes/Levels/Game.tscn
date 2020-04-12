@@ -1,4 +1,4 @@
-[gd_scene load_steps=42 format=2]
+[gd_scene load_steps=55 format=2]
 
 [ext_resource path="res://Assets/BG.jpg" type="Texture" id=1]
 [ext_resource path="res://Scenes/Objects/Player.tscn" type="PackedScene" id=2]
@@ -26,6 +26,18 @@
 [ext_resource path="res://Assets/Nino.png" type="Texture" id=24]
 [ext_resource path="res://Assets/Thunder.png" type="Texture" id=25]
 [ext_resource path="res://Assets/Fire.png" type="Texture" id=26]
+[ext_resource path="res://Assets/Hand.png" type="Texture" id=27]
+[ext_resource path="res://Audio/Reigning_Justice.ogg" type="AudioStream" id=28]
+[ext_resource path="res://Audio/GBASFX/Hit 1.wav" type="AudioStream" id=29]
+[ext_resource path="res://Audio/GBASFX/Heal.WAV" type="AudioStream" id=30]
+[ext_resource path="res://Audio/Thunder Sound effect.ogg" type="AudioStream" id=31]
+[ext_resource path="res://Audio/Big Explosion Effect Video Mp4 HD Sound.ogg" type="AudioStream" id=32]
+[ext_resource path="res://Audio/Miss.ogg" type="AudioStream" id=33]
+[ext_resource path="res://Audio/Critical Land.ogg" type="AudioStream" id=34]
+[ext_resource path="res://Audio/Dual Guard 1.ogg" type="AudioStream" id=35]
+[ext_resource path="res://Animations/Death.tres" type="Animation" id=36]
+[ext_resource path="res://Audio/Overworld Unit Lost.ogg" type="AudioStream" id=37]
+[ext_resource path="res://Audio/Dual Guard 3.ogg" type="AudioStream" id=38]
 
 [sub_resource type="Animation" id=1]
 length = 3.0
@@ -254,6 +266,42 @@ tracks/1/keys = {
 "values": [ true, false ]
 }
 
+[sub_resource type="Animation" id=16]
+resource_name = "Hand"
+length = 4.0
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 1.4, 4 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ true, false ]
+}
+tracks/1/type = "bezier"
+tracks/1/path = NodePath(".:offset:x")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"points": PoolRealArray( 0, -0.25, 0, 0.25, 0, 80, -0.25, 0, 0.25, 0, 80, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 1.4, 1.6, 3, 4 )
+}
+tracks/2/type = "bezier"
+tracks/2/path = NodePath(".:offset:y")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"points": PoolRealArray( 0, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 1.4, 1.6, 3, 4 )
+}
+
 [node name="Game" type="Node2D"]
 script = ExtResource( 18 )
 difficulty = 2
@@ -286,6 +334,7 @@ vframes = 6
 hframes = 5
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="TurnQueue/Palladin/Sprite"]
+anims/Death = ExtResource( 36 )
 anims/Eliwood_Attack = ExtResource( 9 )
 anims/Miku_Idle = SubResource( 1 )
 
@@ -302,13 +351,14 @@ atk = 115
 maxAtk = 115
 mag = 75
 maxMag = 75
-def = 90
-maxDef = 90
-res = 70
-maxRes = 70
-luk = 30
-maxLuk = 30
-weaknesses = [ 2 ]
+def = 85
+maxDef = 85
+res = 75
+maxRes = 75
+luk = 40
+maxLuk = 40
+weaknesses = [ 6 ]
+hitHappened = 600
 
 [node name="Marker" parent="TurnQueue/Palladin" instance=ExtResource( 17 )]
 position = Vector2( 0, -100 )
@@ -358,6 +408,7 @@ vframes = 8
 hframes = 7
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="TurnQueue/Mage/Sprite"]
+anims/Death = ExtResource( 36 )
 anims/Miku_Idle = SubResource( 3 )
 anims/Nino_Attack = ExtResource( 10 )
 
@@ -382,7 +433,7 @@ maxSpd = 70
 luk = 50
 maxLuk = 50
 weaknesses = [ 0 ]
-attackElement = 4
+attackElement = 3
 
 [node name="Marker" parent="TurnQueue/Mage" instance=ExtResource( 17 )]
 position = Vector2( 0, -100 )
@@ -399,13 +450,13 @@ flip_h = true
 
 [node name="Fireball" type="Node" parent="TurnQueue/Mage/Special Moves"]
 script = ExtResource( 15 )
-element = 5
+element = 4
 mag = 40
 staminaDepletion = 30
 
 [node name="Giant Flame" type="Node" parent="TurnQueue/Mage/Special Moves"]
 script = ExtResource( 15 )
-element = 5
+element = 4
 lessAcc = 10
 mag = 30
 staminaDepletion = 40
@@ -413,13 +464,13 @@ attackAll = true
 
 [node name="Ligtning Beam" type="Node" parent="TurnQueue/Mage/Special Moves"]
 script = ExtResource( 15 )
-element = 6
+element = 5
 mag = 40
 staminaDepletion = 30
 
 [node name="Lightning Strike" type="Node" parent="TurnQueue/Mage/Special Moves"]
 script = ExtResource( 15 )
-element = 6
+element = 5
 lessAcc = 10
 mag = 30
 staminaDepletion = 40
@@ -430,7 +481,7 @@ position = Vector2( 430, 920 )
 script = ExtResource( 14 )
 
 [node name="Sprite" type="Sprite" parent="TurnQueue/Dwarf"]
-scale = Vector2( 3, 3 )
+scale = Vector2( 3.5, 3.5 )
 texture = ExtResource( 6 )
 offset = Vector2( 13, -20 )
 flip_h = true
@@ -438,6 +489,7 @@ vframes = 5
 hframes = 8
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="TurnQueue/Dwarf/Sprite"]
+anims/Death = ExtResource( 36 )
 anims/Hector_Attack = ExtResource( 4 )
 anims/Miku_Idle = SubResource( 4 )
 
@@ -449,21 +501,23 @@ disabled = true
 [node name="Stats" type="Node" parent="TurnQueue/Dwarf"]
 script = ExtResource( 7 )
 charName = "Hector"
-health = 250
+health = 400
+maxHealth = 400
 atk = 120
 maxAtk = 120
-mag = 65
-maxMag = 65
-def = 75
-maxDef = 75
-res = 70
-maxRes = 70
-spd = 90
-maxSpd = 90
+mag = 60
+maxMag = 60
+def = 95
+maxDef = 95
+res = 65
+maxRes = 65
+spd = 60
+maxSpd = 60
 luk = 70
 maxLuk = 70
-weaknesses = [ 6 ]
+weaknesses = [ 2 ]
 attackElement = 1
+hitHappened = 1900
 
 [node name="Marker" parent="TurnQueue/Dwarf" instance=ExtResource( 17 )]
 position = Vector2( 0, -100 )
@@ -1051,16 +1105,67 @@ anims/Thunder = SubResource( 14 )
 
 [node name="Fire" type="Sprite" parent="FX"]
 visible = false
-position = Vector2( 1271.35, 687.286 )
+position = Vector2( 447.34, 673.65 )
 scale = Vector2( 5, 5 )
 z_index = 10
 texture = ExtResource( 26 )
 vframes = 4
 hframes = 5
-frame = 18
+frame = 14
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="FX/Fire"]
 anims/Fire = SubResource( 15 )
+
+[node name="Hand" type="Sprite" parent="FX"]
+visible = false
+position = Vector2( 1100, 501.977 )
+scale = Vector2( 0.7, 0.7 )
+z_index = 10
+texture = ExtResource( 27 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="FX/Hand"]
+anims/Hand = SubResource( 16 )
+
+[node name="Music" type="Node" parent="."]
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="Music"]
+stream = ExtResource( 28 )
+volume_db = -10.0
+autoplay = true
+
+[node name="SFX" type="Node" parent="."]
+
+[node name="Hit" type="AudioStreamPlayer" parent="SFX"]
+stream = ExtResource( 29 )
+volume_db = 5.0
+
+[node name="Heal" type="AudioStreamPlayer" parent="SFX"]
+stream = ExtResource( 30 )
+
+[node name="Thunder" type="AudioStreamPlayer" parent="SFX"]
+stream = ExtResource( 31 )
+volume_db = -3.0
+
+[node name="Explosion" type="AudioStreamPlayer" parent="SFX"]
+stream = ExtResource( 32 )
+volume_db = -3.0
+
+[node name="Miss" type="AudioStreamPlayer" parent="SFX"]
+stream = ExtResource( 33 )
+
+[node name="Crit" type="AudioStreamPlayer" parent="SFX"]
+stream = ExtResource( 34 )
+volume_db = 2.0
+
+[node name="Guard" type="AudioStreamPlayer" parent="SFX"]
+stream = ExtResource( 35 )
+volume_db = -4.0
+
+[node name="NoDamage" type="AudioStreamPlayer" parent="SFX"]
+stream = ExtResource( 38 )
+
+[node name="Death" type="AudioStreamPlayer" parent="SFX"]
+stream = ExtResource( 37 )
 [connection signal="pressed" from="UI/AttackMenu/Panel/VBoxContainer/AttackButton" to="TurnQueue" method="AttackPressed" binds= [ -1 ]]
 [connection signal="pressed" from="UI/AttackMenu/Panel/VBoxContainer/SpecialButton" to="UI" method="ShowSpecialMenu" binds= [ 0 ]]
 [connection signal="pressed" from="UI/AttackMenu/Panel/VBoxContainer/ItemButton" to="UI" method="ShowItemMenu"]

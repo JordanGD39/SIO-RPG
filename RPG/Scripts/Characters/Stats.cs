@@ -2,14 +2,14 @@ using Godot;
 using System;
 using System.Collections.Generic;
 
-public enum weakness{ SWORD, AXE, LANCE, STAFF, FIST, FIRE, LIGHTNING, DARK}
+public enum weakness{ SWORD, AXE, STAFF, FIST, FIRE, LIGHTNING, DARK}
 
 public class Stats : Node
 {
      [Export] private string charName = "";
      public string GetCharName() { return charName;}
      [Export] private int health = 300;
-     public void SetHealth(int h) {health = h; UpdateHealth();} public int GetHealth(){ return health;}
+     public void SetHealth(int h) {if(h <= 0) {h = 0;} health = h; UpdateHealth();} public int GetHealth(){ return health;}
      [Export] private int maxHealth = 300;
      public void SetMaxHealth(int h) {maxHealth = h;} public int GetMaxHealth(){ return maxHealth;}
      [Export] private int stamina = 100;
@@ -42,7 +42,6 @@ public class Stats : Node
      public void SetMaxLuk(int l) {maxLuk = l;} public int GetMaxLuk(){ return maxLuk;}
      [Export] private List<weakness> weaknesses = new List<weakness>();
      public List<weakness> GetWeaknesses() {return weaknesses;} public void SetWeaknesses(List<weakness> a) {weaknesses = a;}
-
      [Export] private weakness attackElement;
      public weakness GetAttackElement() {return attackElement;}
      private int atkCounter = 3;
@@ -65,6 +64,8 @@ public class Stats : Node
      public void SetHealthText(Label a) {healthText = a;}
      private Label staminaText;
      public void SetStaminaText(Label a) {staminaText = a;}
+     [Export] private int hitHappened = 1450; // In miliseconds
+     public int GetHitHappened() {return hitHappened;}
      public void CheckStatBonus()
      {
           if (guardCounter > 0)

@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/Big Explosion Effect Video Mp4 HD Sound.ogg-5392822b4c6886b7faf759d7f69d9aa4.oggstr"
+
+[deps]
+
+source_file="res://Audio/Big Explosion Effect Video Mp4 HD Sound.ogg"
+dest_files=[ "res://.import/Big Explosion Effect Video Mp4 HD Sound.ogg-5392822b4c6886b7faf759d7f69d9aa4.oggstr" ]
+
+[params]
+
+loop=false
+loop_offset=0

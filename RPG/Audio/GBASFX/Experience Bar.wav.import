@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/Experience Bar.wav-2801987714d30cc4f18c460b45523c63.sample"
+
+[deps]
+
+source_file="res://Audio/GBASFX/Experience Bar.wav"
+dest_files=[ "res://.import/Experience Bar.wav-2801987714d30cc4f18c460b45523c63.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0

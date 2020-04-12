@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/Quick Weapon Spin.wav-049c802f98fe696d78f68f8683cdba05.sample"
+
+[deps]
+
+source_file="res://Audio/GBASFX/Quick Weapon Spin.wav"
+dest_files=[ "res://.import/Quick Weapon Spin.wav-049c802f98fe696d78f68f8683cdba05.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0

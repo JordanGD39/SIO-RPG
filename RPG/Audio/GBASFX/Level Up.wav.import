@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/Level Up.wav-bf2ff7deafe9b9e8b55955c555598c2a.sample"
+
+[deps]
+
+source_file="res://Audio/GBASFX/Level Up.wav"
+dest_files=[ "res://.import/Level Up.wav-bf2ff7deafe9b9e8b55955c555598c2a.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0

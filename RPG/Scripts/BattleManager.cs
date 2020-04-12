@@ -1,7 +1,7 @@
 using Godot;
 using System;
 using System.Collections.Generic;
-//using System.Collections.;
+using System.Threading.Tasks;
 
 class SpeedCompare : IComparer<Node> 
 { 
@@ -45,6 +45,7 @@ public class BattleManager : Node
             else
             {
                 players.Add(GetChild(i));
+                allPlayers.Add(GetChild(i));
                 Node2D playerTransform = turnOrder[i] as Node2D;
                 Player playerScript = turnOrder[i] as Player;
                 switch (i)
@@ -85,8 +86,6 @@ public class BattleManager : Node
         Player player = turnOrder[0] as Player;
 
         player.SetGoToMid(true);
-
-        allPlayers = players;
     }
 
     public void AttackPressed(int i)
@@ -240,13 +239,15 @@ public class BattleManager : Node
         }
     }
 
-    public void TakeMeOutList(Node charachter, bool playerControl)
+    public async void TakeMeOutList(Node charachter, bool playerControl)
     {
         turnOrder.Remove(charachter);
-
+        GetParent<GameManager>().GetAudioNode().GetNode<AudioStreamPlayer>("Death").Play(0);
         if (playerControl)
         {
             players.Remove(charachter);
+            AnimationPlayer anim = charachter.GetChild(0).GetChild<AnimationPlayer>(0);
+            anim.Play("Death");
 
             if (players.Count == 0)
             {
@@ -257,9 +258,14 @@ public class BattleManager : Node
         {
             enemies.Remove(charachter);
             Stats enemyStats = charachter.GetNode<Stats>("Stats");
+            AnimationPlayer anim = charachter.GetChild(0).GetChild<AnimationPlayer>(0);
+            anim.Play("Death");
+            Task animDelay = GetParent<GameManager>().LongRunningOperationAsync((int)Math.Round(anim.GetAnimation("Death").Length * 1000, MidpointRounding.AwayFromZero));
+            await animDelay;
+
             if (enemyStats.GetMaxHealth() < 1000)
             {
-                enemyStats.GetHealthBar().GetParent<VBoxContainer>().Visible = false;
+                enemyStats.GetHealthBar().GetParent<VBoxContainer>().Visible = false;                
                 charachter.QueueFree();
             }
 
@@ -272,8 +278,9 @@ public class BattleManager : Node
 
     public void PutMeInList(Node charachter)
     {
+        AnimationPlayer anim = charachter.GetChild(0).GetChild<AnimationPlayer>(0);
+        anim.PlayBackwards("Death");
         turnOrder.Add(charachter);
-        SortTurnOrder();
         players.Add(charachter);
     }
 

@@ -75,6 +75,10 @@ public class GUI : Node
 
     public void ShowSpecialMenu(int buttonFocus)
     {
+        if (buttonFocus < 0)
+        {
+            buttonFocus = 0;
+        }
         delayTimer = 0;
         Node specials = battleManager.GetTurnOrder()[battleManager.GetCurrTurn()].GetNode("Special Moves");
         attackContainer.Visible = false;

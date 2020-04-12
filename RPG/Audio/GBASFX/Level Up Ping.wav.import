@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/Level Up Ping.wav-bbe1f6d6bb54f1d40943d21acca5a930.sample"
+
+[deps]
+
+source_file="res://Audio/GBASFX/Level Up Ping.wav"
+dest_files=[ "res://.import/Level Up Ping.wav-bbe1f6d6bb54f1d40943d21acca5a930.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0
