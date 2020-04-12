@@ -180,7 +180,7 @@ public class BattleManager : Node
         {
             if (player != null)
             {
-                player.SetGoToMid(true); 
+                player.SetGoToMid(true);
             }
             else
             {

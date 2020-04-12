@@ -40,6 +40,8 @@ public class Player : KinematicBody2D
     private AnimationPlayer animation;
     public AnimationPlayer GetAnimationPlayer() {return animation;}
     private Sprite marker;
+
+    private float failsafeTimer = 0;
     public override void _Ready()
     {
         specials = GetNode("Special Moves");
@@ -57,6 +59,7 @@ public class Player : KinematicBody2D
     {
         if (goToMid)
         {
+            failsafeTimer += delta;
             GoToMiddle();
         }
 
@@ -82,6 +85,11 @@ public class Player : KinematicBody2D
         Vector2 vector = (target - Position).Normalized();
         MoveAndSlide(vector * speed);
 
+        if (failsafeTimer > 5)
+        {
+            Position = target;
+        }
+
         if (Position.x >= target.x)
         {      
             stats.SetStamina(stats.GetStamina() + 20); 
@@ -89,6 +97,7 @@ public class Player : KinematicBody2D
             stats.CheckStatBonus();   
             GD.Print("There");
             goToMid = false;
+            failsafeTimer = 0;
             gui.ShowAttackMenu();
         }
     }

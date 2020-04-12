@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=2]
+[gd_scene load_steps=19 format=2]
 
 [ext_resource path="res://Scripts/Characters/Stats.cs" type="Script" id=1]
 [ext_resource path="res://Assets/Shield/upShield.png" type="Texture" id=2]
@@ -11,6 +11,7 @@
 [ext_resource path="res://Scenes/Objects/Guard.tscn" type="PackedScene" id=9]
 [ext_resource path="res://Scenes/Objects/Marker.tscn" type="PackedScene" id=10]
 [ext_resource path="res://Animations/Death.tres" type="Animation" id=11]
+[ext_resource path="res://Assets/ShieldTransparent.png" type="Texture" id=12]
 
 [sub_resource type="Animation" id=1]
 resource_name = "Boss_Idle"
@@ -186,3 +187,8 @@ staminaDepletion = 70
 script = ExtResource( 6 )
 staminaDepletion = 50
 guardTeam = true
+
+[node name="Shield" type="Sprite" parent="."]
+visible = false
+scale = Vector2( 1.5, 1.5 )
+texture = ExtResource( 12 )

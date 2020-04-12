@@ -1,9 +1,7 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://GameFont.tres" type="DynamicFont" id=1]
 [ext_resource path="res://Assets/square.png" type="Texture" id=2]
-[ext_resource path="res://Animations/UI/LifeBarTurnBegin.tres" type="Animation" id=3]
-[ext_resource path="res://Animations/UI/LifeBarTurnEnd.tres" type="Animation" id=4]
 
 [sub_resource type="DynamicFontData" id=1]
 font_path = "res://Assets/IMMORTAL.ttf"
@@ -16,11 +14,8 @@ font_data = SubResource( 1 )
 
 [node name="LifeBar" type="VBoxContainer"]
 margin_right = 499.999
-margin_bottom = 161.0
+margin_bottom = 165.0
 rect_scale = Vector2( 0.8, 0.8 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="Name" type="Label" parent="."]
 margin_right = 499.0
@@ -70,7 +65,3 @@ tint_under = Color( 0, 0, 0, 1 )
 tint_over = Color( 0, 0, 0, 1 )
 tint_progress = Color( 0, 0.905882, 1, 1 )
 nine_patch_stretch = true
-
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-anims/LifeBar = ExtResource( 3 )
-anims/LifeBarTurnEnd = ExtResource( 4 )

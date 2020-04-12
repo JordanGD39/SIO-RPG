@@ -181,7 +181,7 @@ public class CharacterDamage : Node
         int atkOrMag = 0;
         int defOrRes = stats.GetDef();
         bool stun = false;
-        float weaknessHit = 1;
+        float weaknessHit = 1;       
 
         if (skillThatAttackedMe != null)
         {
@@ -256,6 +256,9 @@ public class CharacterDamage : Node
 
         Player attackerIsPlayer = attackerStats.GetParent() as Player;
         bool hitShield = false;
+
+        Sprite shield = GetParent().GetNode<Sprite>("Shield");
+
         if (attackerIsPlayer != null)
         {
             attackerIsPlayer.SetChooseAttackDir(false);            
@@ -269,6 +272,10 @@ public class CharacterDamage : Node
                 if (stats.GetCounter())
                 {
                     damage = 0;
+                }
+                else
+                {
+                    shield.Visible = true;
                 }
             } 
         }
@@ -284,7 +291,11 @@ public class CharacterDamage : Node
                 if (stats.GetCounter())
                 {
                     damage = 0;
-                }             
+                }   
+                else
+                {
+                    shield.Visible = true;
+                }          
             } 
         }       
 
@@ -374,7 +385,9 @@ public class CharacterDamage : Node
         }
 
         animTask = gameManager.LongRunningOperationAsync(animDurationMS);
-        await animTask;        
+        await animTask;  
+
+        shield.Visible = false;      
 
         if (stun && stats.GetStun() == 0 && damageInt > 0)
         {
