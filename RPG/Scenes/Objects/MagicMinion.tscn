@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=2]
+[gd_scene load_steps=20 format=2]
 
 [ext_resource path="res://Scripts/Characters/Stats.cs" type="Script" id=1]
 [ext_resource path="res://Assets/Shield/upShield.png" type="Texture" id=2]
@@ -12,6 +12,7 @@
 [ext_resource path="res://Scenes/Objects/Marker.tscn" type="PackedScene" id=10]
 [ext_resource path="res://Animations/Death.tres" type="Animation" id=11]
 [ext_resource path="res://Assets/ShieldTransparent.png" type="Texture" id=12]
+[ext_resource path="res://Scenes/Objects/Stat Changes2.tscn" type="PackedScene" id=13]
 
 [sub_resource type="Animation" id=1]
 resource_name = "Boss_Idle"
@@ -30,7 +31,7 @@ tracks/0/keys = {
 "values": [ 0, 1, 2, 3, 4, 5 ]
 }
 
-[sub_resource type="Animation" id=6]
+[sub_resource type="Animation" id=2]
 resource_name = "Magic Minion_Attack"
 length = 5.2
 tracks/0/type = "value"
@@ -46,8 +47,7 @@ tracks/0/keys = {
 "values": [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 57, 0 ]
 }
 
-[sub_resource type="Animation" id=2]
-resource_name = "Miku_Idle"
+[sub_resource type="Animation" id=3]
 length = 3.0
 loop = true
 tracks/0/type = "value"
@@ -63,8 +63,7 @@ tracks/0/keys = {
 "values": [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29 ]
 }
 
-[sub_resource type="Animation" id=3]
-resource_name = "Sonic_Idle"
+[sub_resource type="Animation" id=4]
 length = 6.3
 loop = true
 tracks/0/type = "value"
@@ -80,11 +79,11 @@ tracks/0/keys = {
 "values": [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63 ]
 }
 
-[sub_resource type="CapsuleShape2D" id=4]
+[sub_resource type="CapsuleShape2D" id=5]
 radius = 50.7881
 height = 65.4726
 
-[sub_resource type="SpriteFrames" id=5]
+[sub_resource type="SpriteFrames" id=6]
 animations = [ {
 "frames": [ ExtResource( 4 ) ],
 "loop": false,
@@ -120,12 +119,12 @@ __meta__ = {
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Sprite"]
 anims/Boss_Idle = SubResource( 1 )
 anims/Death = ExtResource( 11 )
-"anims/Magic Minion_Attack" = SubResource( 6 )
-anims/Miku_Idle = SubResource( 2 )
-anims/Sonic_Idle = SubResource( 3 )
+"anims/Magic Minion_Attack" = SubResource( 2 )
+anims/Miku_Idle = SubResource( 3 )
+anims/Sonic_Idle = SubResource( 4 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-shape = SubResource( 4 )
+shape = SubResource( 5 )
 disabled = true
 
 [node name="Stats" type="Node" parent="."]
@@ -156,7 +155,7 @@ script = ExtResource( 7 )
 visible = false
 position = Vector2( -20.3705, -3.90088 )
 scale = Vector2( 0.45, 0.45 )
-frames = SubResource( 5 )
+frames = SubResource( 6 )
 
 [node name="Marker" parent="." instance=ExtResource( 10 )]
 position = Vector2( 0, -120 )
@@ -193,3 +192,5 @@ team = true
 visible = false
 scale = Vector2( 1.5, 1.5 )
 texture = ExtResource( 12 )
+
+[node name="Stat Changes" parent="." instance=ExtResource( 13 )]

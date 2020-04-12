@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://Assets/Serra.png" type="Texture" id=1]
 [ext_resource path="res://Animations/Player/PlaceHolders/Miku/Miku_Idle.tres" type="Animation" id=2]
@@ -10,6 +10,7 @@
 [ext_resource path="res://Scenes/Objects/Marker.tscn" type="PackedScene" id=8]
 [ext_resource path="res://Animations/Death.tres" type="Animation" id=9]
 [ext_resource path="res://Assets/ShieldTransparent.png" type="Texture" id=10]
+[ext_resource path="res://Scenes/Objects/Stat Changes2.tscn" type="PackedScene" id=11]
 
 [sub_resource type="Animation" id=1]
 resource_name = "Serra_Attack"
@@ -119,3 +120,7 @@ team = true
 statChange = true
 statBonusDef = 20
 statBonusRes = 20
+
+[node name="Stat Changes" parent="." instance=ExtResource( 11 )]
+
+[editable path="Stat Changes"]

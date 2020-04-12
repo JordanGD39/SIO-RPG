@@ -1,0 +1,76 @@
+[gd_scene load_steps=10 format=2]
+
+[ext_resource path="res://Assets/Icons/DefDown.png" type="Texture" id=1]
+[ext_resource path="res://Assets/Icons/DefUp.png" type="Texture" id=2]
+[ext_resource path="res://Assets/Icons/SpdUp.png" type="Texture" id=3]
+[ext_resource path="res://Assets/Icons/AtkUp.png" type="Texture" id=4]
+[ext_resource path="res://Assets/Icons/AtkDown.png" type="Texture" id=5]
+[ext_resource path="res://Assets/Icons/SpdDown.png" type="Texture" id=6]
+[ext_resource path="res://Assets/Icons/Stun.png" type="Texture" id=7]
+[ext_resource path="res://Assets/Icons/Guard.png" type="Texture" id=8]
+
+[sub_resource type="SpriteFrames" id=1]
+animations = [ {
+"frames": [ ExtResource( 1 ) ],
+"loop": false,
+"name": "DefDown",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 3 ) ],
+"loop": false,
+"name": "SpdUp",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 4 ) ],
+"loop": false,
+"name": "AtkUp",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 2 ) ],
+"loop": true,
+"name": "DefUp",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 6 ) ],
+"loop": false,
+"name": "SpdDown",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 5 ) ],
+"loop": false,
+"name": "AtkDown",
+"speed": 5.0
+} ]
+
+[node name="Stat Changes" type="Node2D"]
+position = Vector2( 0, -90 )
+scale = Vector2( 0.05, 0.05 )
+
+[node name="Atk" type="AnimatedSprite" parent="."]
+visible = false
+position = Vector2( -800, 0 )
+frames = SubResource( 1 )
+animation = "SpdDown"
+
+[node name="Spd" type="AnimatedSprite" parent="."]
+visible = false
+frames = SubResource( 1 )
+animation = "SpdDown"
+
+[node name="Def" type="AnimatedSprite" parent="."]
+visible = false
+position = Vector2( 800, 0 )
+frames = SubResource( 1 )
+animation = "SpdDown"
+
+[node name="Stun" type="Sprite" parent="."]
+visible = false
+position = Vector2( -250, -730 )
+scale = Vector2( 0.4, 0.4 )
+texture = ExtResource( 7 )
+
+[node name="Guard" type="Sprite" parent="."]
+visible = false
+position = Vector2( 250, -730 )
+scale = Vector2( 3, 3 )
+texture = ExtResource( 8 )

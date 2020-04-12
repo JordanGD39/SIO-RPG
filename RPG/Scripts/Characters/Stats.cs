@@ -66,16 +66,33 @@ public class Stats : Node
      public void SetStaminaText(Label a) {staminaText = a;}
      [Export] private int hitHappened = 1450; // In miliseconds
      public int GetHitHappened() {return hitHappened;}
+
+     private Node statChangesUI;
+     public Node GetStatChangesUI() {return statChangesUI;}
+
+     public override void _Ready()
+     {
+          statChangesUI = GetParent().GetNode("Stat Changes");
+     }
+
      public void CheckStatBonus()
      {
           if (guardCounter > 0)
           {
-              guardCounter--;              
+              guardCounter--;     
+              if (guardCounter <= 0)
+              {
+                  statChangesUI.GetNode<AnimatedSprite>("Guard").Visible = false;
+              }         
           }
 
           if (stunCounter > 0)
           {
-              stunCounter--;              
+              stunCounter--;     
+              if (stunCounter <= 0)
+              {
+                  statChangesUI.GetNode<AnimatedSprite>("Stun").Visible = false;
+              }         
           }
           
           if (atk != maxAtk)
@@ -87,6 +104,7 @@ public class Stats : Node
                     mag = maxMag;
                     atkCounter = 3;
                     GD.Print("ATK & MAG RESET");
+                    statChangesUI.GetNode<AnimatedSprite>("Atk").Visible = false;
                }
           }
 
@@ -99,6 +117,7 @@ public class Stats : Node
                     luk = maxLuk;
                     spdCounter = 3;
                     GD.Print("SPD & LUK RESET");
+                    statChangesUI.GetNode<AnimatedSprite>("Spd").Visible = false;
                }
           }
 
@@ -111,6 +130,7 @@ public class Stats : Node
                     res = maxRes;
                     defCounter = 3;
                     GD.Print("DEF & RES RESET");
+                    statChangesUI.GetNode<AnimatedSprite>("Def").Visible = false;
                }
           }
      }

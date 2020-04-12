@@ -41,7 +41,7 @@ public class CharacterDamage : Node
         if (player == null)
         {
             playerControl = false;
-        }
+        }        
     }
     public void GetMyGuard()
     {
@@ -441,15 +441,26 @@ public class CharacterDamage : Node
             {
                 stats.SetHealth(stats.GetMaxHealth());
             }
-            GD.Print("Health: " + stats.GetHealth());
+            GD.Print("Health: " + stats.GetHealth());            
         }        
         if (stats.GetAtk() <= stats.GetMaxAtk())
         {
-           stats.SetAtk(stats.GetAtk() + Mathf.RoundToInt((float)skill.GetStatBonusAtk() * multiplier)); 
-           stats.SetAtkCounter(3);
-           GD.Print("ATK: " + stats.GetAtk());
-           stats.SetMag(stats.GetMag() + Mathf.RoundToInt((float)skill.GetStatBonusMag() * multiplier));
+            stats.SetAtk(stats.GetAtk() + Mathf.RoundToInt((float)skill.GetStatBonusAtk() * multiplier)); 
+            stats.SetAtkCounter(3);
+            GD.Print("ATK: " + stats.GetAtk());
+            stats.SetMag(stats.GetMag() + Mathf.RoundToInt((float)skill.GetStatBonusMag() * multiplier));
             GD.Print("MAG: " + stats.GetMag());
+            AnimatedSprite atk =  stats.GetStatChangesUI().GetNode<AnimatedSprite>("Atk");
+            if (stats.GetAtk() > stats.GetMaxAtk())
+            {                
+                atk.Play("AtkUp");
+                atk.Visible = true;
+            }
+            else if(stats.GetAtk() == stats.GetMaxAtk())
+            {
+                atk.Visible = false;
+                stats.SetAtkCounter(0);
+            }  
         }
         if (stats.GetDef() <= stats.GetMaxDef())
         {
@@ -458,6 +469,17 @@ public class CharacterDamage : Node
             GD.Print("DEF: " + stats.GetDef());
             stats.SetRes(stats.GetRes() + Mathf.RoundToInt((float)skill.GetStatBonusRes() * multiplier));
             GD.Print("RES: " + stats.GetRes());
+            AnimatedSprite def =  stats.GetStatChangesUI().GetNode<AnimatedSprite>("Def");
+            if (stats.GetDef() > stats.GetMaxDef())
+            {                
+                def.Play("DefUp");
+                def.Visible = true;
+            }
+            else if(stats.GetDef() == stats.GetMaxDef())
+            {
+                def.Visible = false;
+                stats.SetDefCounter(0);
+            }            
         }
         if (stats.GetSpd() <= stats.GetMaxSpd())
         {
@@ -466,6 +488,17 @@ public class CharacterDamage : Node
             GD.Print("SPD: " + stats.GetSpd());
             stats.SetLuk(stats.GetLuk() + Mathf.RoundToInt((float)skill.GetStatBonusLuk() * multiplier));
             GD.Print("LUK: " + stats.GetLuk());
+            AnimatedSprite spd =  stats.GetStatChangesUI().GetNode<AnimatedSprite>("Spd");
+            if (stats.GetSpd() > stats.GetMaxSpd())
+            {                
+                spd.Play("SpdUp");
+                spd.Visible = true;
+            }
+            else if(stats.GetSpd() == stats.GetMaxSpd())
+            {
+                spd.Visible = false;
+                stats.SetSpdCounter(0);
+            }           
         }
 
         marker.Visible = false;
@@ -510,6 +543,17 @@ public class CharacterDamage : Node
            GD.Print("ATK: " + stats.GetAtk());
            stats.SetMag(stats.GetMag() + Mathf.RoundToInt((float)skill.GetStatBonusMag() * multiplier));
             GD.Print("MAG: " + stats.GetMag());
+            AnimatedSprite atk =  stats.GetStatChangesUI().GetNode<AnimatedSprite>("Atk");
+            if (stats.GetAtk() < stats.GetMaxAtk())
+            {                
+                atk.Play("AtkDown");
+                atk.Visible = true;
+            }
+            else if(stats.GetAtk() == stats.GetMaxAtk())
+            {
+                atk.Visible = false;
+                stats.SetAtkCounter(0);
+            } 
         }
         if (stats.GetDef() >= stats.GetMaxDef())
         {
@@ -518,6 +562,17 @@ public class CharacterDamage : Node
             GD.Print("DEF: " + stats.GetDef());
             stats.SetRes(stats.GetRes() + Mathf.RoundToInt((float)skill.GetStatBonusRes() * multiplier));
             GD.Print("RES: " + stats.GetRes());
+            AnimatedSprite def =  stats.GetStatChangesUI().GetNode<AnimatedSprite>("Def");
+            if (stats.GetDef() < stats.GetMaxDef())
+            {                
+                def.Play("DefDown");
+                def.Visible = true;
+            }
+            else if(stats.GetDef() == stats.GetMaxDef())
+            {
+                def.Visible = false;
+                stats.SetDefCounter(0);
+            }   
         }
         if (stats.GetSpd() >= stats.GetMaxSpd())
         {
@@ -526,6 +581,17 @@ public class CharacterDamage : Node
             GD.Print("SPD: " + stats.GetSpd());
             stats.SetLuk(stats.GetLuk() + Mathf.RoundToInt((float)skill.GetStatBonusLuk() * multiplier));
             GD.Print("LUK: " + stats.GetLuk());
+            AnimatedSprite spd =  stats.GetStatChangesUI().GetNode<AnimatedSprite>("Spd");
+            if (stats.GetSpd() < stats.GetMaxSpd())
+            {                
+                spd.Play("SpdDown");
+                spd.Visible = true;
+            }
+            else if(stats.GetSpd() == stats.GetMaxSpd())
+            {
+                spd.Visible = false;
+                stats.SetSpdCounter(0);
+            }
         }      
         marker.Visible = false;
 
@@ -568,29 +634,24 @@ public class CharacterDamage : Node
             if (stats.GetAtk() < stats.GetMaxAtk())
             {
                 stats.SetAtk(stats.GetMaxAtk());
-            }
-            if (stats.GetMag() < stats.GetMaxMag())
-            {
                 stats.SetMag(stats.GetMaxMag());
+                stats.GetStatChangesUI().GetNode<AnimatedSprite>("Atk").Visible = false;
             }
             if (stats.GetDef() < stats.GetMaxDef())
             {
                 stats.SetDef(stats.GetMaxDef());
-            }
-            if (stats.GetRes() < stats.GetMaxRes())
-            {
                 stats.SetRes(stats.GetMaxRes());
+                stats.GetStatChangesUI().GetNode<AnimatedSprite>("Def").Visible = false;
             }
             if (stats.GetSpd() < stats.GetMaxSpd())
             {
                 stats.SetSpd(stats.GetMaxSpd());
-            }
-            if (stats.GetLuk() < stats.GetMaxLuk())
-            {
                 stats.SetLuk(stats.GetMaxLuk());
+                stats.GetStatChangesUI().GetNode<AnimatedSprite>("Spd").Visible = false;
             }
 
             stats.SetStun(0);
+            stats.GetStatChangesUI().GetNode<AnimatedSprite>("Stun").Visible = false;
             break;
         }
         battleManager.NextTurn();

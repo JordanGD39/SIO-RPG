@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=15 format=2]
 
 [ext_resource path="res://Assets/BossSword.png" type="Texture" id=1]
 [ext_resource path="res://Animations/Boss/PlaceHolders/Boss_Idle.tres" type="Animation" id=2]
@@ -10,6 +10,7 @@
 [ext_resource path="res://Animations/Death.tres" type="Animation" id=8]
 [ext_resource path="res://Assets/ShieldTransparent.png" type="Texture" id=9]
 [ext_resource path="res://Scripts/Enemy/EnemyAI.cs" type="Script" id=10]
+[ext_resource path="res://Scenes/Objects/Stat Changes2.tscn" type="PackedScene" id=11]
 
 [sub_resource type="Animation" id=1]
 resource_name = "Miku_Idle"
@@ -130,3 +131,6 @@ statBonusLuk = 250
 visible = false
 scale = Vector2( 5, 5 )
 texture = ExtResource( 9 )
+
+[node name="Stat Changes" parent="." instance=ExtResource( 11 )]
+position = Vector2( 0, -180 )

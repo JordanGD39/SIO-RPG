@@ -77,7 +77,7 @@ public class Player : KinematicBody2D
         if (chooseAttackDir)
         {
             ChooseAttackDirection(delta);
-        }      
+        }              
     }
 
     private void GoToMiddle()
@@ -215,7 +215,15 @@ public class Player : KinematicBody2D
         permItemIndex = itemIndex;
         useItem = true;
         chosenSkill = null;
-        battleManager.GetPlayers()[0].GetNode<Sprite>("Marker").Visible = true;
+        if (permItemIndex != 2)
+        {
+            battleManager.GetPlayers()[0].GetNode<Sprite>("Marker").Visible = true;
+        }
+        else
+        {
+            battleManager.GetDeadPlayers()[0].GetNode<Sprite>("Marker").Visible = true;
+        }
+        
         alreadyTargeted = false;
         ChooseTargetsList(true);
         targetChoose = true;
@@ -224,12 +232,13 @@ public class Player : KinematicBody2D
     private void ChooseTargetsList(bool team)
     {
         if (team)
-        {            
-            targets = battleManager.GetPlayers();            
+        {
+            battleManager.SortPlayers();
+            targets = battleManager.GetPlayers();  
 
             if (useItem && permItemIndex == 2)
             {
-                targets = battleManager.GetAllPlayers();
+                targets = battleManager.GetDeadPlayers();
             }
 
             GD.Print("targets count: " + targets.Count + " permItemIndex: " + permItemIndex);
@@ -382,28 +391,33 @@ public class Player : KinematicBody2D
         {
             if (team)
             {
-                TargetDown(targets);
+                TargetDown();
             }
             else
             {
-                TargetUp(targets);
+                TargetUp();
             }
         }
         else if (Input.IsActionJustPressed("ui_down"))
         {
             if (team)
             {
-                TargetUp(targets);
+                TargetUp();
             }
             else
             {
-                TargetDown(targets);                
+                TargetDown();                
             }  
         }
     }
 
-    private void TargetUp(List<Node> targets)
+    private void TargetUp()
     {
+        if (targets.Count <= 1)
+        {
+            return;
+        }
+
         targets[targetIndex].GetNode<Sprite>("Marker").Visible = false;
 
         targetIndex++;
@@ -416,8 +430,13 @@ public class Player : KinematicBody2D
         targets[targetIndex].GetNode<Sprite>("Marker").Visible = true;   
     }
 
-    private void TargetDown(List<Node> targets)
+    private void TargetDown()
     {
+        if (targets.Count <= 1)
+        {
+            return;
+        }
+        
         targets[targetIndex].GetNode<Sprite>("Marker").Visible = false;
 
         targetIndex--;
@@ -427,7 +446,7 @@ public class Player : KinematicBody2D
             targetIndex = targets.Count - 1;
         }
 
-        targets[targetIndex].GetNode<Sprite>("Marker").Visible = true;         
+        targets[targetIndex].GetNode<Sprite>("Marker").Visible = true;        
     }
 
     private void ChooseAttackDirection(float delta)

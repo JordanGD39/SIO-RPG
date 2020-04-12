@@ -18,18 +18,31 @@ class SpeedCompare : IComparer<Node>
         return p1.GetSpd().CompareTo(p2.GetSpd());           
     } 
 } 
+
+class IndexCompare : IComparer<Node> 
+{ 
+    public int Compare(Node x, Node y) 
+    { 
+        if (x == null || y == null) 
+        { 
+            return 0; 
+        } 
+
+        return x.GetIndex().CompareTo(y.GetIndex());           
+    } 
+}
 public class BattleManager : Node
 {
     private GUI gui;
     private ItemHolder itemHolder;
     private List<Node> turnOrder = new List<Node>();
     private List<Node> players = new List<Node>();
-    private List<Node> allPlayers = new List<Node>();
+    private List<Node> deadPlayers = new List<Node>();
     private List<Node> enemies = new List<Node>();
     public List<Node> GetTurnOrder() {return turnOrder;}
     public List<Node> GetEnemies() {return enemies;}
     public List<Node> GetPlayers() {return players;}
-    public List<Node> GetAllPlayers() {return allPlayers;}
+    public List<Node> GetDeadPlayers() {return deadPlayers;}
     private int currTurn = 0;
     public int GetCurrTurn() {return currTurn;}
     private int attacksForNextTurn = 0;
@@ -45,7 +58,6 @@ public class BattleManager : Node
             else
             {
                 players.Add(GetChild(i));
-                allPlayers.Add(GetChild(i));
                 Node2D playerTransform = turnOrder[i] as Node2D;
                 Player playerScript = turnOrder[i] as Player;
                 switch (i)
@@ -85,7 +97,8 @@ public class BattleManager : Node
 
         Player player = turnOrder[0] as Player;
 
-        player.SetGoToMid(true);
+        player.SetGoToMid(true);   
+        SortPlayers();
     }
 
     public void AttackPressed(int i)
@@ -122,7 +135,7 @@ public class BattleManager : Node
             }
             break;
             case 2:
-            if (itemHolder.GetRevives() > 0)
+            if (itemHolder.GetRevives() > 0 && deadPlayers.Count > 0)
             {
                 itemHolder.LowerRevives();
             }
@@ -203,6 +216,13 @@ public class BattleManager : Node
         GD.Print("\n");
     }
 
+    public void SortPlayers()
+    {
+        IndexCompare indexCompare = new IndexCompare();
+        players.Sort(indexCompare);
+        deadPlayers.Sort(indexCompare);
+    }
+
     public void CheckIfNextTurn(bool team)
     {       
         attacksForNextTurn++;
@@ -248,6 +268,7 @@ public class BattleManager : Node
             players.Remove(charachter);
             AnimationPlayer anim = charachter.GetChild(0).GetChild<AnimationPlayer>(0);
             anim.Play("Death");
+            deadPlayers.Add(charachter);
 
             if (players.Count == 0)
             {
@@ -282,11 +303,20 @@ public class BattleManager : Node
         anim.PlayBackwards("Death");
         turnOrder.Add(charachter);
         players.Add(charachter);
+        deadPlayers.Remove(charachter);
+        SortPlayers();
     }
 
-//  // Called every frame. 'delta' is the elapsed time since the previous frame.
-//  public override void _Process(float delta)
-//  {
-//      
-//  }
+ // Called every frame. 'delta' is the elapsed time since the previous frame.
+ public override void _Process(float delta)
+ {
+     if (Input.IsActionJustReleased("ui_accept"))
+        {
+            GD.Print("-----");
+            for (int i = 0; i < players.Count; i++)
+            {
+                GD.Print(players[i].GetNode<Stats>("Stats").GetCharName());
+            }  
+        }
+ }
 }

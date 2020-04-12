@@ -16,6 +16,9 @@ font_data = SubResource( 1 )
 margin_right = 499.999
 margin_bottom = 165.0
 rect_scale = Vector2( 0.8, 0.8 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="Name" type="Label" parent="."]
 margin_right = 499.0
