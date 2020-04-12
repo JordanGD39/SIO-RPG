@@ -371,7 +371,7 @@ public class CharacterDamage : Node
         }        
 
         stats.SetHealth(stats.GetHealth() - damageInt);
-        
+
         Task animTask = gameManager.LongRunningOperationAsync(200);
         await animTask;
 
@@ -393,6 +393,7 @@ public class CharacterDamage : Node
         {
             stats.SetStun(3);
             GD.Print(stats.GetCharName() + " is hit with a stun skill!");
+            stats.GetStatChangesUI().GetNode<Sprite>("Stun").Visible = true;
         }
         
         if (stats.GetHealth() <= 0)

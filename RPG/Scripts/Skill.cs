@@ -39,4 +39,6 @@ public class Skill : Node
     public int GetStatBonusSpd() {return statBonusSpd;}
     [Export] private int statBonusLuk = 0;
     public int GetStatBonusLuk() {return statBonusLuk;}
+    [Export] private string descriptionText;
+    public string GetDescription() {return descriptionText;}
 }

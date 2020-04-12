@@ -44,7 +44,7 @@ animations = [ {
 
 [node name="Stat Changes" type="Node2D"]
 position = Vector2( 0, -90 )
-scale = Vector2( 0.05, 0.05 )
+scale = Vector2( 0.06, 0.06 )
 
 [node name="Atk" type="AnimatedSprite" parent="."]
 visible = false
@@ -65,12 +65,12 @@ animation = "SpdDown"
 
 [node name="Stun" type="Sprite" parent="."]
 visible = false
-position = Vector2( -250, -730 )
-scale = Vector2( 0.4, 0.4 )
+position = Vector2( -244.866, -745.98 )
+scale = Vector2( 0.3, 0.3 )
 texture = ExtResource( 7 )
 
 [node name="Guard" type="Sprite" parent="."]
 visible = false
-position = Vector2( 250, -730 )
-scale = Vector2( 3, 3 )
+position = Vector2( 250, -700 )
+scale = Vector2( 2, 2 )
 texture = ExtResource( 8 )

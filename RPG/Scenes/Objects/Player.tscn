@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=15 format=2]
 
 [ext_resource path="res://Assets/Serra.png" type="Texture" id=1]
 [ext_resource path="res://Animations/Player/PlaceHolders/Miku/Miku_Idle.tres" type="Animation" id=2]
@@ -11,6 +11,7 @@
 [ext_resource path="res://Animations/Death.tres" type="Animation" id=9]
 [ext_resource path="res://Assets/ShieldTransparent.png" type="Texture" id=10]
 [ext_resource path="res://Scenes/Objects/Stat Changes2.tscn" type="PackedScene" id=11]
+[ext_resource path="res://Animations/Stunned.tres" type="Animation" id=12]
 
 [sub_resource type="Animation" id=1]
 resource_name = "Serra_Attack"
@@ -48,6 +49,7 @@ hframes = 5
 anims/Death = ExtResource( 9 )
 anims/Serra_Attack = SubResource( 1 )
 anims/Serra_Heal = ExtResource( 2 )
+anims/Stunned = ExtResource( 12 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource( 2 )
@@ -96,6 +98,7 @@ mag = 100
 staminaDepletion = 35
 heal = true
 team = true
+descriptionText = "Heals a teammeber with 100 HP"
 
 [node name="Atk & Mag Up!" type="Node" parent="Special Moves"]
 script = ExtResource( 5 )
@@ -104,6 +107,7 @@ team = true
 statChange = true
 statBonusAtk = 20
 statBonusMag = 20
+descriptionText = "Makes their Attack and Magic power better for 3 turns. (Do more damage)"
 
 [node name="Spd & Luck Up!" type="Node" parent="Special Moves"]
 script = ExtResource( 5 )
@@ -112,6 +116,7 @@ team = true
 statChange = true
 statBonusSpd = 20
 statBonusLuk = 150
+descriptionText = "Makes their Speed and Luck better for 3 turns. (Speed is better dodges and turn order & Luck higher Ctritical hit chance)"
 
 [node name="Def & Res Up!" type="Node" parent="Special Moves"]
 script = ExtResource( 5 )
@@ -120,6 +125,7 @@ team = true
 statChange = true
 statBonusDef = 20
 statBonusRes = 20
+descriptionText = "Makes their Defense and Resistance better for 3 turns. (Take less damage)"
 
 [node name="Stat Changes" parent="." instance=ExtResource( 11 )]
 

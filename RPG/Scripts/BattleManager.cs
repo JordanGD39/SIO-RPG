@@ -162,6 +162,11 @@ public class BattleManager : Node
         player.ChooseItem(i);
     }
 
+    public void ChangeDesOnSkill(int i)
+    {
+        gui.ChangeDescriptionText(turnOrder[currTurn].GetNode("Special Moves").GetChild<Skill>(i).GetDescription());
+    }
+
     public void NextTurn()
     {
         attacksForNextTurn = 0;

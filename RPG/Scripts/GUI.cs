@@ -11,7 +11,7 @@ public class GUI : Node
     private VBoxContainer attackContainer;
     private VBoxContainer specialContainer;
     private VBoxContainer itemContainer;
-
+    private Label description;
     private float delayTimer = 0;
 
     public override void _Ready()
@@ -24,6 +24,7 @@ public class GUI : Node
         specialContainer = attackMenuContainer.GetChild(0).GetChild<VBoxContainer>(1);
         itemContainer = attackMenuContainer.GetChild(0).GetChild<VBoxContainer>(2);
         attackMenuContainer.Visible = false;
+        description = GetNode("Description").GetChild(0).GetChild(0) as Label;
     }
     public void ChangeNames(List<Node> players, List<Node> enemies)
     {
@@ -129,6 +130,11 @@ public class GUI : Node
         stats.UpdateHealth();
         stats.UpdateStamina();
         hpBars.GetChild<VBoxContainer>(i).Visible = true;
+    }
+
+    public void ChangeDescriptionText(string text)
+    {
+        description.Text = text;
     }
 
     // Called every frame. 'delta' is the elapsed time since the previous frame.

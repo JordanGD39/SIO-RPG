@@ -115,7 +115,7 @@ public class Player : KinematicBody2D
         }
     }
 
-    public void ChooseSkill(int skillIndex)
+    public async void ChooseSkill(int skillIndex)
     {        
         useItem = false;
         targetIndex = 0;       
@@ -132,6 +132,9 @@ public class Player : KinematicBody2D
             {
                 battleManager.NextTurn();
                 GD.Print(stats.GetCharName() + " is stunned!");
+                animation.Play("Stunned");
+                Task animDelay = gameManager.LongRunningOperationAsync((int)Math.Round(animation.GetAnimation("Stunned").Length * 100, MidpointRounding.AwayFromZero));
+                await animDelay;
                 return;
             }
         }
@@ -153,6 +156,7 @@ public class Player : KinematicBody2D
             {
                 if (stats.GetGuard() == 0)
                 {
+                    stats.GetStatChangesUI().GetNode<Sprite>("Guard").Visible = true;
                     stats.SetGuard(3);       
                     GD.Print(stats.GetCharName() + " is guarding");                                
                 }     
@@ -436,7 +440,7 @@ public class Player : KinematicBody2D
         {
             return;
         }
-        
+
         targets[targetIndex].GetNode<Sprite>("Marker").Visible = false;
 
         targetIndex--;

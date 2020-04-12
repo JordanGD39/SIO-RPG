@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=2]
+[gd_scene load_steps=21 format=2]
 
 [ext_resource path="res://Scripts/Characters/Stats.cs" type="Script" id=1]
 [ext_resource path="res://Assets/Shield/upShield.png" type="Texture" id=2]
@@ -13,6 +13,7 @@
 [ext_resource path="res://Animations/Death.tres" type="Animation" id=11]
 [ext_resource path="res://Assets/ShieldTransparent.png" type="Texture" id=12]
 [ext_resource path="res://Scenes/Objects/Stat Changes2.tscn" type="PackedScene" id=13]
+[ext_resource path="res://Animations/Stunned.tres" type="Animation" id=14]
 
 [sub_resource type="Animation" id=1]
 resource_name = "Boss_Idle"
@@ -122,6 +123,7 @@ anims/Death = ExtResource( 11 )
 "anims/Magic Minion_Attack" = SubResource( 2 )
 anims/Miku_Idle = SubResource( 3 )
 anims/Sonic_Idle = SubResource( 4 )
+anims/Stunned = ExtResource( 14 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource( 5 )

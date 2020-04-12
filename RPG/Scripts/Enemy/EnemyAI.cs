@@ -1,6 +1,7 @@
 using Godot;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 public enum AIskillTypes {HIGHESTATK, SUPPORT, EVERYONE, ATTACK};
 
@@ -114,7 +115,7 @@ public class EnemyAI : KinematicBody2D
         }
     }
 
-    public void MyTurn()
+    public async void MyTurn()
     {
         stats.SetStamina(stats.GetStamina() + 20);
 
@@ -133,6 +134,9 @@ public class EnemyAI : KinematicBody2D
             {
                 battleManager.NextTurn();
                 GD.Print(stats.GetCharName() + " is stunned!");
+                animation.Play("Stunned");
+                Task animStunDelay = gameManager.LongRunningOperationAsync((int)Math.Round(animation.GetAnimation("Stunned").Length * 100, MidpointRounding.AwayFromZero));
+                await animStunDelay;
                 return;
             }
         }
@@ -201,6 +205,7 @@ public class EnemyAI : KinematicBody2D
             stats.SetStamina(stats.GetStamina() - chosenSkill.GetStaminaDepletion());
             battleManager.NextTurn();
             GD.Print(stats.GetCharName() + " is guarding");
+            stats.GetStatChangesUI().GetNode<Sprite>("Stun").Visible = true;
             return;
         }
 
