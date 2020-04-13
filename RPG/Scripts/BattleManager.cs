@@ -164,11 +164,12 @@ public class BattleManager : Node
 
     public void ChangeDesOnSkill(int i)
     {
-        gui.ChangeDescriptionText(turnOrder[currTurn].GetNode("Special Moves").GetChild<Skill>(i).GetDescription());
+        gui.ChangeDescriptionText(turnOrder[currTurn].GetNode("Special Moves").GetChild<Skill>(i).GetDescription(), false);
     }
 
     public void NextTurn()
     {
+        gui.HideDescription();
         attacksForNextTurn = 0;
 
         if (currTurn > turnOrder.Count - 1)
@@ -181,6 +182,7 @@ public class BattleManager : Node
         if (prevPlayer != null)
         {
             prevPlayer.SetGoToStartPos(true);
+            GD.Print("Go to start plz");
         }
         
         currTurn++;
@@ -313,15 +315,15 @@ public class BattleManager : Node
     }
 
  // Called every frame. 'delta' is the elapsed time since the previous frame.
- public override void _Process(float delta)
- {
-     if (Input.IsActionJustReleased("ui_accept"))
-        {
-            GD.Print("-----");
-            for (int i = 0; i < players.Count; i++)
-            {
-                GD.Print(players[i].GetNode<Stats>("Stats").GetCharName());
-            }  
-        }
- }
+//  public override void _Process(float delta)
+//  {
+//      if (Input.IsActionJustReleased("ui_accept"))
+//         {
+//             GD.Print("-----");
+//             for (int i = 0; i < players.Count; i++)
+//             {
+//                 GD.Print(players[i].GetNode<Stats>("Stats").GetCharName());
+//             }  
+//         }
+//  }
 }

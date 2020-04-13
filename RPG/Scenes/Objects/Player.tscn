@@ -98,7 +98,7 @@ mag = 100
 staminaDepletion = 35
 heal = true
 team = true
-descriptionText = "Heals a teammeber with 100 HP"
+descriptionText = "Heals a team member with 100 HP"
 
 [node name="Atk & Mag Up!" type="Node" parent="Special Moves"]
 script = ExtResource( 5 )

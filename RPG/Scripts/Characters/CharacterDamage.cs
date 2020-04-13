@@ -23,6 +23,7 @@ public class CharacterDamage : Node
     private Sprite marker;
     private Skill skillThatAttackedMe;
     private GameManager gameManager;
+    private GUI gui;
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {        
@@ -35,8 +36,9 @@ public class CharacterDamage : Node
         if (battleManager != null)
         {
             gameManager = battleManager.GetParent() as GameManager;
-            FX = gameManager.GetNode("FX") as Node;
-        }
+            FX = gameManager.GetNode("FX");
+            gui = gameManager.GetNode("UI") as GUI;
+        }        
 
         if (player == null)
         {
@@ -182,6 +184,7 @@ public class CharacterDamage : Node
         int defOrRes = stats.GetDef();
         bool stun = false;
         float weaknessHit = 1;       
+        float redWeakness = 0;
 
         if (skillThatAttackedMe != null)
         {
@@ -201,6 +204,7 @@ public class CharacterDamage : Node
             if (stats.GetWeaknesses().Contains(skillThatAttackedMe.GetElement()))
             {
                 weaknessHit = 1.5f;
+                redWeakness = 2;
                 GD.Print("WEAKNESS HIT!!");
             }
         }
@@ -209,6 +213,7 @@ public class CharacterDamage : Node
             if (stats.GetWeaknesses().Contains(attackerStats.GetAttackElement()))
             {
                 weaknessHit = 1.5f;
+                redWeakness = 2;
                 GD.Print("WEAKNESS HIT!!");
             }
         }
@@ -297,12 +302,22 @@ public class CharacterDamage : Node
                     shield.Visible = true;
                 }          
             } 
-        }       
+        }  
+
+        if (stats.GetDefending())
+        {
+            damage *= 0.6f;
+        }     
 
         int damageInt = Mathf.RoundToInt(damage);
         
         GD.Print(attackerStats.GetCharName() + " did " + damageInt + " damage to " + stats.GetCharName());        
         int animDurationMS = 0;
+
+        if (skillThatAttackedMe != null)
+        {
+            gui.ChangeDescriptionText(skillThatAttackedMe.Name, false);
+        }        
 
         if (attackerIsPlayer != null)
         {
@@ -327,29 +342,30 @@ public class CharacterDamage : Node
             animDurationMS -= attackerStats.GetHitHappened() + 200;
         }
 
-        Sprite sprite = GetParent().GetChild<Sprite>(0);
+        Sprite sprite = GetParent().GetChild<Sprite>(0);        
 
         if (damageInt > 0)
         {            
             if (crit > 1)
             {
-                sprite.Modulate = new Color(3,3,3);
+                sprite.Modulate = new Color(3 + redWeakness,3,3);
                 gameManager.GetAudioNode().GetNode<AudioStreamPlayer>("Crit").Play();
             }
             else
             {
                 if (hitShield)
                 {
-                    sprite.Modulate = new Color(1.25f,1.25f,1.25f);
+                    sprite.Modulate = new Color(1.25f + redWeakness,1.25f,1.25f);
                     gameManager.GetAudioNode().GetNode<AudioStreamPlayer>("Guard").Play();
                 }
                 else
                 {
-                    sprite.Modulate = new Color(2,2,2);
+                    sprite.Modulate = new Color(2 + redWeakness,2,2);
                     gameManager.GetAudioNode().GetChild<AudioStreamPlayer>(0).Play();
                 }
                
-            }            
+            }   
+                    
         }
         else
         {
@@ -357,6 +373,7 @@ public class CharacterDamage : Node
             {
                 sprite.Modulate = new Color(0.5f,0.5f,0.5f);
                 gameManager.GetAudioNode().GetNode<AudioStreamPlayer>("Miss").Play();
+                gui.ChangeDescriptionText(attackerStats.GetCharName() + " missed " + stats.GetCharName(), true);
             }
             else
             {
@@ -368,9 +385,13 @@ public class CharacterDamage : Node
         if (skillThatAttackedMe != null)
         {
             PlayElementSFX();
-        }        
+        }
+        stats.SetHealth(stats.GetHealth() - damageInt);  
 
-        stats.SetHealth(stats.GetHealth() - damageInt);
+        if (!missed)
+        {
+            gui.ChangeDescriptionText(attackerStats.GetCharName() + " did " + damageInt + " damage to " + stats.GetCharName(), true);  
+        }            
 
         Task animTask = gameManager.LongRunningOperationAsync(200);
         await animTask;
@@ -401,8 +422,7 @@ public class CharacterDamage : Node
             stats.SetHealth(0);
             battleManager.TakeMeOutList(GetParent(), playerControl);
         }
-
-        GD.Print(stats.GetCharName() + " has " + stats.GetHealth() + " HP left");
+        gui.HideDescription();
 
         if (skillThatAttackedMe == null || !skillThatAttackedMe.GetAttackAll())
         {
@@ -442,7 +462,7 @@ public class CharacterDamage : Node
             {
                 stats.SetHealth(stats.GetMaxHealth());
             }
-            GD.Print("Health: " + stats.GetHealth());            
+            GD.Print("Health: " + stats.GetHealth());        
         }        
         if (stats.GetAtk() <= stats.GetMaxAtk())
         {

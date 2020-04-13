@@ -65,6 +65,7 @@ public class Player : KinematicBody2D
 
         if (goToStartPos)
         {
+            failsafeTimer += delta;
             GoToStartPos();
         }
 
@@ -107,8 +108,14 @@ public class Player : KinematicBody2D
         Vector2 vector = (startTarget - Position).Normalized();
         MoveAndSlide(vector * speed);
 
+        if (failsafeTimer > 5)
+        {
+            Position = startTarget;
+        }
+
         if (Position.x <= startTarget.x)
         {
+            failsafeTimer = 0;
             GD.Print("At startPos");
             goToStartPos = false;
             battleManager.CurrCharacterGoesToMid();
@@ -117,6 +124,7 @@ public class Player : KinematicBody2D
 
     public async void ChooseSkill(int skillIndex)
     {        
+        stats.SetDefending(false);
         useItem = false;
         targetIndex = 0;       
 
@@ -176,6 +184,13 @@ public class Player : KinematicBody2D
         }
         else
         {
+            if (skillIndex == -2)
+            {
+                stats.SetDefending(true);
+                battleManager.NextTurn();
+                return;
+            }
+
             ChooseTargetsList(false);
 
             chosenSkill = null;
@@ -276,8 +291,10 @@ public class Player : KinematicBody2D
                         {
                             animation.Play(stats.GetCharName() + "_Heal");
                             gameManager.GetAudioNode().GetChild<AudioStreamPlayer>(1).Play(0);
+                            gui.ChangeDescriptionText(chosenSkill.Name + " on " +  targets[targetIndex].GetNode<Stats>("Stats").GetCharName(), false);
                             Task longRunningTask = gameManager.LongRunningOperationAsync((int)Math.Round(animation.GetAnimation(stats.GetCharName() + "_Heal").Length * 1000, MidpointRounding.AwayFromZero));
                             await longRunningTask;
+                            gui.HideDescription();
                         }
 
                         if (!chosenSkill.GetAttackAll())
@@ -323,8 +340,10 @@ public class Player : KinematicBody2D
                     marker.Visible = false;
                     animation.Play(stats.GetCharName() + "_Heal");
                     gameManager.GetAudioNode().GetChild<AudioStreamPlayer>(1).Play(0);
+                    gui.ChangeDescriptionText(chosenSkill.Name + " on " +  targets[targetIndex].GetNode<Stats>("Stats").GetCharName(), false);
                     Task longRunningTask = gameManager.LongRunningOperationAsync((int)Math.Round(animation.GetAnimation(stats.GetCharName() + "_Heal").Length * 1000, MidpointRounding.AwayFromZero));
                     await longRunningTask;
+                    gui.HideDescription();
                 }
 
                 if (chosenSkill != null)
@@ -349,7 +368,7 @@ public class Player : KinematicBody2D
             guardDelay = 0;                  
         }
 
-        if (Input.IsActionJustPressed("ui_cancel"))
+        if (gameManager.GetVoiceControl() == 1 && Input.IsActionJustPressed("ui_cancel") || gameManager.GetVoiceControl() == 4 && Input.IsActionJustReleased("ui_cancel"))
         {
             if (chosenSkill != null && chosenSkill.GetAttackAll())
             {
@@ -391,7 +410,7 @@ public class Player : KinematicBody2D
             return;
         }
 
-        if (Input.IsActionJustPressed("ui_up"))
+        if (gameManager.GetVoiceControl() == 1 && Input.IsActionJustPressed("ui_up") || gameManager.GetVoiceControl() == 4 && Input.IsActionJustReleased("ui_up"))
         {
             if (team)
             {
@@ -402,7 +421,7 @@ public class Player : KinematicBody2D
                 TargetUp();
             }
         }
-        else if (Input.IsActionJustPressed("ui_down"))
+        else if (gameManager.GetVoiceControl() == 1 && Input.IsActionJustPressed("ui_down") || gameManager.GetVoiceControl() == 4 && Input.IsActionJustReleased("ui_down"))
         {
             if (team)
             {

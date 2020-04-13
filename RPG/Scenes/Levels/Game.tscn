@@ -1,4 +1,4 @@
-[gd_scene load_steps=54 format=2]
+[gd_scene load_steps=83 format=2]
 
 [ext_resource path="res://Assets/BG.jpg" type="Texture" id=1]
 [ext_resource path="res://Scenes/Objects/Player.tscn" type="PackedScene" id=2]
@@ -107,6 +107,92 @@ bg_color = Color( 0, 0, 0, 0.392157 )
 bg_color = Color( 0, 0, 0, 0.235294 )
 
 [sub_resource type="StyleBoxEmpty" id=9]
+
+[sub_resource type="InputEventKey" id=20]
+scancode = 65
+
+[sub_resource type="ShortCut" id=19]
+shortcut = SubResource( 20 )
+
+[sub_resource type="InputEventKey" id=21]
+scancode = 90
+
+[sub_resource type="ShortCut" id=22]
+shortcut = SubResource( 21 )
+
+[sub_resource type="InputEventKey" id=23]
+scancode = 73
+
+[sub_resource type="ShortCut" id=24]
+shortcut = SubResource( 23 )
+
+[sub_resource type="InputEventKey" id=25]
+scancode = 88
+
+[sub_resource type="ShortCut" id=26]
+shortcut = SubResource( 25 )
+
+[sub_resource type="InputEventKey" id=27]
+scancode = 83
+
+[sub_resource type="ShortCut" id=28]
+shortcut = SubResource( 27 )
+
+[sub_resource type="InputEventKey" id=29]
+scancode = 68
+
+[sub_resource type="ShortCut" id=30]
+shortcut = SubResource( 29 )
+
+[sub_resource type="InputEventKey" id=31]
+scancode = 70
+
+[sub_resource type="ShortCut" id=32]
+shortcut = SubResource( 31 )
+
+[sub_resource type="InputEventKey" id=43]
+scancode = 71
+
+[sub_resource type="ShortCut" id=44]
+shortcut = SubResource( 43 )
+
+[sub_resource type="InputEventKey" id=35]
+scancode = 72
+
+[sub_resource type="ShortCut" id=36]
+shortcut = SubResource( 35 )
+
+[sub_resource type="InputEventKey" id=37]
+scancode = 74
+
+[sub_resource type="ShortCut" id=38]
+shortcut = SubResource( 37 )
+
+[sub_resource type="InputEventKey" id=39]
+scancode = 74
+
+[sub_resource type="ShortCut" id=40]
+shortcut = SubResource( 39 )
+
+[sub_resource type="InputEventKey" id=41]
+scancode = 75
+
+[sub_resource type="ShortCut" id=42]
+shortcut = SubResource( 41 )
+
+[sub_resource type="Theme" id=13]
+
+[sub_resource type="StyleBoxFlat" id=14]
+bg_color = Color( 0.273438, 0.129602, 0.0715637, 1 )
+
+[sub_resource type="StyleBoxFlat" id=15]
+bg_color = Color( 0.247059, 0.117647, 0.0666667, 1 )
+
+[sub_resource type="StyleBoxFlat" id=16]
+bg_color = Color( 0.313726, 0.14902, 0.0823529, 1 )
+
+[sub_resource type="StyleBoxFlat" id=17]
+bg_color = Color( 0.423529, 0.2, 0.109804, 1 )
 
 [sub_resource type="Animation" id=10]
 resource_name = "Thunder"
@@ -512,9 +598,10 @@ descriptionText = "Lower Defense and Resistance of the enemy for 3 turns (They t
 [node name="Boss" parent="TurnQueue" instance=ExtResource( 3 )]
 
 [node name="Minion" parent="TurnQueue" instance=ExtResource( 20 )]
+z_index = -2
 
 [node name="MagicMinion" parent="TurnQueue" instance=ExtResource( 21 )]
-z_index = 1
+z_index = 0
 
 [node name="UI" type="Node" parent="."]
 script = ExtResource( 12 )
@@ -637,15 +724,18 @@ rect_scale = Vector2( 1, 1 )
 
 [node name="Name" parent="UI/BossHP/VBoxContainer/LifeBar" index="0"]
 margin_right = 301.0
+align = 2
 
 [node name="HP" parent="UI/BossHP/VBoxContainer/LifeBar" index="1"]
 margin_right = 301.0
+align = 2
 
 [node name="HealthBar" parent="UI/BossHP/VBoxContainer/LifeBar" index="2"]
 margin_right = 301.0
 
 [node name="ST" parent="UI/BossHP/VBoxContainer/LifeBar" index="3"]
 margin_right = 301.0
+align = 2
 
 [node name="StaminaBar" parent="UI/BossHP/VBoxContainer/LifeBar" index="4"]
 margin_right = 301.0
@@ -658,15 +748,18 @@ rect_scale = Vector2( 1, 1 )
 
 [node name="Name" parent="UI/BossHP/VBoxContainer/LifeBar2" index="0"]
 margin_right = 301.0
+align = 2
 
 [node name="HP" parent="UI/BossHP/VBoxContainer/LifeBar2" index="1"]
 margin_right = 301.0
+align = 2
 
 [node name="HealthBar" parent="UI/BossHP/VBoxContainer/LifeBar2" index="2"]
 margin_right = 301.0
 
 [node name="ST" parent="UI/BossHP/VBoxContainer/LifeBar2" index="3"]
 margin_right = 301.0
+align = 2
 
 [node name="StaminaBar" parent="UI/BossHP/VBoxContainer/LifeBar2" index="4"]
 margin_right = 301.0
@@ -679,15 +772,18 @@ rect_scale = Vector2( 1, 1 )
 
 [node name="Name" parent="UI/BossHP/VBoxContainer/LifeBar3" index="0"]
 margin_right = 301.0
+align = 2
 
 [node name="HP" parent="UI/BossHP/VBoxContainer/LifeBar3" index="1"]
 margin_right = 301.0
+align = 2
 
 [node name="HealthBar" parent="UI/BossHP/VBoxContainer/LifeBar3" index="2"]
 margin_right = 301.0
 
 [node name="ST" parent="UI/BossHP/VBoxContainer/LifeBar3" index="3"]
 margin_right = 301.0
+align = 2
 
 [node name="StaminaBar" parent="UI/BossHP/VBoxContainer/LifeBar3" index="4"]
 margin_right = 301.0
@@ -724,6 +820,7 @@ custom_styles/normal = SubResource( 9 )
 custom_fonts/font = ExtResource( 13 )
 action_mode = 0
 button_mask = 0
+shortcut = SubResource( 19 )
 text = " Attack"
 align = 0
 
@@ -739,6 +836,7 @@ custom_styles/normal = SubResource( 9 )
 custom_fonts/font = ExtResource( 13 )
 action_mode = 0
 button_mask = 0
+shortcut = SubResource( 22 )
 text = " Special"
 align = 0
 
@@ -754,6 +852,7 @@ custom_styles/normal = SubResource( 9 )
 custom_fonts/font = ExtResource( 13 )
 action_mode = 0
 button_mask = 0
+shortcut = SubResource( 24 )
 text = " Item"
 align = 0
 
@@ -769,6 +868,7 @@ custom_styles/normal = SubResource( 9 )
 custom_fonts/font = ExtResource( 13 )
 action_mode = 0
 button_mask = 0
+shortcut = SubResource( 26 )
 text = " Defend"
 align = 0
 
@@ -793,6 +893,7 @@ custom_styles/normal = SubResource( 9 )
 custom_fonts/font = ExtResource( 13 )
 action_mode = 0
 button_mask = 0
+shortcut = SubResource( 28 )
 text = "Heal"
 align = 0
 
@@ -821,6 +922,7 @@ custom_styles/normal = SubResource( 9 )
 custom_fonts/font = ExtResource( 13 )
 action_mode = 0
 button_mask = 0
+shortcut = SubResource( 30 )
 text = "Heal"
 align = 0
 
@@ -849,6 +951,7 @@ custom_styles/normal = SubResource( 9 )
 custom_fonts/font = ExtResource( 13 )
 action_mode = 0
 button_mask = 0
+shortcut = SubResource( 32 )
 text = "Heal"
 align = 0
 
@@ -877,6 +980,7 @@ custom_styles/normal = SubResource( 9 )
 custom_fonts/font = ExtResource( 13 )
 action_mode = 0
 button_mask = 0
+shortcut = SubResource( 44 )
 text = "Heal"
 align = 0
 
@@ -914,6 +1018,7 @@ custom_styles/normal = SubResource( 9 )
 custom_fonts/font = ExtResource( 13 )
 action_mode = 0
 button_mask = 0
+shortcut = SubResource( 36 )
 text = " Potion"
 align = 0
 
@@ -941,6 +1046,7 @@ custom_styles/normal = SubResource( 9 )
 custom_fonts/font = ExtResource( 13 )
 action_mode = 0
 button_mask = 0
+shortcut = SubResource( 38 )
 text = " Stamina Potion"
 align = 0
 
@@ -969,6 +1075,7 @@ custom_styles/normal = SubResource( 9 )
 custom_fonts/font = ExtResource( 13 )
 action_mode = 0
 button_mask = 0
+shortcut = SubResource( 40 )
 text = " Revive"
 align = 0
 
@@ -997,6 +1104,7 @@ custom_styles/normal = SubResource( 9 )
 custom_fonts/font = ExtResource( 13 )
 action_mode = 0
 button_mask = 0
+shortcut = SubResource( 42 )
 text = " Neutralizer"
 align = 0
 
@@ -1014,6 +1122,7 @@ __meta__ = {
 }
 
 [node name="Description" type="MarginContainer" parent="UI"]
+visible = false
 margin_left = 624.0
 margin_top = 1.0
 margin_right = 1270.0
@@ -1039,14 +1148,97 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="Setup" type="MarginContainer" parent="UI"]
+visible = false
+margin_right = 1918.0
+margin_bottom = 1089.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Panel" type="Panel" parent="UI/Setup"]
+self_modulate = Color( 0, 0, 0, 0.572549 )
+margin_right = 1918.0
+margin_bottom = 1089.0
+
+[node name="CheckBox" type="CheckBox" parent="UI/Setup/Panel"]
+margin_left = 758.678
+margin_top = 490.838
+margin_right = 997.678
+margin_bottom = 572.838
+custom_fonts/font = ExtResource( 13 )
+text = "VoiceControl"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Button" type="Button" parent="UI/Setup/Panel"]
+margin_left = 541.498
+margin_top = 618.34
+margin_right = 699.498
+margin_bottom = 723.34
+focus_neighbour_left = NodePath("../Button3")
+focus_neighbour_top = NodePath("../CheckBox")
+focus_neighbour_right = NodePath("../Button2")
+theme = SubResource( 13 )
+custom_styles/hover = SubResource( 14 )
+custom_styles/pressed = SubResource( 15 )
+custom_styles/focus = SubResource( 16 )
+custom_styles/normal = SubResource( 17 )
+custom_fonts/font = ExtResource( 13 )
+text = "Easy"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Button2" type="Button" parent="UI/Setup/Panel"]
+margin_left = 796.691
+margin_top = 616.953
+margin_right = 954.691
+margin_bottom = 721.953
+focus_neighbour_left = NodePath("../Button")
+focus_neighbour_top = NodePath("../CheckBox")
+focus_neighbour_right = NodePath("../Button3")
+theme = SubResource( 13 )
+custom_styles/hover = SubResource( 14 )
+custom_styles/pressed = SubResource( 15 )
+custom_styles/focus = SubResource( 16 )
+custom_styles/normal = SubResource( 17 )
+custom_fonts/font = ExtResource( 13 )
+text = "Normal"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Button3" type="Button" parent="UI/Setup/Panel"]
+margin_left = 1024.84
+margin_top = 615.756
+margin_right = 1182.84
+margin_bottom = 720.756
+focus_neighbour_left = NodePath("../Button2")
+focus_neighbour_top = NodePath("../CheckBox")
+focus_neighbour_right = NodePath("../Button")
+theme = SubResource( 13 )
+custom_styles/hover = SubResource( 14 )
+custom_styles/pressed = SubResource( 15 )
+custom_styles/focus = SubResource( 16 )
+custom_styles/normal = SubResource( 17 )
+custom_fonts/font = ExtResource( 13 )
+text = "Hard"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="MinionHolder" type="Node" parent="."]
 
 [node name="Minion" parent="MinionHolder" instance=ExtResource( 20 )]
 position = Vector2( 2217.82, 511.303 )
+z_index = -2
 
 [node name="MagicMinion" parent="MinionHolder" instance=ExtResource( 21 )]
 position = Vector2( 2225.18, 964.598 )
-z_index = 1
+z_index = 0
 
 [node name="DebuffMinion" parent="MinionHolder" instance=ExtResource( 22 )]
 position = Vector2( 2212.22, 742.524 )
@@ -1131,18 +1323,27 @@ stream = ExtResource( 37 )
 [connection signal="pressed" from="UI/AttackMenu/Panel/VBoxContainer/AttackButton" to="TurnQueue" method="AttackPressed" binds= [ -1 ]]
 [connection signal="pressed" from="UI/AttackMenu/Panel/VBoxContainer/SpecialButton" to="UI" method="ShowSpecialMenu" binds= [ 0 ]]
 [connection signal="pressed" from="UI/AttackMenu/Panel/VBoxContainer/ItemButton" to="UI" method="ShowItemMenu"]
+[connection signal="pressed" from="UI/AttackMenu/Panel/VBoxContainer/DefendButton" to="TurnQueue" method="AttackPressed" binds= [ -2 ]]
 [connection signal="focus_entered" from="UI/AttackMenu/Panel/SpecialVBoxContainer/Heal" to="TurnQueue" method="ChangeDesOnSkill" binds= [ "0" ]]
 [connection signal="pressed" from="UI/AttackMenu/Panel/SpecialVBoxContainer/Heal" to="TurnQueue" method="AttackPressed" binds= [ 0 ]]
+[connection signal="pressed" from="UI/AttackMenu/Panel/SpecialVBoxContainer/Heal" to="TurnQueue" method="ChangeDesOnSkill" binds= [ 0 ]]
 [connection signal="focus_entered" from="UI/AttackMenu/Panel/SpecialVBoxContainer/Heal2" to="TurnQueue" method="ChangeDesOnSkill" binds= [ 1 ]]
 [connection signal="pressed" from="UI/AttackMenu/Panel/SpecialVBoxContainer/Heal2" to="TurnQueue" method="AttackPressed" binds= [ 1 ]]
+[connection signal="pressed" from="UI/AttackMenu/Panel/SpecialVBoxContainer/Heal2" to="TurnQueue" method="ChangeDesOnSkill" binds= [ 1 ]]
 [connection signal="focus_entered" from="UI/AttackMenu/Panel/SpecialVBoxContainer/Heal3" to="TurnQueue" method="ChangeDesOnSkill" binds= [ 2 ]]
 [connection signal="pressed" from="UI/AttackMenu/Panel/SpecialVBoxContainer/Heal3" to="TurnQueue" method="AttackPressed" binds= [ 2 ]]
+[connection signal="pressed" from="UI/AttackMenu/Panel/SpecialVBoxContainer/Heal3" to="TurnQueue" method="ChangeDesOnSkill" binds= [ 2 ]]
 [connection signal="focus_entered" from="UI/AttackMenu/Panel/SpecialVBoxContainer/Heal4" to="TurnQueue" method="ChangeDesOnSkill" binds= [ 3 ]]
+[connection signal="pressed" from="UI/AttackMenu/Panel/SpecialVBoxContainer/Heal4" to="." method="ChangeDesOnSkill" binds= [ 3 ]]
 [connection signal="pressed" from="UI/AttackMenu/Panel/SpecialVBoxContainer/Heal4" to="TurnQueue" method="AttackPressed" binds= [ 3 ]]
 [connection signal="pressed" from="UI/AttackMenu/Panel/ItemVBoxContainer2/Potion" to="TurnQueue" method="ItemUsed" binds= [ 0 ]]
 [connection signal="pressed" from="UI/AttackMenu/Panel/ItemVBoxContainer2/StaminaP" to="TurnQueue" method="ItemUsed" binds= [ 1 ]]
 [connection signal="pressed" from="UI/AttackMenu/Panel/ItemVBoxContainer2/Revive" to="TurnQueue" method="ItemUsed" binds= [ 2 ]]
 [connection signal="pressed" from="UI/AttackMenu/Panel/ItemVBoxContainer2/Neutralizer" to="TurnQueue" method="ItemUsed" binds= [ 3 ]]
+[connection signal="toggled" from="UI/Setup/Panel/CheckBox" to="." method="SetVoiceControl"]
+[connection signal="pressed" from="UI/Setup/Panel/Button" to="." method="SetDifficulty" binds= [ 0 ]]
+[connection signal="pressed" from="UI/Setup/Panel/Button2" to="." method="SetDifficulty" binds= [ 1 ]]
+[connection signal="pressed" from="UI/Setup/Panel/Button3" to="." method="SetDifficulty" binds= [ 2 ]]
 
 [editable path="TurnQueue/Boss"]
 

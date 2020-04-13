@@ -126,6 +126,8 @@ staminaDepletion = 70
 [node name="Speed & Luck Up!" type="Node" parent="Special Moves"]
 script = ExtResource( 6 )
 staminaDepletion = 20
+team = true
+statChange = true
 statBonusSpd = 20
 statBonusLuk = 250
 
@@ -136,3 +138,5 @@ texture = ExtResource( 9 )
 
 [node name="Stat Changes" parent="." instance=ExtResource( 11 )]
 position = Vector2( 0, -180 )
+
+[editable path="Stat Changes"]

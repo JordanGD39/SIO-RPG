@@ -33,7 +33,7 @@ tracks/0/keys = {
 }
 
 [sub_resource type="Animation" id=2]
-resource_name = "Debuff Minion_Attack"
+resource_name = "Debuffer_Attack"
 length = 2.1
 tracks/0/type = "value"
 tracks/0/path = NodePath(".:frame")
@@ -120,7 +120,7 @@ __meta__ = {
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Sprite"]
 anims/Boss_Idle = SubResource( 1 )
 anims/Death = ExtResource( 6 )
-"anims/Debuff Minion_Attack" = SubResource( 2 )
+anims/Debuffer_Attack = SubResource( 2 )
 anims/Miku_Idle = SubResource( 3 )
 anims/Sonic_Idle = SubResource( 4 )
 anims/Stunned = ExtResource( 14 )
@@ -134,7 +134,7 @@ script = ExtResource( 1 )
 __meta__ = {
 "_editor_description_": ""
 }
-charName = "Debuff Minion"
+charName = "Debuffer"
 health = 400
 atk = 60
 maxAtk = 60

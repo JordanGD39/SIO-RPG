@@ -176,7 +176,10 @@ public class EnemyAI : KinematicBody2D
                         minionTransform.ZIndex = 1;
                     }                    
                 }
-
+                AnimationPlayer anim =  minion.GetChild(0).GetChild(0) as AnimationPlayer;
+                anim.PlayBackwards("Death");
+                Task animDelay = gameManager.LongRunningOperationAsync((int)Math.Round(animation.GetAnimation("Daeth").Length * 100, MidpointRounding.AwayFromZero));
+                await animDelay;
                 spawnMinionChance = 0;
                 battleManager.NextTurn();
                 return;
@@ -303,9 +306,13 @@ public class EnemyAI : KinematicBody2D
             else
             {
                 if (chosenSkill.GetStatChange() || chosenSkill.GetHeal())
-                {
+                {                 
                     if (chosenSkill.GetTeam())
-                    {
+                    {   
+                        gui.ChangeDescriptionText(chosenSkill.Name + " on " +  battleManager.GetEnemies()[0].GetNode<Stats>("Stats").GetCharName(), false);
+                        Task animDelay = gameManager.LongRunningOperationAsync(3000);
+                        await animDelay;
+                        gui.HideDescription();
                         if (stats.GetMaxHealth() > 1000)
                         {
                             GetNode<CharacterDamage>("Damage").Support(chosenSkill, false, stats);
@@ -318,6 +325,10 @@ public class EnemyAI : KinematicBody2D
                     }
                     else
                     {
+                        gui.ChangeDescriptionText(chosenSkill.Name + " on " +  battleManager.GetPlayers()[num].GetNode<Stats>("Stats").GetCharName(), false);
+                        Task animDelay = gameManager.LongRunningOperationAsync(3000);
+                        await animDelay;
+                        gui.HideDescription();
                         battleManager.GetPlayers()[num].GetNode<CharacterDamage>("Damage").Debuff(chosenSkill, stats);
                     }                   
                 }

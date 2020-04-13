@@ -11,8 +11,11 @@ public class GUI : Node
     private VBoxContainer attackContainer;
     private VBoxContainer specialContainer;
     private VBoxContainer itemContainer;
+    private MarginContainer descriptionBox;
+    private MarginContainer menu;
     private Label description;
     private float delayTimer = 0;
+    private int attackCounter = 0;
 
     public override void _Ready()
     {
@@ -24,7 +27,10 @@ public class GUI : Node
         specialContainer = attackMenuContainer.GetChild(0).GetChild<VBoxContainer>(1);
         itemContainer = attackMenuContainer.GetChild(0).GetChild<VBoxContainer>(2);
         attackMenuContainer.Visible = false;
-        description = GetNode("Description").GetChild(0).GetChild(0) as Label;
+        descriptionBox = GetNode("Description") as MarginContainer;
+        description = descriptionBox.GetChild(0).GetChild(0) as Label;
+        menu = GetNode("Setup") as MarginContainer;
+        menu.GetChild(0).GetChild<Button>(1).GrabFocus();
     }
     public void ChangeNames(List<Node> players, List<Node> enemies)
     {
@@ -59,19 +65,35 @@ public class GUI : Node
         }
     }
 
+    public void HideSetupMenu()
+    {
+        menu.Visible = false;
+        Button attackButton = attackMenu.GetChild(0) as Button;
+        attackButton.GrabFocus();
+    }
+
     public void ShowAttackMenu()
     {
         attackMenuContainer.Visible = true;
         attackContainer.Visible = true;
         specialContainer.Visible = false;
         itemContainer.Visible = false;
-        Button attackButton = attackMenu.GetChild(0) as Button;
-        attackButton.GrabFocus();
+        if (!menu.Visible)
+        {
+            Button attackButton = attackMenu.GetChild(0) as Button;
+            attackButton.GrabFocus();
+        }        
     }
 
     public void DissapearAttackMenu()
     {
         attackMenuContainer.Visible = false;
+    }
+
+    public void HideDescription()
+    {
+        attackCounter = 0;
+        descriptionBox.Visible = false;
     }
 
     public void ShowSpecialMenu(int buttonFocus)
@@ -132,9 +154,23 @@ public class GUI : Node
         hpBars.GetChild<VBoxContainer>(i).Visible = true;
     }
 
-    public void ChangeDescriptionText(string text)
+    public void ChangeDescriptionText(string text, bool plus)
     {
-        description.Text = text;
+        descriptionBox.Visible = true;        
+
+        if (plus && attackCounter > 0)
+        {
+            description.Text += "\n" + text;
+        }
+        else
+        {
+            description.Text = text;
+        }        
+
+        if (plus)
+        {
+            attackCounter++;
+        }
     }
 
     // Called every frame. 'delta' is the elapsed time since the previous frame.

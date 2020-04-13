@@ -33,7 +33,7 @@ tracks/0/keys = {
 }
 
 [sub_resource type="Animation" id=2]
-resource_name = "Magic Minion_Attack"
+resource_name = "Mage_Attack"
 length = 5.2
 tracks/0/type = "value"
 tracks/0/path = NodePath(".:frame")
@@ -120,7 +120,7 @@ __meta__ = {
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Sprite"]
 anims/Boss_Idle = SubResource( 1 )
 anims/Death = ExtResource( 11 )
-"anims/Magic Minion_Attack" = SubResource( 2 )
+anims/Mage_Attack = SubResource( 2 )
 anims/Miku_Idle = SubResource( 3 )
 anims/Sonic_Idle = SubResource( 4 )
 anims/Stunned = ExtResource( 14 )
@@ -134,7 +134,7 @@ script = ExtResource( 1 )
 __meta__ = {
 "_editor_description_": ""
 }
-charName = "Magic Minion"
+charName = "Mage"
 health = 350
 maxHealth = 350
 mag = 90

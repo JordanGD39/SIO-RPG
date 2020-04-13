@@ -66,9 +66,10 @@ public class Stats : Node
      public void SetStaminaText(Label a) {staminaText = a;}
      [Export] private int hitHappened = 1450; // In miliseconds
      public int GetHitHappened() {return hitHappened;}
-
      private Node statChangesUI;
      public Node GetStatChangesUI() {return statChangesUI;}
+     private bool defending = false;
+     public bool GetDefending() {return defending;} public void SetDefending(bool a) {defending = a;}
 
      public override void _Ready()
      {
@@ -82,7 +83,7 @@ public class Stats : Node
               guardCounter--;     
               if (guardCounter <= 0)
               {
-                  statChangesUI.GetNode<AnimatedSprite>("Guard").Visible = false;
+                  statChangesUI.GetNode<Sprite>("Guard").Visible = false;
               }         
           }
 
@@ -91,7 +92,7 @@ public class Stats : Node
               stunCounter--;     
               if (stunCounter <= 0)
               {
-                  statChangesUI.GetNode<AnimatedSprite>("Stun").Visible = false;
+                  statChangesUI.GetNode<Sprite>("Stun").Visible = false;
               }         
           }
           
