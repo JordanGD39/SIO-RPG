@@ -181,17 +181,20 @@ public class GUI : Node
             delayTimer += delta;
         }        
 
-        if (specialContainer.Visible && Input.IsActionJustPressed("ui_cancel") && delayTimer > 0.25f)
+        if ((GetParent<GameManager>().GetVoiceControl() == 1 && Input.IsActionJustPressed("ui_cancel") || GetParent<GameManager>().GetVoiceControl() == 4 && Input.IsActionJustReleased("ui_cancel")) && delayTimer > 0.25f)
         {
-            specialContainer.Visible = false;
-            attackContainer.Visible = true;
-            attackMenu.GetChild<Button>(1).GrabFocus();
-        } 
-        else if (itemContainer.Visible && Input.IsActionJustPressed("ui_cancel") && delayTimer > 0.25f)
-        {
-            itemContainer.Visible = false;
-            attackContainer.Visible = true;
-            attackMenu.GetChild<Button>(2).GrabFocus();
-        }     
+            if (specialContainer.Visible)
+            {
+                specialContainer.Visible = false;
+                attackContainer.Visible = true;
+                attackMenu.GetChild<Button>(1).GrabFocus();
+            }
+            else if (itemContainer.Visible)
+            {
+                itemContainer.Visible = false;
+                attackContainer.Visible = true;
+                attackMenu.GetChild<Button>(2).GrabFocus();
+            }            
+        }   
     }
 }

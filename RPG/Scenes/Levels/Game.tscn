@@ -144,11 +144,11 @@ scancode = 68
 [sub_resource type="ShortCut" id=30]
 shortcut = SubResource( 29 )
 
-[sub_resource type="InputEventKey" id=31]
+[sub_resource type="InputEventKey" id=45]
 scancode = 70
 
-[sub_resource type="ShortCut" id=32]
-shortcut = SubResource( 31 )
+[sub_resource type="ShortCut" id=46]
+shortcut = SubResource( 45 )
 
 [sub_resource type="InputEventKey" id=43]
 scancode = 71
@@ -951,7 +951,7 @@ custom_styles/normal = SubResource( 9 )
 custom_fonts/font = ExtResource( 13 )
 action_mode = 0
 button_mask = 0
-shortcut = SubResource( 32 )
+shortcut = SubResource( 46 )
 text = "Heal"
 align = 0
 
