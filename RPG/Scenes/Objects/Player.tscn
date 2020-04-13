@@ -58,6 +58,7 @@ disabled = true
 [node name="Stats" type="Node" parent="."]
 script = ExtResource( 3 )
 charName = "Serra"
+health = 1
 atk = 75
 maxAtk = 75
 mag = 90

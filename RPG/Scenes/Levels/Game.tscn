@@ -108,94 +108,93 @@ bg_color = Color( 0, 0, 0, 0.235294 )
 
 [sub_resource type="StyleBoxEmpty" id=9]
 
-[sub_resource type="InputEventKey" id=20]
+[sub_resource type="InputEventKey" id=10]
 scancode = 65
 
-[sub_resource type="ShortCut" id=19]
-shortcut = SubResource( 20 )
+[sub_resource type="ShortCut" id=11]
+shortcut = SubResource( 10 )
 
-[sub_resource type="InputEventKey" id=21]
+[sub_resource type="InputEventKey" id=12]
 scancode = 90
 
-[sub_resource type="ShortCut" id=22]
-shortcut = SubResource( 21 )
+[sub_resource type="ShortCut" id=13]
+shortcut = SubResource( 12 )
 
-[sub_resource type="InputEventKey" id=23]
+[sub_resource type="InputEventKey" id=14]
 scancode = 73
 
-[sub_resource type="ShortCut" id=24]
-shortcut = SubResource( 23 )
+[sub_resource type="ShortCut" id=15]
+shortcut = SubResource( 14 )
 
-[sub_resource type="InputEventKey" id=25]
+[sub_resource type="InputEventKey" id=16]
 scancode = 88
 
-[sub_resource type="ShortCut" id=26]
-shortcut = SubResource( 25 )
+[sub_resource type="ShortCut" id=17]
+shortcut = SubResource( 16 )
 
-[sub_resource type="InputEventKey" id=27]
+[sub_resource type="InputEventKey" id=18]
 scancode = 83
 
-[sub_resource type="ShortCut" id=28]
-shortcut = SubResource( 27 )
+[sub_resource type="ShortCut" id=19]
+shortcut = SubResource( 18 )
 
-[sub_resource type="InputEventKey" id=29]
+[sub_resource type="InputEventKey" id=20]
 scancode = 68
 
-[sub_resource type="ShortCut" id=30]
-shortcut = SubResource( 29 )
+[sub_resource type="ShortCut" id=21]
+shortcut = SubResource( 20 )
 
-[sub_resource type="InputEventKey" id=45]
+[sub_resource type="InputEventKey" id=22]
 scancode = 70
 
-[sub_resource type="ShortCut" id=46]
-shortcut = SubResource( 45 )
+[sub_resource type="ShortCut" id=23]
+shortcut = SubResource( 22 )
 
-[sub_resource type="InputEventKey" id=43]
+[sub_resource type="InputEventKey" id=24]
 scancode = 71
 
-[sub_resource type="ShortCut" id=44]
-shortcut = SubResource( 43 )
+[sub_resource type="ShortCut" id=25]
+shortcut = SubResource( 24 )
 
-[sub_resource type="InputEventKey" id=35]
+[sub_resource type="InputEventKey" id=26]
 scancode = 72
 
-[sub_resource type="ShortCut" id=36]
-shortcut = SubResource( 35 )
+[sub_resource type="ShortCut" id=27]
+shortcut = SubResource( 26 )
 
-[sub_resource type="InputEventKey" id=37]
+[sub_resource type="InputEventKey" id=28]
 scancode = 74
 
-[sub_resource type="ShortCut" id=38]
-shortcut = SubResource( 37 )
+[sub_resource type="ShortCut" id=29]
+shortcut = SubResource( 28 )
 
-[sub_resource type="InputEventKey" id=39]
-scancode = 74
-
-[sub_resource type="ShortCut" id=40]
-shortcut = SubResource( 39 )
-
-[sub_resource type="InputEventKey" id=41]
+[sub_resource type="InputEventKey" id=30]
 scancode = 75
 
-[sub_resource type="ShortCut" id=42]
-shortcut = SubResource( 41 )
+[sub_resource type="ShortCut" id=31]
+shortcut = SubResource( 30 )
 
-[sub_resource type="Theme" id=13]
+[sub_resource type="InputEventKey" id=32]
+scancode = 76
 
-[sub_resource type="StyleBoxFlat" id=14]
+[sub_resource type="ShortCut" id=33]
+shortcut = SubResource( 32 )
+
+[sub_resource type="Theme" id=34]
+
+[sub_resource type="StyleBoxFlat" id=35]
 bg_color = Color( 0.273438, 0.129602, 0.0715637, 1 )
 
-[sub_resource type="StyleBoxFlat" id=15]
+[sub_resource type="StyleBoxFlat" id=36]
 bg_color = Color( 0.247059, 0.117647, 0.0666667, 1 )
 
-[sub_resource type="StyleBoxFlat" id=16]
+[sub_resource type="StyleBoxFlat" id=37]
 bg_color = Color( 0.313726, 0.14902, 0.0823529, 1 )
 
-[sub_resource type="StyleBoxFlat" id=17]
+[sub_resource type="StyleBoxFlat" id=38]
 bg_color = Color( 0.423529, 0.2, 0.109804, 1 )
 
-[sub_resource type="Animation" id=10]
-resource_name = "Thunder"
+[sub_resource type="Animation" id=39]
 length = 2.6
 tracks/0/type = "value"
 tracks/0/path = NodePath(".:frame")
@@ -234,8 +233,7 @@ tracks/2/keys = {
 "values": [ Vector2( 6, 10 ), Vector2( 1000, 100 ), Vector2( 6, 10 ), Vector2( 1000, 100 ), Vector2( 6, 10 ), Vector2( 1000, 100 ), Vector2( 6, 10 ), Vector2( 1000, 100 ), Vector2( 6, 10 ) ]
 }
 
-[sub_resource type="Animation" id=11]
-resource_name = "Fire"
+[sub_resource type="Animation" id=40]
 length = 2.5
 step = 0.05
 tracks/0/type = "value"
@@ -263,8 +261,7 @@ tracks/1/keys = {
 "values": [ true, false ]
 }
 
-[sub_resource type="Animation" id=12]
-resource_name = "Hand"
+[sub_resource type="Animation" id=41]
 length = 4.0
 tracks/0/type = "value"
 tracks/0/path = NodePath(".:visible")
@@ -524,7 +521,7 @@ disabled = true
 [node name="Stats" type="Node" parent="TurnQueue/Dwarf"]
 script = ExtResource( 7 )
 charName = "Hector"
-health = 400
+health = 1
 maxHealth = 400
 atk = 120
 maxAtk = 120
@@ -820,7 +817,7 @@ custom_styles/normal = SubResource( 9 )
 custom_fonts/font = ExtResource( 13 )
 action_mode = 0
 button_mask = 0
-shortcut = SubResource( 19 )
+shortcut = SubResource( 11 )
 text = " Attack"
 align = 0
 
@@ -836,7 +833,7 @@ custom_styles/normal = SubResource( 9 )
 custom_fonts/font = ExtResource( 13 )
 action_mode = 0
 button_mask = 0
-shortcut = SubResource( 22 )
+shortcut = SubResource( 13 )
 text = " Special"
 align = 0
 
@@ -852,7 +849,7 @@ custom_styles/normal = SubResource( 9 )
 custom_fonts/font = ExtResource( 13 )
 action_mode = 0
 button_mask = 0
-shortcut = SubResource( 24 )
+shortcut = SubResource( 15 )
 text = " Item"
 align = 0
 
@@ -868,7 +865,7 @@ custom_styles/normal = SubResource( 9 )
 custom_fonts/font = ExtResource( 13 )
 action_mode = 0
 button_mask = 0
-shortcut = SubResource( 26 )
+shortcut = SubResource( 17 )
 text = " Defend"
 align = 0
 
@@ -893,7 +890,7 @@ custom_styles/normal = SubResource( 9 )
 custom_fonts/font = ExtResource( 13 )
 action_mode = 0
 button_mask = 0
-shortcut = SubResource( 28 )
+shortcut = SubResource( 19 )
 text = "Heal"
 align = 0
 
@@ -922,7 +919,7 @@ custom_styles/normal = SubResource( 9 )
 custom_fonts/font = ExtResource( 13 )
 action_mode = 0
 button_mask = 0
-shortcut = SubResource( 30 )
+shortcut = SubResource( 21 )
 text = "Heal"
 align = 0
 
@@ -951,7 +948,7 @@ custom_styles/normal = SubResource( 9 )
 custom_fonts/font = ExtResource( 13 )
 action_mode = 0
 button_mask = 0
-shortcut = SubResource( 46 )
+shortcut = SubResource( 23 )
 text = "Heal"
 align = 0
 
@@ -980,7 +977,7 @@ custom_styles/normal = SubResource( 9 )
 custom_fonts/font = ExtResource( 13 )
 action_mode = 0
 button_mask = 0
-shortcut = SubResource( 44 )
+shortcut = SubResource( 25 )
 text = "Heal"
 align = 0
 
@@ -1018,7 +1015,7 @@ custom_styles/normal = SubResource( 9 )
 custom_fonts/font = ExtResource( 13 )
 action_mode = 0
 button_mask = 0
-shortcut = SubResource( 36 )
+shortcut = SubResource( 27 )
 text = " Potion"
 align = 0
 
@@ -1046,7 +1043,7 @@ custom_styles/normal = SubResource( 9 )
 custom_fonts/font = ExtResource( 13 )
 action_mode = 0
 button_mask = 0
-shortcut = SubResource( 38 )
+shortcut = SubResource( 29 )
 text = " Stamina Potion"
 align = 0
 
@@ -1075,7 +1072,7 @@ custom_styles/normal = SubResource( 9 )
 custom_fonts/font = ExtResource( 13 )
 action_mode = 0
 button_mask = 0
-shortcut = SubResource( 40 )
+shortcut = SubResource( 31 )
 text = " Revive"
 align = 0
 
@@ -1104,7 +1101,7 @@ custom_styles/normal = SubResource( 9 )
 custom_fonts/font = ExtResource( 13 )
 action_mode = 0
 button_mask = 0
-shortcut = SubResource( 42 )
+shortcut = SubResource( 33 )
 text = " Neutralizer"
 align = 0
 
@@ -1180,11 +1177,11 @@ margin_bottom = 723.34
 focus_neighbour_left = NodePath("../Button3")
 focus_neighbour_top = NodePath("../CheckBox")
 focus_neighbour_right = NodePath("../Button2")
-theme = SubResource( 13 )
-custom_styles/hover = SubResource( 14 )
-custom_styles/pressed = SubResource( 15 )
-custom_styles/focus = SubResource( 16 )
-custom_styles/normal = SubResource( 17 )
+theme = SubResource( 34 )
+custom_styles/hover = SubResource( 35 )
+custom_styles/pressed = SubResource( 36 )
+custom_styles/focus = SubResource( 37 )
+custom_styles/normal = SubResource( 38 )
 custom_fonts/font = ExtResource( 13 )
 text = "Easy"
 __meta__ = {
@@ -1199,11 +1196,11 @@ margin_bottom = 721.953
 focus_neighbour_left = NodePath("../Button")
 focus_neighbour_top = NodePath("../CheckBox")
 focus_neighbour_right = NodePath("../Button3")
-theme = SubResource( 13 )
-custom_styles/hover = SubResource( 14 )
-custom_styles/pressed = SubResource( 15 )
-custom_styles/focus = SubResource( 16 )
-custom_styles/normal = SubResource( 17 )
+theme = SubResource( 34 )
+custom_styles/hover = SubResource( 35 )
+custom_styles/pressed = SubResource( 36 )
+custom_styles/focus = SubResource( 37 )
+custom_styles/normal = SubResource( 38 )
 custom_fonts/font = ExtResource( 13 )
 text = "Normal"
 __meta__ = {
@@ -1218,11 +1215,11 @@ margin_bottom = 720.756
 focus_neighbour_left = NodePath("../Button2")
 focus_neighbour_top = NodePath("../CheckBox")
 focus_neighbour_right = NodePath("../Button")
-theme = SubResource( 13 )
-custom_styles/hover = SubResource( 14 )
-custom_styles/pressed = SubResource( 15 )
-custom_styles/focus = SubResource( 16 )
-custom_styles/normal = SubResource( 17 )
+theme = SubResource( 34 )
+custom_styles/hover = SubResource( 35 )
+custom_styles/pressed = SubResource( 36 )
+custom_styles/focus = SubResource( 37 )
+custom_styles/normal = SubResource( 38 )
 custom_fonts/font = ExtResource( 13 )
 text = "Hard"
 __meta__ = {
@@ -1254,7 +1251,7 @@ vframes = 2
 hframes = 7
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="FX/Thunder"]
-anims/Thunder = SubResource( 10 )
+anims/Thunder = SubResource( 39 )
 
 [node name="Fire" type="Sprite" parent="FX"]
 visible = false
@@ -1267,7 +1264,7 @@ hframes = 5
 frame = 14
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="FX/Fire"]
-anims/Fire = SubResource( 11 )
+anims/Fire = SubResource( 40 )
 
 [node name="Hand" type="Sprite" parent="FX"]
 visible = false
@@ -1277,7 +1274,7 @@ z_index = 10
 texture = ExtResource( 27 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="FX/Hand"]
-anims/Hand = SubResource( 12 )
+anims/Hand = SubResource( 41 )
 
 [node name="Music" type="Node" parent="."]
 
@@ -1324,17 +1321,17 @@ stream = ExtResource( 37 )
 [connection signal="pressed" from="UI/AttackMenu/Panel/VBoxContainer/ItemButton" to="UI" method="ShowItemMenu"]
 [connection signal="pressed" from="UI/AttackMenu/Panel/VBoxContainer/DefendButton" to="TurnQueue" method="AttackPressed" binds= [ -2 ]]
 [connection signal="focus_entered" from="UI/AttackMenu/Panel/SpecialVBoxContainer/Heal" to="TurnQueue" method="ChangeDesOnSkill" binds= [ "0" ]]
-[connection signal="pressed" from="UI/AttackMenu/Panel/SpecialVBoxContainer/Heal" to="TurnQueue" method="AttackPressed" binds= [ 0 ]]
 [connection signal="pressed" from="UI/AttackMenu/Panel/SpecialVBoxContainer/Heal" to="TurnQueue" method="ChangeDesOnSkill" binds= [ 0 ]]
+[connection signal="pressed" from="UI/AttackMenu/Panel/SpecialVBoxContainer/Heal" to="TurnQueue" method="AttackPressed" binds= [ 0 ]]
 [connection signal="focus_entered" from="UI/AttackMenu/Panel/SpecialVBoxContainer/Heal2" to="TurnQueue" method="ChangeDesOnSkill" binds= [ 1 ]]
-[connection signal="pressed" from="UI/AttackMenu/Panel/SpecialVBoxContainer/Heal2" to="TurnQueue" method="AttackPressed" binds= [ 1 ]]
 [connection signal="pressed" from="UI/AttackMenu/Panel/SpecialVBoxContainer/Heal2" to="TurnQueue" method="ChangeDesOnSkill" binds= [ 1 ]]
+[connection signal="pressed" from="UI/AttackMenu/Panel/SpecialVBoxContainer/Heal2" to="TurnQueue" method="AttackPressed" binds= [ 1 ]]
 [connection signal="focus_entered" from="UI/AttackMenu/Panel/SpecialVBoxContainer/Heal3" to="TurnQueue" method="ChangeDesOnSkill" binds= [ 2 ]]
-[connection signal="pressed" from="UI/AttackMenu/Panel/SpecialVBoxContainer/Heal3" to="TurnQueue" method="AttackPressed" binds= [ 2 ]]
 [connection signal="pressed" from="UI/AttackMenu/Panel/SpecialVBoxContainer/Heal3" to="TurnQueue" method="ChangeDesOnSkill" binds= [ 2 ]]
+[connection signal="pressed" from="UI/AttackMenu/Panel/SpecialVBoxContainer/Heal3" to="TurnQueue" method="AttackPressed" binds= [ 2 ]]
 [connection signal="focus_entered" from="UI/AttackMenu/Panel/SpecialVBoxContainer/Heal4" to="TurnQueue" method="ChangeDesOnSkill" binds= [ 3 ]]
-[connection signal="pressed" from="UI/AttackMenu/Panel/SpecialVBoxContainer/Heal4" to="TurnQueue" method="AttackPressed" binds= [ 3 ]]
 [connection signal="pressed" from="UI/AttackMenu/Panel/SpecialVBoxContainer/Heal4" to="TurnQueue" method="ChangeDesOnSkill" binds= [ 3 ]]
+[connection signal="pressed" from="UI/AttackMenu/Panel/SpecialVBoxContainer/Heal4" to="TurnQueue" method="AttackPressed" binds= [ 3 ]]
 [connection signal="pressed" from="UI/AttackMenu/Panel/ItemVBoxContainer2/Potion" to="TurnQueue" method="ItemUsed" binds= [ 0 ]]
 [connection signal="pressed" from="UI/AttackMenu/Panel/ItemVBoxContainer2/StaminaP" to="TurnQueue" method="ItemUsed" binds= [ 1 ]]
 [connection signal="pressed" from="UI/AttackMenu/Panel/ItemVBoxContainer2/Revive" to="TurnQueue" method="ItemUsed" binds= [ 2 ]]
