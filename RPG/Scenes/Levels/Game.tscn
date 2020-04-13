@@ -388,7 +388,7 @@ lessAcc = 40
 atk = -15
 staminaDepletion = 60
 stun = true
-descriptionText = "If hit this move stuns an opponent and has a chance of stopping their move (40% chance of succes)"
+descriptionText = "If hit this move stuns an opponent and has a chance of stopping their move (40% less chance of succes)"
 
 [node name="Guard" type="Node" parent="TurnQueue/Palladin/Special Moves"]
 script = ExtResource( 15 )
@@ -1149,7 +1149,6 @@ __meta__ = {
 }
 
 [node name="Setup" type="MarginContainer" parent="UI"]
-visible = false
 margin_right = 1918.0
 margin_bottom = 1089.0
 __meta__ = {
@@ -1334,8 +1333,8 @@ stream = ExtResource( 37 )
 [connection signal="pressed" from="UI/AttackMenu/Panel/SpecialVBoxContainer/Heal3" to="TurnQueue" method="AttackPressed" binds= [ 2 ]]
 [connection signal="pressed" from="UI/AttackMenu/Panel/SpecialVBoxContainer/Heal3" to="TurnQueue" method="ChangeDesOnSkill" binds= [ 2 ]]
 [connection signal="focus_entered" from="UI/AttackMenu/Panel/SpecialVBoxContainer/Heal4" to="TurnQueue" method="ChangeDesOnSkill" binds= [ 3 ]]
-[connection signal="pressed" from="UI/AttackMenu/Panel/SpecialVBoxContainer/Heal4" to="." method="ChangeDesOnSkill" binds= [ 3 ]]
 [connection signal="pressed" from="UI/AttackMenu/Panel/SpecialVBoxContainer/Heal4" to="TurnQueue" method="AttackPressed" binds= [ 3 ]]
+[connection signal="pressed" from="UI/AttackMenu/Panel/SpecialVBoxContainer/Heal4" to="TurnQueue" method="ChangeDesOnSkill" binds= [ 3 ]]
 [connection signal="pressed" from="UI/AttackMenu/Panel/ItemVBoxContainer2/Potion" to="TurnQueue" method="ItemUsed" binds= [ 0 ]]
 [connection signal="pressed" from="UI/AttackMenu/Panel/ItemVBoxContainer2/StaminaP" to="TurnQueue" method="ItemUsed" binds= [ 1 ]]
 [connection signal="pressed" from="UI/AttackMenu/Panel/ItemVBoxContainer2/Revive" to="TurnQueue" method="ItemUsed" binds= [ 2 ]]

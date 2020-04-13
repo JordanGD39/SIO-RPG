@@ -78,12 +78,18 @@ public class EnemyAI : KinematicBody2D
         {
             List<weakness> newWeaknesses = new List<weakness>();
             Random rand = new Random();
-            int num = rand.Next() % Enum.GetNames(typeof(weakness)).Length;
+            int num = rand.Next() % Enum.GetNames(typeof(weakness)).Length - 1;
             newWeaknesses.Add((weakness)num);
-            num = rand.Next() % Enum.GetNames(typeof(weakness)).Length;
+            num = rand.Next() % Enum.GetNames(typeof(weakness)).Length - 1;
             newWeaknesses.Add((weakness)num);
+            while (newWeaknesses[0] == newWeaknesses[1])
+            {
+                newWeaknesses.RemoveAt(1);
+                num = rand.Next() % Enum.GetNames(typeof(weakness)).Length;
+                newWeaknesses.Add((weakness)num);
+            }
             stats.SetWeaknesses(newWeaknesses);
-            GD.Print("Boss weaknesses: ");
+            GD.Print("Boss weaknesses: ");            
 
             for (int i = 0; i < stats.GetWeaknesses().Count; i++)
             {
@@ -178,7 +184,7 @@ public class EnemyAI : KinematicBody2D
                 }
                 AnimationPlayer anim =  minion.GetChild(0).GetChild(0) as AnimationPlayer;
                 anim.PlayBackwards("Death");
-                Task animDelay = gameManager.LongRunningOperationAsync((int)Math.Round(animation.GetAnimation("Daeth").Length * 100, MidpointRounding.AwayFromZero));
+                Task animDelay = gameManager.LongRunningOperationAsync((int)Math.Round(animation.GetAnimation("Death").Length * 100, MidpointRounding.AwayFromZero));
                 await animDelay;
                 spawnMinionChance = 0;
                 battleManager.NextTurn();
@@ -227,6 +233,11 @@ public class EnemyAI : KinematicBody2D
         bool def = true;
         
         int count = battleManager.GetPlayers().Count;
+
+        if (chosenSkill != null && chosenSkill.GetMag() > 0)
+        {
+            def = false;
+        }
 
         List<Node> lowestDeforMagChar = battleManager.GetPlayers();
         if((chosenSkill == null || !chosenSkill.GetStatChange() && !chosenSkill.GetHeal()) && !someoneIsGuarding)

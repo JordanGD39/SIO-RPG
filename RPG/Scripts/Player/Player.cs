@@ -287,7 +287,7 @@ public class Player : KinematicBody2D
 
                     if (chosenSkill.GetStatChange() || chosenSkill.GetHeal())
                     {
-                        if (animation.HasAnimation(stats.GetCharName() + "_Heal"))
+                        if (animation.HasAnimation(stats.GetCharName() + "_Heal") && chosenSkill != null)
                         {
                             animation.Play(stats.GetCharName() + "_Heal");
                             gameManager.GetAudioNode().GetChild<AudioStreamPlayer>(1).Play(0);
@@ -335,7 +335,7 @@ public class Player : KinematicBody2D
             }
             else
             {
-                if (animation.HasAnimation(stats.GetCharName() + "_Heal"))
+                if (animation.HasAnimation(stats.GetCharName() + "_Heal") && chosenSkill != null)
                 {
                     marker.Visible = false;
                     animation.Play(stats.GetCharName() + "_Heal");
