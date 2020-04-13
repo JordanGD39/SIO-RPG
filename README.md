@@ -7,6 +7,10 @@ Youtube link naar video product & user test:
 
 ### RPG gedeelte
 ---
+De game waar de voice app voor is gemaakt. De game heet For the Kingdom en het is een turn based RPG met wat andere mechanics dan een normale RPG heeft.
+```Game Link:```
+
+https://drive.google.com/file/d/1lqoheynFF2r_FT56dum71Lxg-ppBLdiB/view?usp=sharing
 
 ### Voice app
 ---
