@@ -275,7 +275,7 @@ public class Player : KinematicBody2D
             timer += delta;
         }        
 
-        if (Input.IsActionJustPressed("ui_accept") && timer > 0.25f)
+        if ((gameManager.GetVoiceControl() == 1 && Input.IsActionJustPressed("ui_accept") ||gameManager.GetVoiceControl() == 4 && Input.IsActionJustReleased("ui_accept")) && timer > 0.25f)
         {
             GD.Print(stats.GetCharName());
             bool visible = true;
@@ -287,7 +287,8 @@ public class Player : KinematicBody2D
 
                     if (chosenSkill.GetStatChange() || chosenSkill.GetHeal())
                     {
-                        if (animation.HasAnimation(stats.GetCharName() + "_Heal") && chosenSkill != null)
+                        if (animation.HasAnimation(stats.GetCharName() + "_Heal") && chosenSkill != null
+                        )
                         {
                             animation.Play(stats.GetCharName() + "_Heal");
                             gameManager.GetAudioNode().GetChild<AudioStreamPlayer>(1).Play(0);
