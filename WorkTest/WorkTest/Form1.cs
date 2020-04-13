@@ -180,7 +180,7 @@ namespace WorkTest
 
                 // When the command is Cancel.
                 case "Cancel":
-                    SendKeys.SendWait("{ESC");
+                    SendKeys.SendWait("{ESC}");
                     richTextBox1.Text += "\n" + e.Result.Text;
                     break;
                 // When the command is What do you think of our project.
