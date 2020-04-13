@@ -7,9 +7,9 @@ Deze github pagina bevat ons project. Op de branch van Jordan kunt u de game vin
 
 ### RPG gedeelte
 ---
-De game waar de voice app voor is gemaakt. De game heet For the Kingdom en het is een turn based RPG met wat andere mechanics dan een normale RPG heeft.
+De game waar de voice app voor is gemaakt. De game heet For the Kingdom en het is een turn based RPG met wat andere mechanics dan een normale RPG heeft. Om de voice app (Buggy speech) te openen moet je de file WorkTest openen en dan naar de bin en dan Debug en daar is een .exe bestand en die moet je openen en dan de knop met het microfoontje om het aan te zetten.
 
-```Game Link:```
+```Game Link met BuggySpeech ingebrepen:```
 
 * https://drive.google.com/file/d/1lqoheynFF2r_FT56dum71Lxg-ppBLdiB/view?usp=sharing
 
