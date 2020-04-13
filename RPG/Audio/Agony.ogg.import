@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/Agony.ogg-9a5edbf42443db60bf8c7245c03bf1f5.oggstr"
+
+[deps]
+
+source_file="res://Audio/Agony.ogg"
+dest_files=[ "res://.import/Agony.ogg-9a5edbf42443db60bf8c7245c03bf1f5.oggstr" ]
+
+[params]
+
+loop=true
+loop_offset=0

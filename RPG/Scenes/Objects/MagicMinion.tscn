@@ -135,14 +135,12 @@ __meta__ = {
 "_editor_description_": ""
 }
 charName = "Mage"
-health = 350
-maxHealth = 350
 mag = 90
 maxMag = 90
-def = 70
-maxDef = 70
-res = 90
-maxRes = 90
+def = 50
+maxDef = 50
+res = 70
+maxRes = 70
 spd = 65
 maxSpd = 65
 luk = 40

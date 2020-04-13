@@ -51,7 +51,7 @@ public class EnemyAI : KinematicBody2D
     private bool timerStarted = false;
     private Skill chosenSkill;
     private List<Node> minions = new List<Node>();
-    private int spawnMinionChance = 0;
+    private int spawnMinionChance = -10;
     private AnimationPlayer animation;
     public AnimationPlayer GetAnimationPlayer() {return animation;}
 
@@ -149,7 +149,7 @@ public class EnemyAI : KinematicBody2D
 
         if (stats.GetMaxHealth() > 1000 && battleManager.GetEnemies().Count < 3)
         {
-            spawnMinionChance += 15;
+            spawnMinionChance += 10;
             float spawnMinionRand = rand.Next() % 100;
             GD.Print("Spawning minion outcome: " + spawnMinionRand + " Chance: " + spawnMinionChance);
             if (spawnMinionRand <= spawnMinionChance)
@@ -186,7 +186,7 @@ public class EnemyAI : KinematicBody2D
                 anim.PlayBackwards("Death");
                 Task animDelay = gameManager.LongRunningOperationAsync((int)Math.Round(animation.GetAnimation("Death").Length * 100, MidpointRounding.AwayFromZero));
                 await animDelay;
-                spawnMinionChance = 0;
+                spawnMinionChance = -10;
                 battleManager.NextTurn();
                 return;
             }

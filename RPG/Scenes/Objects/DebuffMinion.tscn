@@ -135,15 +135,15 @@ __meta__ = {
 "_editor_description_": ""
 }
 charName = "Debuffer"
-health = 400
+health = 350
 atk = 60
 maxAtk = 60
 mag = 60
 maxMag = 60
-def = 75
-maxDef = 75
-res = 75
-maxRes = 75
+def = 55
+maxDef = 55
+res = 55
+maxRes = 55
 luk = 10
 maxLuk = 10
 weaknesses = [ 0 ]

@@ -76,7 +76,7 @@ public class CharacterDamage : Node
         }
 
         attackerStats = attackerStatsTemp;
-        float spd = stats.GetSpd() / 10;
+        float spd = (stats.GetSpd() / 2) / 10;
         Random rand = new Random();
         float num = rand.Next() % 100;
 
@@ -220,7 +220,7 @@ public class CharacterDamage : Node
 
         float attackerAtk = atkOrMagUser + atkOrMag;
 
-        if (attackerStats.GetStamina() <= 0)
+        if (attackerStats.GetStamina() < 0)
         {
             attackerAtk *= 0.6f;
             attackerAtk = Mathf.Round(attackerAtk);

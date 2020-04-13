@@ -187,10 +187,6 @@ public class BattleManager : Node
         {
             prevPlayer.SetGoToStartPos(true);            
         }
-        else
-        {
-            GD.Print("prevplayer is null");
-        }
         
         currTurn++;
         

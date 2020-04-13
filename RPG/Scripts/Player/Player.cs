@@ -179,6 +179,7 @@ public class Player : KinematicBody2D
                 stats.SetCounter(true);
                 battleManager.NextTurn();
                 GD.Print(stats.GetCharName() + " is in counter mode!");
+                gui.HideDescription();
                 return;
             }
         }
@@ -284,12 +285,11 @@ public class Player : KinematicBody2D
             {                
                 if (chosenSkill != null)
                 {
-                    stats.SetStamina(stats.GetStamina() - chosenSkill.GetStaminaDepletion());            
+                    stats.SetStamina(stats.GetStamina() - chosenSkill.GetStaminaDepletion());   
 
                     if (chosenSkill.GetStatChange() || chosenSkill.GetHeal())
                     {
-                        if (animation.HasAnimation(stats.GetCharName() + "_Heal") && chosenSkill != null
-                        )
+                        if (animation.HasAnimation(stats.GetCharName() + "_Heal") && chosenSkill != null)
                         {
                             animation.Play(stats.GetCharName() + "_Heal");
                             gameManager.GetAudioNode().GetChild<AudioStreamPlayer>(1).Play(0);

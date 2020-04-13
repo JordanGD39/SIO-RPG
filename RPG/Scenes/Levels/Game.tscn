@@ -27,7 +27,7 @@
 [ext_resource path="res://Assets/Thunder.png" type="Texture" id=25]
 [ext_resource path="res://Assets/Fire.png" type="Texture" id=26]
 [ext_resource path="res://Assets/Hand.png" type="Texture" id=27]
-[ext_resource path="res://Audio/Reigning_Justice.ogg" type="AudioStream" id=28]
+[ext_resource path="res://Audio/Agony.ogg" type="AudioStream" id=28]
 [ext_resource path="res://Audio/GBASFX/Hit 1.wav" type="AudioStream" id=29]
 [ext_resource path="res://Audio/GBASFX/Heal.WAV" type="AudioStream" id=30]
 [ext_resource path="res://Audio/Thunder Sound effect.ogg" type="AudioStream" id=31]
@@ -577,8 +577,8 @@ descriptionText = "Multi target Axe damage"
 script = ExtResource( 15 )
 element = 1
 lessAcc = 10
-atk = 60
-staminaDepletion = 80
+atk = 100
+staminaDepletion = 60
 descriptionText = "Single target Axe damage with a lot of power"
 
 [node name="Def & Res Down!" type="Node" parent="TurnQueue/Dwarf/Special Moves"]
