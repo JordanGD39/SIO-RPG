@@ -402,6 +402,7 @@ public class CharacterDamage : Node
         {
             attackerStats.GetParent().GetNode<CharacterDamage>("Damage").StartGuardSequence(stats, null);
             stats.SetCounter(false);
+            guard.Visible = true;
             return;
         }
 

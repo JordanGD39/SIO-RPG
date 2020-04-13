@@ -231,16 +231,17 @@ public class Player : KinematicBody2D
 
     public void ChooseItem(int itemIndex)
     {
+        targetIndex = 0;
         permItemIndex = itemIndex;
         useItem = true;
         chosenSkill = null;
         if (permItemIndex != 2)
         {
-            battleManager.GetPlayers()[0].GetNode<Sprite>("Marker").Visible = true;
+            battleManager.GetPlayers()[targetIndex].GetNode<Sprite>("Marker").Visible = true;
         }
         else
         {
-            battleManager.GetDeadPlayers()[0].GetNode<Sprite>("Marker").Visible = true;
+            battleManager.GetDeadPlayers()[targetIndex].GetNode<Sprite>("Marker").Visible = true;
         }
         
         alreadyTargeted = false;

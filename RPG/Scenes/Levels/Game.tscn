@@ -521,7 +521,7 @@ disabled = true
 [node name="Stats" type="Node" parent="TurnQueue/Dwarf"]
 script = ExtResource( 7 )
 charName = "Hector"
-health = 1
+health = 400
 maxHealth = 400
 atk = 120
 maxAtk = 120
@@ -571,7 +571,7 @@ lessAcc = 10
 atk = 30
 staminaDepletion = 40
 attackAll = true
-descriptionText = "Single target Axe damage"
+descriptionText = "Multi target Axe damage"
 
 [node name="Death slam" type="Node" parent="TurnQueue/Dwarf/Special Moves"]
 script = ExtResource( 15 )
@@ -579,7 +579,7 @@ element = 1
 lessAcc = 10
 atk = 60
 staminaDepletion = 60
-descriptionText = "Single target Axe damage with alot of power"
+descriptionText = "Single target Axe damage with a lot of power"
 
 [node name="Def & Res Down!" type="Node" parent="TurnQueue/Dwarf/Special Moves"]
 script = ExtResource( 15 )
