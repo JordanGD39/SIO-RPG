@@ -119,13 +119,8 @@
   </resheader>
   <data name="richTextBox1.Text" xml:space="preserve">
     <value>-SHOWING COMMANDS-
-Attack
-Parry
-Special 1 t/m 4
-Block up, right, down
-Show items
-Use Health potion
-Use stamina potion
+Attack, Parry, Special 1 t/m 4, Block up, right, down, Show items, Use Health potion, Use stamina potion, Show special, Use revive, Use neutralizer,
+Up, Down, Confirm, Cancel
 --------------------------------------------------------------------------------------------------------------------------------------------------------</value>
   </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />

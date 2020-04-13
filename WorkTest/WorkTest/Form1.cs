@@ -30,7 +30,7 @@ namespace WorkTest
             // Creates a new library of words that the program understands.
             Choices voiceCommands = new Choices();
             // Adds the items below to the library of known commands.
-            voiceCommands.Add(new string[] { "Attack", "Parry", "Block up", "Block right", "Block down", "Special 1", "Special 2", "Special 3", "Special 4", "What do you think of our project?", "Use stamina potion", "Use health potion", "Show items" });
+            voiceCommands.Add(new string[] { "Attack", "Parry", "Block up", "Block right", "Block down", "Special 1", "Special 2", "Special 3", "Special 4", "What do you think of our project?", "Use stamina potion", "Use health potion", "Show items", "Show special", "Deffend", "Use revive", "Use neutralizer", "Up", "Down", "Confirm", "Cancel" });
             // Creates a new grammar builder for the program to be able to understand what te user is saying.
             GrammarBuilder builder = new GrammarBuilder();
             // Adds the library of known commands to the gammar builder so it can understand the user with these commands.
@@ -136,6 +136,53 @@ namespace WorkTest
                     richTextBox1.Text += "\n" + e.Result.Text;
                     break;
 
+                // When the command is Show special.
+                case "Show special":
+                    SendKeys.SendWait("(z)");
+                    richTextBox1.Text += "\n" + e.Result.Text;
+                    break;
+
+                // When the command is Deffend.
+                case "Deffend":
+                    SendKeys.SendWait("(x)");
+                    richTextBox1.Text += "\n" + e.Result.Text;
+                    break;
+
+                // When the command is Use Revive.
+                case "Use revive":
+                    SendKeys.SendWait("(k)");
+                    richTextBox1.Text += "\n" + e.Result.Text;
+                    break;
+
+                // When the command is Use neutralizer.
+                case "Use neutralizer":
+                    SendKeys.SendWait("(h)");
+                    richTextBox1.Text += "\n" + e.Result.Text;
+                    break;
+
+                // When the command is Up.
+                case "Up":
+                    SendKeys.SendWait("{UP}");
+                    richTextBox1.Text += "\n" + e.Result.Text;
+                    break;
+
+                // When the command is Down.
+                case "Down":
+                    SendKeys.SendWait("{DOWN}");
+                    richTextBox1.Text += "\n" + e.Result.Text;
+                    break;
+
+                // When the command is Confirm.
+                case "Confirm":
+                    SendKeys.SendWait("{ENTER}");
+                    richTextBox1.Text += "\n" + e.Result.Text;
+                    break;
+
+                // When the command is Cancel.
+                case "Cancel":
+                    SendKeys.SendWait("{ESC}");
+                    richTextBox1.Text += "\n" + e.Result.Text;
+                    break;
                 // When the command is What do you think of our project.
                 case "What do you think of our project?":
                     speechSynth.SpeakAsync("It is a very cool project, but i wouldn't expect less from my 2 favorite developers");
