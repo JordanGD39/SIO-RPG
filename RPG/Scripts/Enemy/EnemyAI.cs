@@ -88,13 +88,7 @@ public class EnemyAI : KinematicBody2D
                 num = rand.Next() % Enum.GetNames(typeof(weakness)).Length;
                 newWeaknesses.Add((weakness)num);
             }
-            stats.SetWeaknesses(newWeaknesses);
-            GD.Print("Boss weaknesses: ");            
-
-            for (int i = 0; i < stats.GetWeaknesses().Count; i++)
-            {
-                GD.Print(stats.GetWeaknesses()[i]);
-            }
+            stats.SetWeaknesses(newWeaknesses);           
         }
     }
 

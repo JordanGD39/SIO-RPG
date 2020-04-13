@@ -396,7 +396,12 @@ public class CharacterDamage : Node
         Task animTask = gameManager.LongRunningOperationAsync(200);
         await animTask;
 
-        sprite.Modulate = new Color(1,1,1);
+        sprite.Modulate = new Color(1,1,1);        
+
+        animTask = gameManager.LongRunningOperationAsync(animDurationMS);
+        await animTask;  
+
+        shield.Visible = false;      
 
         if (stats.GetCounter() && hitShield)
         {
@@ -405,11 +410,6 @@ public class CharacterDamage : Node
             guard.Visible = true;
             return;
         }
-
-        animTask = gameManager.LongRunningOperationAsync(animDurationMS);
-        await animTask;  
-
-        shield.Visible = false;      
 
         if (stun && stats.GetStun() == 0 && damageInt > 0)
         {
@@ -451,7 +451,7 @@ public class CharacterDamage : Node
 
         float multiplier = 1;
 
-        if (characterStats.GetStamina() <= 0)
+        if (characterStats.GetStamina() < 0)
         {
             multiplier = 0.25f;
         }
@@ -553,7 +553,7 @@ public class CharacterDamage : Node
 
         float multiplier = 1;
 
-        if (characterStats.GetStamina() <= 0)
+        if (characterStats.GetStamina() < 0)
         {
             multiplier = 0.25f;
         }

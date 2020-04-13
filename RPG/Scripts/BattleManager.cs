@@ -100,6 +100,22 @@ public class BattleManager : Node
     
     public void GiveFirstTurn()
     {
+        Stats bossStats = enemies[0].GetNode<Stats>("Stats");
+
+        if (GetParent<GameManager>().GetDifficulty() == 0)
+        {
+            bossStats.SetAtk(200);
+            bossStats.SetMag(180);
+        }
+        else if (GetParent<GameManager>().GetDifficulty() == 1)
+        {
+            bossStats.SetAtk(225);
+            bossStats.SetMag(205);
+        }
+
+        bossStats.SetMaxAtk(bossStats.GetAtk());
+        bossStats.SetMaxMag(bossStats.GetMag());
+        
         Player player = turnOrder[0] as Player;
 
         player.SetGoToMid(true);  
