@@ -9,3 +9,7 @@ Deze branch bevat de code van de app BuggySpeech die ik gemaakt heb. Met deze ap
 * U kunt ook uw command terug zien in de app, zodat u kunt zien of de app u goed heeft verstaan.
 
 Het is met deze app de bedoeling dat u hem gebruikt voor de game die wij ervoor hebben gemaakt. De app kan ook buiten de game gebruikt worden, maar omdat u nog geen eigen commands toe kunt voegen is dit beperkt. Het toevoegen van commands komt in een latere update van deze app.
+
+Class diagram van deze app:
+
+* https://drive.google.com/file/d/1KalR-5c080j9KUazDcsS0f-0fzfEaesa/view?usp=sharing
