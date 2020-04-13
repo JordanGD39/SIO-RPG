@@ -94,11 +94,15 @@ public class BattleManager : Node
         gui.ChangeNames(players, enemies);
 
         SortTurnOrder();
-
+         
+        SortPlayers();
+    }
+    
+    public void GiveFirstTurn()
+    {
         Player player = turnOrder[0] as Player;
 
-        player.SetGoToMid(true);   
-        SortPlayers();
+        player.SetGoToMid(true);  
     }
 
     public void AttackPressed(int i)
