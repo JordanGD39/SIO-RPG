@@ -185,7 +185,7 @@ public class BattleManager : Node
 
         if (prevPlayer != null)
         {
-            prevPlayer.SetGoToStartPos(true);            
+            prevPlayer.SetGoToStartPos(true);
         }
         
         currTurn++;
@@ -206,7 +206,7 @@ public class BattleManager : Node
                 player.SetGoToMid(true);
             }
             else
-            {
+            {          
                 EnemyAI enemy = turnOrder[currTurn] as EnemyAI;
                 enemy.MyTurn();
             }                 

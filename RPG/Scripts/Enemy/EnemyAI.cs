@@ -221,7 +221,7 @@ public class EnemyAI : KinematicBody2D
         bool someoneIsGuarding = false;
         int num = 0;
 
-        for (int i = 0; i < battleManager.GetEnemies().Count; i++)
+        for (int i = 0; i < battleManager.GetPlayers().Count; i++)
         {
             if (battleManager.GetPlayers()[i].GetNode<Stats>("Stats").GetGuard() > 0)
             {
@@ -273,7 +273,7 @@ public class EnemyAI : KinematicBody2D
         }  
         else
         {
-            if (chosenSkill != null && chosenSkill.GetStatChange() && !chosenSkill.GetTeam())
+            if (chosenSkill != null && chosenSkill.GetStatChange() && !chosenSkill.GetTeam() && !someoneIsGuarding)
             {
                 if (gameManager.GetDifficulty() > 0)
                 {

@@ -79,15 +79,13 @@ __meta__ = {
 "_editor_description_": ""
 }
 charName = "Boss"
-health = 2500
-atk = 125
-maxAtk = 125
-mag = 110
-maxMag = 110
-def = 70
-maxDef = 70
-res = 60
-maxRes = 60
+health = 3000
+atk = 250
+maxAtk = 250
+mag = 230
+maxMag = 230
+res = 70
+maxRes = 70
 spd = 50
 maxSpd = 50
 luk = 20
@@ -106,13 +104,13 @@ script = ExtResource( 5 )
 
 [node name="Giant Sword Slash" type="Node" parent="Special Moves"]
 script = ExtResource( 6 )
-atk = 40
+atk = 60
 staminaDepletion = 30
 
 [node name="Slash of Darkness" type="Node" parent="Special Moves"]
 script = ExtResource( 6 )
 element = 7
-mag = 35
+mag = 55
 staminaDepletion = 35
 attackAll = true
 
@@ -120,7 +118,7 @@ attackAll = true
 script = ExtResource( 6 )
 element = 6
 lessAcc = 5
-atk = 80
+atk = 100
 staminaDepletion = 70
 
 [node name="Speed & Luck Up!" type="Node" parent="Special Moves"]

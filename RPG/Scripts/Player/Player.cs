@@ -478,7 +478,7 @@ public class Player : KinematicBody2D
     {
         guardDelay += delta;
 
-        if (guardDelay > 0.25f * gameManager.GetVoiceControl() || stats.GetStamina() > 0)
+        if (guardDelay > 0.25f * gameManager.GetVoiceControl() || stats.GetStamina() >= 0)
         {
             //GD.Print("Block statement");
             

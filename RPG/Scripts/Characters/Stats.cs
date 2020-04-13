@@ -83,7 +83,7 @@ public class Stats : Node
               guardCounter--;     
               if (guardCounter <= 0)
               {
-                  statChangesUI.GetNode<Sprite>("Guard").Visible = false;
+                    statChangesUI.GetNode<Sprite>("Guard").Visible = false;
               }         
           }
 

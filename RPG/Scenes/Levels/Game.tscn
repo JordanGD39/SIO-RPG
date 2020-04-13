@@ -577,7 +577,7 @@ descriptionText = "Multi target Axe damage"
 script = ExtResource( 15 )
 element = 1
 lessAcc = 10
-atk = 100
+atk = 80
 staminaDepletion = 60
 descriptionText = "Single target Axe damage with a lot of power"
 

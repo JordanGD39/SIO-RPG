@@ -91,14 +91,14 @@ animations = [ {
 "name": "Forward",
 "speed": 5.0
 }, {
-"frames": [ ExtResource( 4 ) ],
-"loop": false,
-"name": "Up",
-"speed": 5.0
-}, {
 "frames": [ ExtResource( 3 ) ],
 "loop": false,
 "name": "Down",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 4 ) ],
+"loop": false,
+"name": "Up",
 "speed": 5.0
 } ]
 
@@ -136,8 +136,8 @@ __meta__ = {
 }
 charName = "Debuffer"
 health = 350
-atk = 60
-maxAtk = 60
+atk = 100
+maxAtk = 100
 mag = 60
 maxMag = 60
 def = 55
