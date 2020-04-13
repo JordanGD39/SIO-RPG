@@ -309,10 +309,24 @@ public class EnemyAI : KinematicBody2D
 
             if (chosenSkill.GetAttackAll())
             {
-                for (int i = 0; i < battleManager.GetPlayers().Count; i++)
+                if (chosenSkill.GetStatChange())
                 {
-                    battleManager.GetPlayers()[i].GetNode<CharacterDamage>("Damage").StartGuardSequence(stats, chosenSkill);
-                }                
+                    gui.ChangeDescriptionText(chosenSkill.Name + " on " +  battleManager.GetPlayers()[num].GetNode<Stats>("Stats").GetCharName(), false);
+                    Task animDelay = gameManager.LongRunningOperationAsync(3000);
+                    await animDelay;
+                    gui.HideDescription();
+                    for (int i = 0; i < battleManager.GetPlayers().Count; i++)
+                    {
+                        battleManager.GetPlayers()[i].GetNode<CharacterDamage>("Damage").Debuff(chosenSkill, stats);
+                    }                    
+                }
+                else
+                {
+                    for (int i = 0; i < battleManager.GetPlayers().Count; i++)
+                    {
+                        battleManager.GetPlayers()[i].GetNode<CharacterDamage>("Damage").StartGuardSequence(stats, chosenSkill);
+                    } 
+                }                               
             }
             else
             {

@@ -578,7 +578,7 @@ script = ExtResource( 15 )
 element = 1
 lessAcc = 10
 atk = 60
-staminaDepletion = 60
+staminaDepletion = 80
 descriptionText = "Single target Axe damage with a lot of power"
 
 [node name="Def & Res Down!" type="Node" parent="TurnQueue/Dwarf/Special Moves"]
