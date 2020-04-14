@@ -82,8 +82,8 @@ charName = "Boss"
 health = 3000
 atk = 250
 maxAtk = 250
-mag = 230
-maxMag = 230
+mag = 210
+maxMag = 210
 res = 70
 maxRes = 70
 spd = 50
@@ -110,8 +110,8 @@ staminaDepletion = 30
 [node name="Slash of Darkness" type="Node" parent="Special Moves"]
 script = ExtResource( 6 )
 element = 7
-mag = 55
-staminaDepletion = 35
+mag = 30
+staminaDepletion = 50
 attackAll = true
 
 [node name="Death Slash" type="Node" parent="Special Moves"]

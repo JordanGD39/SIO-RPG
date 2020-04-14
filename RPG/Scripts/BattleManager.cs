@@ -105,12 +105,12 @@ public class BattleManager : Node
         if (GetParent<GameManager>().GetDifficulty() == 0)
         {
             bossStats.SetAtk(200);
-            bossStats.SetMag(180);
+            bossStats.SetMag(160);
         }
         else if (GetParent<GameManager>().GetDifficulty() == 1)
         {
             bossStats.SetAtk(225);
-            bossStats.SetMag(205);
+            bossStats.SetMag(185);
         }
 
         bossStats.SetMaxAtk(bossStats.GetAtk());
@@ -187,7 +187,7 @@ public class BattleManager : Node
         gui.ChangeDescriptionText(turnOrder[currTurn].GetNode("Special Moves").GetChild<Skill>(i).GetDescription(), false);
     }
 
-    public void NextTurn()
+    public void NextTurn(Node prevCharacter)
     {
         gui.HideDescription();
         attacksForNextTurn = 0;
@@ -197,7 +197,7 @@ public class BattleManager : Node
             currTurn--;
         } 
 
-        Player prevPlayer = turnOrder[currTurn] as Player;
+        Player prevPlayer = prevCharacter as Player;
 
         if (prevPlayer != null)
         {
@@ -249,7 +249,7 @@ public class BattleManager : Node
         deadPlayers.Sort(indexCompare);
     }
 
-    public void CheckIfNextTurn(bool team)
+    public void CheckIfNextTurn(bool team, Node prevCharacter)
     {       
         attacksForNextTurn++;
 
@@ -266,7 +266,7 @@ public class BattleManager : Node
 
         if (attacksForNextTurn >= targets.Count)
         {
-            NextTurn();
+            NextTurn(prevCharacter);
             attacksForNextTurn = 0;
         }
     }

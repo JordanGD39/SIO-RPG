@@ -138,7 +138,7 @@ public class Player : KinematicBody2D
 
             if (stunNum <= 50)
             {
-                battleManager.NextTurn();
+                battleManager.NextTurn(GetChild(0).GetParent());
                 GD.Print(stats.GetCharName() + " is stunned!");
                 animation.Play("Stunned");
                 Task animDelay = gameManager.LongRunningOperationAsync((int)Math.Round(animation.GetAnimation("Stunned").Length * 100, MidpointRounding.AwayFromZero));
@@ -170,14 +170,15 @@ public class Player : KinematicBody2D
                 }     
 
                 stats.SetStamina(stats.GetStamina() - chosenSkill.GetStaminaDepletion());
-                battleManager.NextTurn();                
+                battleManager.NextTurn(GetChild(0).GetParent());   
+                gui.HideDescription();             
                 return;           
             }
             else if (chosenSkill.GetCounter())
             {
                 stats.SetStamina(stats.GetStamina() - chosenSkill.GetStaminaDepletion());
                 stats.SetCounter(true);
-                battleManager.NextTurn();
+                battleManager.NextTurn(GetChild(0).GetParent());
                 GD.Print(stats.GetCharName() + " is in counter mode!");
                 gui.HideDescription();
                 return;
@@ -188,7 +189,7 @@ public class Player : KinematicBody2D
             if (skillIndex == -2)
             {
                 stats.SetDefending(true);
-                battleManager.NextTurn();
+                battleManager.NextTurn(GetChild(0).GetParent());
                 return;
             }
 
@@ -357,7 +358,7 @@ public class Player : KinematicBody2D
                 }
                 else
                 {
-                    targets[targetIndex].GetNode<CharacterDamage>("Damage").ReceiveItem(permItemIndex);
+                    targets[targetIndex].GetNode<CharacterDamage>("Damage").ReceiveItem(permItemIndex, GetChild(0).GetParent());
                     visible = false;
                 }                
             }

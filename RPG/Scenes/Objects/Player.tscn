@@ -102,7 +102,7 @@ descriptionText = "Heals a team member with 100 HP"
 
 [node name="Atk & Mag Up!" type="Node" parent="Special Moves"]
 script = ExtResource( 5 )
-staminaDepletion = 15
+staminaDepletion = 25
 team = true
 statChange = true
 statBonusAtk = 20
@@ -111,7 +111,7 @@ descriptionText = "Makes their Attack and Magic power better for 3 turns. (Do mo
 
 [node name="Spd & Luck Up!" type="Node" parent="Special Moves"]
 script = ExtResource( 5 )
-staminaDepletion = 20
+staminaDepletion = 25
 team = true
 statChange = true
 statBonusSpd = 20
@@ -120,7 +120,7 @@ descriptionText = "Makes their Speed and Luck better for 3 turns. (Speed is bett
 
 [node name="Def & Res Up!" type="Node" parent="Special Moves"]
 script = ExtResource( 5 )
-staminaDepletion = 20
+staminaDepletion = 25
 team = true
 statChange = true
 statBonusDef = 20

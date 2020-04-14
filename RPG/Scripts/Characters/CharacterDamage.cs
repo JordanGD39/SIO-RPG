@@ -416,22 +416,22 @@ public class CharacterDamage : Node
             stats.SetStun(3);
             GD.Print(stats.GetCharName() + " is hit with a stun skill!");
             stats.GetStatChangesUI().GetNode<Sprite>("Stun").Visible = true;
-        }
+        }        
         
+        gui.HideDescription();
+
         if (stats.GetHealth() <= 0)
         {
-            stats.SetHealth(0);
             battleManager.TakeMeOutList(GetParent(), playerControl);
         }
-        gui.HideDescription();
 
         if (skillThatAttackedMe == null || !skillThatAttackedMe.GetAttackAll())
         {
-           battleManager.NextTurn();
+           battleManager.NextTurn(attackerStats.GetParent());
         }
         else
         {
-            battleManager.CheckIfNextTurn(playerControl);
+            battleManager.CheckIfNextTurn(playerControl, attackerStats.GetParent());
         }
     }
 
@@ -527,11 +527,11 @@ public class CharacterDamage : Node
 
         if (!skill.GetAttackAll())
         {
-           battleManager.NextTurn(); 
+           battleManager.NextTurn(characterStats.GetParent()); 
         }
         else
         {
-            battleManager.CheckIfNextTurn(userIsPlayer);
+            battleManager.CheckIfNextTurn(userIsPlayer, characterStats.GetParent());
         }
     }
 
@@ -619,15 +619,15 @@ public class CharacterDamage : Node
 
         if (!skill.GetAttackAll())
         {
-           battleManager.NextTurn(); 
+           battleManager.NextTurn(characterStats.GetParent()); 
         }
         else
         {
-            battleManager.CheckIfNextTurn(playerControl);
+            battleManager.CheckIfNextTurn(playerControl, attackerStats.GetParent());
         }
     }
 
-    public void ReceiveItem(int i)
+    public void ReceiveItem(int i, Node user)
     {
         marker.Visible = false;
 
@@ -673,10 +673,10 @@ public class CharacterDamage : Node
             }
 
             stats.SetStun(0);
-            stats.GetStatChangesUI().GetNode<AnimatedSprite>("Stun").Visible = false;
+            stats.GetStatChangesUI().GetNode<Sprite>("Stun").Visible = false;
             break;
         }
-        battleManager.NextTurn();
+        battleManager.NextTurn(user);
     }
 
     public void CheckAttackToLearn(bool playerCalled, Skill skill)

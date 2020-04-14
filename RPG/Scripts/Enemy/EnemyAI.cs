@@ -51,7 +51,7 @@ public class EnemyAI : KinematicBody2D
     private bool timerStarted = false;
     private Skill chosenSkill;
     private List<Node> minions = new List<Node>();
-    private int spawnMinionChance = -10;
+    private int spawnMinionChance = -20;
     private AnimationPlayer animation;
     public AnimationPlayer GetAnimationPlayer() {return animation;}
 
@@ -132,7 +132,7 @@ public class EnemyAI : KinematicBody2D
 
             if (stunNum <= 50)
             {
-                battleManager.NextTurn();
+                battleManager.NextTurn(GetChild(0).GetParent());
                 GD.Print(stats.GetCharName() + " is stunned!");
                 animation.Play("Stunned");
                 Task animStunDelay = gameManager.LongRunningOperationAsync((int)Math.Round(animation.GetAnimation("Stunned").Length * 100, MidpointRounding.AwayFromZero));
@@ -143,7 +143,7 @@ public class EnemyAI : KinematicBody2D
 
         if (stats.GetMaxHealth() > 1000 && battleManager.GetEnemies().Count < 3)
         {
-            spawnMinionChance += 10;
+            spawnMinionChance += 20;
             float spawnMinionRand = rand.Next() % 100;
             GD.Print("Spawning minion outcome: " + spawnMinionRand + " Chance: " + spawnMinionChance);
             if (spawnMinionRand <= spawnMinionChance)
@@ -180,8 +180,8 @@ public class EnemyAI : KinematicBody2D
                 anim.PlayBackwards("Death");
                 Task animDelay = gameManager.LongRunningOperationAsync((int)Math.Round(animation.GetAnimation("Death").Length * 100, MidpointRounding.AwayFromZero));
                 await animDelay;
-                spawnMinionChance = -10;
-                battleManager.NextTurn();
+                spawnMinionChance = -20;
+                battleManager.NextTurn(GetChild(0).GetParent());
                 return;
             }
         }
@@ -206,9 +206,9 @@ public class EnemyAI : KinematicBody2D
         {
             stats.SetGuard(3);
             stats.SetStamina(stats.GetStamina() - chosenSkill.GetStaminaDepletion());
-            battleManager.NextTurn();
+            battleManager.NextTurn(GetChild(0).GetParent());
             GD.Print(stats.GetCharName() + " is guarding");
-            stats.GetStatChangesUI().GetNode<Sprite>("Stun").Visible = true;
+            stats.GetStatChangesUI().GetNode<Sprite>("Guard").Visible = true;
             return;
         }
 
@@ -304,15 +304,16 @@ public class EnemyAI : KinematicBody2D
             if (chosenSkill.GetAttackAll())
             {
                 if (chosenSkill.GetStatChange())
-                {
-                    gui.ChangeDescriptionText(chosenSkill.Name + " on " +  battleManager.GetPlayers()[num].GetNode<Stats>("Stats").GetCharName(), false);
+                {                    
                     Task animDelay = gameManager.LongRunningOperationAsync(3000);
                     await animDelay;
                     gui.HideDescription();
                     for (int i = 0; i < battleManager.GetPlayers().Count; i++)
                     {
+                        gui.ChangeDescriptionText(chosenSkill.Name + " on " +  battleManager.GetPlayers()[i].GetNode<Stats>("Stats").GetCharName(), true);
                         battleManager.GetPlayers()[i].GetNode<CharacterDamage>("Damage").Debuff(chosenSkill, stats);
                     }                    
+                    return;
                 }
                 else
                 {
@@ -349,6 +350,7 @@ public class EnemyAI : KinematicBody2D
                         await animDelay;
                         gui.HideDescription();
                         battleManager.GetPlayers()[num].GetNode<CharacterDamage>("Damage").Debuff(chosenSkill, stats);
+                        return;
                     }                   
                 }
                 else
@@ -430,7 +432,12 @@ public class EnemyAI : KinematicBody2D
                     skillFound = false;
                     break;
                 }
-            }            
+            }   
+            //If boss
+            if (stats.GetMaxHealth() > 1000 && chosenSkill.GetStatChange() && stats.GetSpd() > stats.GetMaxSpd())
+            {
+                skillFound = false;
+            }         
         }        
 
         return skillFound;
