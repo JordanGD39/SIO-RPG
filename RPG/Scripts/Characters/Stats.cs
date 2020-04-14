@@ -136,6 +136,18 @@ public class Stats : Node
           }
      }
 
+     public void ResetStats()
+     {
+          atk = maxAtk;
+          mag = maxMag;
+          def = maxDef;
+          res = maxRes;
+          spd = maxSpd;
+          luk = maxLuk;
+          stunCounter = 0;
+          guardCounter = 0;
+     }
+
      public void UpdateStamina()
      {          
           staminaBar.Value = (float)stamina / (float)maxStamina * 100;

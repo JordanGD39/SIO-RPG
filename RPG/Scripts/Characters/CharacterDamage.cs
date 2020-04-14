@@ -63,10 +63,10 @@ public class CharacterDamage : Node
 
         marker.Visible = false;
         
-        if (!playerControl)
-        {
-            CheckAttackToLearn(false, null);
-        }
+        // if (!playerControl)
+        // {
+        //     CheckAttackToLearn(false, null);
+        // }
 
         int lessAcc = 0;
 
@@ -441,13 +441,13 @@ public class CharacterDamage : Node
 
         marker.Visible = false;
 
-        if (playerControl)
-        {
-            for (int i = 0; i < battleManager.GetEnemies().Count; i++)
-            {
-                battleManager.GetEnemies()[i].GetNode<CharacterDamage>("Damage").CheckAttackToLearn(true, skill);
-            }            
-        }
+        // if (playerControl)
+        // {
+        //     for (int i = 0; i < battleManager.GetEnemies().Count; i++)
+        //     {
+        //         battleManager.GetEnemies()[i].GetNode<CharacterDamage>("Damage").CheckAttackToLearn(true, skill);
+        //     }            
+        // }
 
         float multiplier = 1;
 
@@ -544,10 +544,10 @@ public class CharacterDamage : Node
             marker.Visible = false;
         }
 
-        if (!playerControl)
-        {
-            CheckAttackToLearn(false, null);
-        }
+        // if (!playerControl)
+        // {
+        //     CheckAttackToLearn(false, null);
+        // }
 
         GD.Print(stats.GetCharName() + " is getting debuffed!");
 
@@ -679,38 +679,38 @@ public class CharacterDamage : Node
         battleManager.NextTurn(user);
     }
 
-    public void CheckAttackToLearn(bool playerCalled, Skill skill)
-    {
-        if (playerCalled)
-        {
-            skillThatAttackedMe = skill;
-        }
+    // public void CheckAttackToLearn(bool playerCalled, Skill skill)
+    // {
+    //     if (playerCalled)
+    //     {
+    //         skillThatAttackedMe = skill;
+    //     }
 
-        if (skillThatAttackedMe == null || !skillThatAttackedMe.GetStatChange() && !skillThatAttackedMe.GetAttackAll() && skillThatAttackedMe.GetMag() <= 20 && skillThatAttackedMe.GetAtk() <= 20)
-        {
-            ai.GetLearnList().Add(AIskillTypes.ATTACK);
-            return;
-        }
-        else
-        {
-            if (skillThatAttackedMe.GetAttackAll())
-            {
-                ai.GetLearnList().Add(AIskillTypes.EVERYONE);
-                return;
-            }
-            else if (skillThatAttackedMe.GetStatChange())
-            {
-                ai.GetLearnList().Add(AIskillTypes.SUPPORT);
-                return;
-            }
-            //Checking if skill has highest atk of all
-            else if (skillThatAttackedMe.GetAtk() > 20 || skillThatAttackedMe.GetMag() > 20)
-            {
-                ai.GetLearnList().Add(AIskillTypes.HIGHESTATK);
-                return;
-            }
-        }                
-    }
+    //     if (skillThatAttackedMe == null || !skillThatAttackedMe.GetStatChange() && !skillThatAttackedMe.GetAttackAll() && skillThatAttackedMe.GetMag() <= 20 && skillThatAttackedMe.GetAtk() <= 20)
+    //     {
+    //         ai.GetLearnList().Add(AIskillTypes.ATTACK);
+    //         return;
+    //     }
+    //     else
+    //     {
+    //         if (skillThatAttackedMe.GetAttackAll())
+    //         {
+    //             ai.GetLearnList().Add(AIskillTypes.EVERYONE);
+    //             return;
+    //         }
+    //         else if (skillThatAttackedMe.GetStatChange())
+    //         {
+    //             ai.GetLearnList().Add(AIskillTypes.SUPPORT);
+    //             return;
+    //         }
+    //         //Checking if skill has highest atk of all
+    //         else if (skillThatAttackedMe.GetAtk() > 20 || skillThatAttackedMe.GetMag() > 20)
+    //         {
+    //             ai.GetLearnList().Add(AIskillTypes.HIGHESTATK);
+    //             return;
+    //         }
+    //     }                
+    // }
 
     private void PlayElementAnim()
     {

@@ -91,14 +91,14 @@ animations = [ {
 "name": "Forward",
 "speed": 5.0
 }, {
-"frames": [ ExtResource( 3 ) ],
-"loop": false,
-"name": "Down",
-"speed": 5.0
-}, {
 "frames": [ ExtResource( 2 ) ],
 "loop": false,
 "name": "Up",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 3 ) ],
+"loop": false,
+"name": "Down",
 "speed": 5.0
 } ]
 
@@ -135,12 +135,13 @@ __meta__ = {
 "_editor_description_": ""
 }
 charName = "Mage"
+health = 350
 mag = 120
 maxMag = 120
-def = 50
-maxDef = 50
-res = 70
-maxRes = 70
+def = 60
+maxDef = 60
+res = 90
+maxRes = 90
 spd = 65
 maxSpd = 65
 luk = 40

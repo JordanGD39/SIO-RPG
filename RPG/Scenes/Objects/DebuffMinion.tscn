@@ -91,14 +91,14 @@ animations = [ {
 "name": "Forward",
 "speed": 5.0
 }, {
-"frames": [ ExtResource( 3 ) ],
-"loop": false,
-"name": "Down",
-"speed": 5.0
-}, {
 "frames": [ ExtResource( 4 ) ],
 "loop": false,
 "name": "Up",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 3 ) ],
+"loop": false,
+"name": "Down",
 "speed": 5.0
 } ]
 
@@ -140,10 +140,10 @@ atk = 100
 maxAtk = 100
 mag = 60
 maxMag = 60
-def = 55
-maxDef = 55
-res = 55
-maxRes = 55
+def = 75
+maxDef = 75
+res = 75
+maxRes = 75
 luk = 10
 maxLuk = 10
 weaknesses = [ 0 ]

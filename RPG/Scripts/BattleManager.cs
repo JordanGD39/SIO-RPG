@@ -288,6 +288,7 @@ public class BattleManager : Node
     public async void TakeMeOutList(Node charachter, bool playerControl)
     {
         turnOrder.Remove(charachter);
+        charachter.GetNode<Stats>("Stats").ResetStats();
         GetParent<GameManager>().GetAudioNode().GetNode<AudioStreamPlayer>("Death").Play(0);
         if (playerControl)
         {
@@ -310,11 +311,8 @@ public class BattleManager : Node
             Task animDelay = GetParent<GameManager>().LongRunningOperationAsync((int)Math.Round(anim.GetAnimation("Death").Length * 1000, MidpointRounding.AwayFromZero));
             await animDelay;
 
-            if (enemyStats.GetMaxHealth() < 1000)
-            {
-                enemyStats.GetHealthBar().GetParent<VBoxContainer>().Visible = false;                
-                charachter.QueueFree();
-            }
+            enemyStats.GetHealthBar().GetParent<VBoxContainer>().Visible = false;                
+            charachter.QueueFree();
 
             if (enemies.Count == 0)
             {

@@ -51,7 +51,8 @@ public class EnemyAI : KinematicBody2D
     private bool timerStarted = false;
     private Skill chosenSkill;
     private List<Node> minions = new List<Node>();
-    private int spawnMinionChance = -20;
+    private int spawnMinionChance = -25;
+    private int lessChanceToSpawn = 0;
     private AnimationPlayer animation;
     public AnimationPlayer GetAnimationPlayer() {return animation;}
 
@@ -60,6 +61,15 @@ public class EnemyAI : KinematicBody2D
     {
         animation = GetChild(0).GetChild(0) as AnimationPlayer;
         learnList.Add(AIskillTypes.ATTACK);
+        learnList.Add(AIskillTypes.ATTACK);
+        learnList.Add(AIskillTypes.EVERYONE);
+        learnList.Add(AIskillTypes.EVERYONE);
+        learnList.Add(AIskillTypes.EVERYONE);
+        learnList.Add(AIskillTypes.EVERYONE);
+        learnList.Add(AIskillTypes.HIGHESTATK);
+        learnList.Add(AIskillTypes.HIGHESTATK);
+        learnList.Add(AIskillTypes.HIGHESTATK);
+        learnList.Add(AIskillTypes.SUPPORT);
         gameManager = GetParent().GetParent() as GameManager;
         specials = GetNode("Special Moves");
         battleManager = GetParent() as BattleManager;
@@ -143,7 +153,8 @@ public class EnemyAI : KinematicBody2D
 
         if (stats.GetMaxHealth() > 1000 && battleManager.GetEnemies().Count < 3)
         {
-            spawnMinionChance += 20;
+            int spawnChance = 25 - lessChanceToSpawn;
+            spawnMinionChance += spawnChance;
             float spawnMinionRand = rand.Next() % 100;
             GD.Print("Spawning minion outcome: " + spawnMinionRand + " Chance: " + spawnMinionChance);
             if (spawnMinionRand <= spawnMinionChance)
@@ -180,7 +191,11 @@ public class EnemyAI : KinematicBody2D
                 anim.PlayBackwards("Death");
                 Task animDelay = gameManager.LongRunningOperationAsync((int)Math.Round(animation.GetAnimation("Death").Length * 100, MidpointRounding.AwayFromZero));
                 await animDelay;
-                spawnMinionChance = -20;
+                spawnMinionChance = -spawnChance;
+                if (lessChanceToSpawn < 20)
+                {
+                    lessChanceToSpawn += 5;
+                }                
                 battleManager.NextTurn(GetChild(0).GetParent());
                 return;
             }

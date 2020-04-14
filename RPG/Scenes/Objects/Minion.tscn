@@ -91,14 +91,14 @@ animations = [ {
 "name": "Forward",
 "speed": 5.0
 }, {
-"frames": [ ExtResource( 3 ) ],
-"loop": false,
-"name": "Down",
-"speed": 5.0
-}, {
 "frames": [ ExtResource( 2 ) ],
 "loop": false,
 "name": "Up",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 3 ) ],
+"loop": false,
+"name": "Down",
 "speed": 5.0
 } ]
 
@@ -135,15 +135,12 @@ __meta__ = {
 "_editor_description_": ""
 }
 charName = "Brute"
-health = 250
 atk = 120
 maxAtk = 120
 mag = 40
 maxMag = 40
-def = 60
-maxDef = 60
-res = 40
-maxRes = 40
+res = 60
+maxRes = 60
 spd = 55
 maxSpd = 55
 luk = 40
